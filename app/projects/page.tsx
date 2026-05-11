@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { query } from "@/lib/db";
+import PageHeader from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
   title: "Projects | Shreyash Swami",
@@ -35,18 +36,9 @@ export default async function ProjectsPage() {
   const projects = await getProjects();
 
   return (
-    <main className="flex-1 px-6 md:px-10 py-10 md:py-16">
+    <main className="flex-1 px-6 md:px-10 pb-16">
       <div className="max-w-6xl mx-auto">
-        <h1
-          className="text-4xl sm:text-5xl font-medium text-gray-900 tracking-tight mb-4"
-          style={{ fontFamily: "var(--font-playfair)" }}
-        >
-          Projects
-        </h1>
-        <p className="text-gray-500 text-lg mb-12">
-          A collection of things I&apos;ve built.
-        </p>
-
+        <PageHeader title="Projects" subtitle="A collection of things I've built." />
         {projects.length === 0 ? (
           <p className="text-gray-400">No projects yet.</p>
         ) : (
@@ -75,15 +67,21 @@ export default async function ProjectsPage() {
                 </Link>
 
                 <div className="flex flex-col flex-1 p-5">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {project.technologies?.map((tech, i) => (
-                      <span
-                        key={i}
-                        className="text-[10px] font-semibold tracking-wide uppercase text-gray-500 bg-gray-100 px-2 py-0.5 rounded-sm"
-                      >
-                        {tech}
+                  <div className="flex flex-wrap gap-2 mb-3 min-h-[24px]">
+                    {project.technologies && project.technologies.length > 0 ? (
+                      project.technologies.map((tech, i) => (
+                        <span
+                          key={i}
+                          className="text-[10px] font-semibold tracking-wide uppercase text-gray-500 bg-gray-100 px-2 py-0.5 rounded-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-[10px] font-semibold tracking-wide uppercase text-gray-400 bg-gray-50 px-2 py-0.5 rounded-sm">
+                        Project
                       </span>
-                    ))}
+                    )}
                   </div>
 
                   <Link href={`/projects/${project.slug}`} className="block group-hover:text-gray-600 transition-colors">
@@ -124,6 +122,17 @@ export default async function ProjectsPage() {
                         </svg>
                         Live Demo
                       </a>
+                    )}
+                    {!project.github_link && !project.demo_link && (
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="text-xs font-medium text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1.5"
+                      >
+                        View Project
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
                     )}
                   </div>
                 </div>

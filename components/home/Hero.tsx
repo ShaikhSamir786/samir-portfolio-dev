@@ -18,7 +18,7 @@ export default function Hero() {
         {/* Text */}
         <div
           className="absolute inset-0 flex items-center justify-center px-4"
-          style={{ perspective: "1000px" }}
+          style={{ perspective: "1000px", transform: "translateY(calc(var(--navbar-h) * -0.5))" }}
         >
           <div className="relative h-[1.2em] w-full text-center">
             {/* First text - flips out */}

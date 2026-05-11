@@ -16,7 +16,7 @@ export default function NotFound() {
     <main className="flex flex-1 items-center justify-center px-6">
       <div
         className="relative flex items-center justify-center"
-        style={{ perspective: "1000px" }}
+        style={{ perspective: "1000px", transform: "translateY(calc(var(--navbar-h) * -0.5))" }}
       >
         <div className="relative h-[1.2em] w-full text-center">
           <span

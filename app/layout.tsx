@@ -37,7 +37,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Navbar />
-        {children}
+        <div className="flex-1 flex flex-col" style={{ minHeight: "calc(100svh - var(--navbar-h))" }}>
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

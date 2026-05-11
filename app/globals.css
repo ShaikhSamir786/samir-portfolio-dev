@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+:root {
+  --navbar-h: 128px; /* mobile */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --navbar-h: 172px; /* md+ */
+  }
+}
+
 html {
   overflow: scroll;
   scrollbar-width: none;

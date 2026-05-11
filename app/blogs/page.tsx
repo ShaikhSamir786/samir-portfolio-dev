@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { query } from "@/lib/db";
+import PageHeader from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
   title: "Blogs | Shreyash Swami",
@@ -41,19 +42,8 @@ export default async function BlogsPage() {
   const blogs = await getBlogs();
 
   return (
-    <main className="flex flex-col flex-1 px-6 pb-16 pt-4 md:px-10">
-      {/* Page header */}
-      <div className="mb-12">
-        <h1
-          className="text-4xl sm:text-5xl font-medium text-gray-900 tracking-tight"
-          style={{ fontFamily: "var(--font-playfair)" }}
-        >
-          Blogs
-        </h1>
-        <p className="mt-2 text-gray-500 text-sm">
-          Thoughts on engineering, AI, and things I&apos;m learning.
-        </p>
-      </div>
+    <main className="flex flex-col flex-1 px-6 pb-16 md:px-10">
+      <PageHeader title="Blog" subtitle="Thoughts on engineering, AI, and things I'm learning." />
 
       {blogs.length === 0 ? (
         <div className="flex flex-col items-center justify-center flex-1 text-center py-24">
