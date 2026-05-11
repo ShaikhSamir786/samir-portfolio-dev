@@ -1,0 +1,134 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+
+const links = [
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+  { label: "Resume", href: "/resume" },
+];
+
+export default function Navbar() {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  return (
+    <>
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-32 md:h-[172px] bg-white/80 backdrop-blur-md"
+      >
+        {/* Logo */}
+        <Link href="/" className="flex-shrink-0">
+          <div className="relative h-24 w-24 md:h-[128px] md:w-[128px]">
+            <Image
+              src="/Logo.png"
+              alt="Logo"
+              fill
+              className="rounded-full object-cover"
+              priority
+              sizes="(max-width: 768px) 96px, 128px"
+            />
+          </div>
+        </Link>
+
+        {/* Desktop Links */}
+        <div className="hidden md:flex items-center gap-4">
+          {links.map(({ label, href }) => {
+            const active = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`relative text-sm font-medium transition-colors duration-200 px-1 py-1 group ${
+                  active ? "text-black" : "text-gray-500 hover:text-black"
+                }`}
+              >
+                {label}
+                {/* Active underline */}
+                <span
+                  className={`absolute bottom-0 left-0 h-0.5 bg-black transition-all duration-300 ${
+                    active ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Mobile Hamburger */}
+        <button
+          id="mobile-menu-toggle"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className="md:hidden flex flex-col justify-center items-center gap-1.5 w-5 h-5 rounded-md hover:bg-gray-100 transition-colors"
+        >
+          <span
+            className={`block h-0.5 w-5 bg-gray-800 rounded transition-all duration-300 origin-center ${
+              menuOpen ? "rotate-45 translate-y-2" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-5 bg-gray-800 rounded transition-all duration-300 ${
+              menuOpen ? "opacity-0 scale-x-0" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-5 bg-gray-800 rounded transition-all duration-300 origin-center ${
+              menuOpen ? "-rotate-45 -translate-y-2" : ""
+            }`}
+          />
+        </button>
+      </nav>
+
+      {/* Mobile Full-Page Overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-white flex flex-col items-center justify-center gap-8 transition-all duration-300 md:hidden ${
+          menuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {links.map(({ label, href }, i) => {
+          const active = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+              style={{ transitionDelay: menuOpen ? `${i * 50}ms` : "0ms" }}
+              className={`text-xl font-semibold tracking-tight transition-all duration-300 ${
+                menuOpen
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              } ${active ? "text-black underline underline-offset-4" : "text-gray-500 hover:text-black"}`}
+            >
+              {label}
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* Spacer so content doesn't hide under fixed navbar */}
+      <div className="h-32 md:h-[172px]" />
+    </>
+  );
+}

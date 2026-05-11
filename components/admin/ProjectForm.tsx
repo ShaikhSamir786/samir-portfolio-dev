@@ -1,0 +1,216 @@
+"use client";
+
+import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import TipTapEditor from "./TipTapEditor";
+
+interface ProjectData {
+  id?: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  cover_image_url: string;
+  is_published: boolean;
+  technologies: string[];
+  github_link: string;
+  demo_link: string;
+}
+
+interface ProjectFormProps {
+  initialData?: ProjectData;
+  projectId?: string;
+}
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export default function ProjectForm({ initialData, projectId }: ProjectFormProps) {
+  const router = useRouter();
+  const isEdit = Boolean(projectId);
+
+  const [form, setForm] = useState<ProjectData>({
+    title: initialData?.title || "",
+    slug: initialData?.slug || "",
+    excerpt: initialData?.excerpt || "",
+    content: initialData?.content || "",
+    cover_image_url: initialData?.cover_image_url || "",
+    is_published: initialData?.is_published ?? false,
+    technologies: initialData?.technologies || [],
+    github_link: initialData?.github_link || "",
+    demo_link: initialData?.demo_link || "",
+  });
+
+  const [techString, setTechString] = useState(initialData?.technologies?.join(", ") || "");
+
+  const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const title = e.target.value;
+    setForm((prev) => ({
+      ...prev,
+      title,
+      slug: isEdit ? prev.slug : slugify(title),
+    }));
+  }
+
+  function handleSlugChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm((prev) => ({ ...prev, slug: slugify(e.target.value) }));
+  }
+
+  function handleTechChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = e.target.value;
+    setTechString(val);
+    const techs = val.split(",").map(t => t.trim()).filter(Boolean);
+    setForm((prev) => ({ ...prev, technologies: techs }));
+  }
+
+  const handleFileUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      setUploading(true);
+      setError("");
+
+      try {
+        const data = new FormData();
+        data.append("file", file);
+
+        const res = await fetch("/api/upload", { method: "POST", body: data });
+        const json = await res.json();
+
+        if (!res.ok) throw new Error(json.error || "Upload failed");
+        setForm((prev) => ({ ...prev, cover_image_url: json.url }));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Upload failed");
+      } finally {
+        setUploading(false);
+      }
+    },
+    []
+  );
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const url = isEdit ? `/api/projects/${projectId}` : "/api/projects";
+      const method = isEdit ? "PATCH" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to save project");
+      }
+
+      router.push("/admin/projects");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const inputClass =
+    "w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all";
+  const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
+
+  return (
+    <form onSubmit={handleSubmit} className="max-w-3xl">
+      {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label htmlFor="title" className={labelClass}>Title *</label>
+          <input id="title" type="text" value={form.title} onChange={handleTitleChange} required className={inputClass} />
+        </div>
+        <div>
+          <label htmlFor="slug" className={labelClass}>Slug *</label>
+          <input id="slug" type="text" value={form.slug} onChange={handleSlugChange} required className={inputClass} />
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="excerpt" className={labelClass}>Excerpt</label>
+        <textarea
+          id="excerpt"
+          value={form.excerpt}
+          onChange={(e) => setForm((p) => ({ ...p, excerpt: e.target.value }))}
+          rows={3}
+          className={`${inputClass} resize-y`}
+          placeholder="Short summary shown in project cards..."
+        />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="technologies" className={labelClass}>Technologies (comma separated)</label>
+        <input id="technologies" type="text" value={techString} onChange={handleTechChange} className={inputClass} placeholder="React, Node.js, PostgreSQL" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label htmlFor="github_link" className={labelClass}>GitHub Link</label>
+          <input id="github_link" type="url" value={form.github_link} onChange={(e) => setForm((p) => ({ ...p, github_link: e.target.value }))} className={inputClass} placeholder="https://github.com/..." />
+        </div>
+        <div>
+          <label htmlFor="demo_link" className={labelClass}>Demo Link</label>
+          <input id="demo_link" type="url" value={form.demo_link} onChange={(e) => setForm((p) => ({ ...p, demo_link: e.target.value }))} className={inputClass} placeholder="https://..." />
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <label className={labelClass}>Cover Image</label>
+        <div className="flex items-center gap-3">
+          <label className="cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            {uploading ? "Uploading..." : "Choose File"}
+            <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="hidden" />
+          </label>
+          {form.cover_image_url && (
+            <span className="text-xs text-gray-500 truncate max-w-xs">{form.cover_image_url}</span>
+          )}
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <label className={labelClass}>Content *</label>
+        <TipTapEditor content={form.content} onChange={(html) => setForm((p) => ({ ...p, content: html }))} />
+      </div>
+
+      <div className="flex items-center gap-3 mb-8">
+        <input
+          id="is_published"
+          type="checkbox"
+          checked={form.is_published}
+          onChange={(e) => setForm((p) => ({ ...p, is_published: e.target.checked }))}
+          className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200"
+        />
+        <label htmlFor="is_published" className="text-sm text-gray-700">Publish immediately</label>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <button type="submit" disabled={loading || uploading} className="rounded-xl bg-gray-900 px-6 py-3 text-sm font-medium text-white hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          {loading ? "Saving..." : isEdit ? "Update Project" : "Create Project"}
+        </button>
+        <button type="button" onClick={() => router.push("/admin/projects")} className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
