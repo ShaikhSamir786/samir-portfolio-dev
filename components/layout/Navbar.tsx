@@ -34,18 +34,18 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-32 md:h-[172px] bg-white/80 backdrop-blur-md"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-24 md:h-[132px] bg-white/80 backdrop-blur-md"
       >
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
-          <div className="relative h-24 w-24 md:h-[128px] md:w-[128px]">
+          <div className="relative h-16 w-16 md:h-[88px] md:w-[88px]">
             <Image
               src="/Logo.png"
               alt="Logo"
               fill
               className="rounded-full object-cover"
               priority
-              sizes="(max-width: 768px) 96px, 128px"
+              sizes="(max-width: 768px) 64px, 88px"
             />
           </div>
         </Link>
