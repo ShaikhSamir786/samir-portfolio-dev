@@ -105,7 +105,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </p>
           )}
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-6 border-y border-gray-100">
+          <div className="flex flex-col gap-6 py-6 border-y border-gray-100">
             <div className="flex flex-wrap gap-2">
               {project.technologies?.map((tech, i) => (
                 <span
