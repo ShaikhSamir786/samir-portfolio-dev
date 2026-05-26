@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { query } from "@/lib/db";
+import ContentWithToc from "@/components/ContentWithToc";
 
 export const revalidate = 3600;
 
@@ -115,9 +116,9 @@ export default async function BlogPostPage({ params }: Props) {
         )}
 
         {/* Blog content */}
-        <article
+        <ContentWithToc
+          html={blog.content}
           className="prose prose-gray max-w-none"
-          dangerouslySetInnerHTML={{ __html: blog.content }}
         />
       </div>
     </main>

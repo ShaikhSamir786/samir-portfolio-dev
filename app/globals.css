@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --navbar-h: 128px; /* mobile */
+  --navbar-h: 96px; /* mobile: h-24 */
 }
 
 @media (min-width: 768px) {
   :root {
-    --navbar-h: 172px; /* md+ */
+    --navbar-h: 132px; /* md+: h-[132px] */
   }
 }
 
@@ -150,4 +150,139 @@ body::-webkit-scrollbar {
 
 .prose > *:last-child {
   margin-bottom: 0;
+}
+
+/* ── Table of Contents ────────────────────────────────────── */
+
+/* Desktop sidebar — only visible on xl (1280px+) */
+.toc-desktop {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .toc-desktop {
+    display: block;
+    position: absolute;
+    left: -14rem;
+    top: 0;
+    width: 12rem;
+    height: 100%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .toc-desktop {
+    left: -16rem;
+    width: 14rem;
+  }
+}
+
+.toc-sticky {
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.toc-sticky::-webkit-scrollbar { display: none; }
+
+.toc-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.toc-indent {
+  padding-left: 0.75rem;
+}
+
+.toc-link {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: #9ca3af;
+  text-decoration: none;
+  padding: 0.25rem 0.625rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 0.25rem 0.25rem 0;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.toc-link:hover {
+  color: #374151;
+}
+
+.toc-active {
+  color: #111827;
+  border-left-color: #111827;
+  background-color: rgba(0, 0, 0, 0.03);
+  font-weight: 500;
+}
+
+/* Mobile floating TOC — hidden on xl+ */
+.toc-mobile {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 40;
+}
+
+@media (min-width: 1280px) {
+  .toc-mobile {
+    display: none;
+  }
+}
+
+.toc-mobile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #374151;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.toc-mobile-btn:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1), 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.toc-mobile-dropdown {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  right: 0;
+  width: 15rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+  scrollbar-width: none;
+}
+.toc-mobile-dropdown::-webkit-scrollbar { display: none; }
+
+/* Smooth scroll for heading anchor clicks */
+html {
+  scroll-padding-top: calc(var(--navbar-h) + 1rem);
 }

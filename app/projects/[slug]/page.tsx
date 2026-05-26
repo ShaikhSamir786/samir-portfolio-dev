@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { query } from "@/lib/db";
 import type { Metadata, ResolvingMetadata } from "next";
+import ContentWithToc from "@/components/ContentWithToc";
 
 export const revalidate = 3600;
 
@@ -161,13 +162,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </div>
         )}
 
-        <div
+        <ContentWithToc
+          html={project.content}
           className="prose prose-gray prose-lg max-w-none 
             prose-headings:font-medium prose-headings:tracking-tight
             prose-h1:font-playfair prose-h2:font-playfair prose-h3:font-playfair
             prose-a:text-gray-900 prose-a:underline-offset-4 hover:prose-a:text-gray-600
             prose-img:rounded-2xl prose-img:border prose-img:border-gray-100 prose-img:shadow-sm"
-          dangerouslySetInnerHTML={{ __html: project.content }}
         />
       </article>
     </main>
