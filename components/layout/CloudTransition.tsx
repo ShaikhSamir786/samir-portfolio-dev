@@ -25,26 +25,26 @@ type Phase =
   | "opening"   // clouds parting (CSS transition)
   | "fade-out"; // backdrop fading out (fast-path end)
 
-const CLOSE_DURATION    = 1200; // ms – cloud close animation
-const OPEN_DURATION     = 1200; // ms – cloud open animation
-const FADE_DURATION     = 250;  // ms – fast-path backdrop fade
-const ESCALATION_DELAY  = 300;  // ms – wait before escalating to clouds
+const CLOSE_DURATION = 1200; // ms – cloud close animation
+const OPEN_DURATION = 1200; // ms – cloud open animation
+const FADE_DURATION = 250;  // ms – fast-path backdrop fade
+const ESCALATION_DELAY = 100;  // ms – wait before escalating to gates
 
 export default function CloudTransition() {
   const pathname = usePathname();
   const router = useRouter();
 
   const [phase, setPhase] = useState<Phase>("closed"); // initial load = clouds shut
-  const currentPathRef   = useRef(pathname);
-  const isNavigatingRef  = useRef(false);
-  const usedCloudsRef    = useRef(false);
+  const currentPathRef = useRef(pathname);
+  const isNavigatingRef = useRef(false);
+  const usedCloudsRef = useRef(false);
 
   // Two flags for the slow-path gate
   const [closingDone, setClosingDone] = useState(false);
-  const [pageLoaded, setPageLoaded]   = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
 
-  const timersRef      = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const escalationRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const escalationRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
@@ -173,17 +173,17 @@ export default function CloudTransition() {
   if (phase === "hidden") return null;
 
   const showClouds = phase === "prepare" || phase === "closing"
-                  || phase === "closed"  || phase === "opening";
+    || phase === "closed" || phase === "opening";
   const isClosed = phase === "closing" || phase === "closed";
   const shouldAnimate = phase !== "prepare";
 
   // Cloud positions
-  const topOffset    = showClouds && isClosed ? "0" : "-120vh";
+  const topOffset = showClouds && isClosed ? "0" : "-120vh";
   const bottomOffset = showClouds && isClosed ? "0" : "120vh";
 
   // Backdrop: opaque whenever we need to hide content
   const backdropOpaque = phase === "fading" || phase === "prepare"
-                      || phase === "closing" || phase === "closed";
+    || phase === "closing" || phase === "closed";
 
   return (
     <div className="fixed inset-0 z-[9998] pointer-events-none overflow-hidden">
@@ -198,45 +198,31 @@ export default function CloudTransition() {
 
       {showClouds && (
         <>
-          {/* Top Cloud */}
+          {/* Top Gate */}
           <div
-            className="absolute top-0 left-0 w-full h-[50vh] bg-gray-100 drop-shadow-[0_15px_15px_rgba(0,0,0,0.1)]"
+            className="absolute top-0 left-0 w-full h-[50vh] bg-gray-100"
             style={{
               transform: `translateY(${topOffset})`,
               transition: shouldAnimate
-                ? `transform ${isClosed ? CLOSE_DURATION : OPEN_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1)`
+                ? `transform ${isClosed ? CLOSE_DURATION : OPEN_DURATION}ms ${isClosed ? "cubic-bezier(0.7, 0, 0.84, 0)" : "cubic-bezier(0.16, 1, 0.3, 1)"}`
                 : "none",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.08)",
+              borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
             }}
-          >
-            <div className="absolute bottom-0 left-[-10vw] right-[-10vw] flex items-center justify-between translate-y-[45%]">
-              <div className="w-[25vw] h-[25vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[35vw] h-[35vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[28vw] h-[28vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[40vw] h-[40vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[30vw] h-[30vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[25vw] h-[25vw] bg-gray-100 rounded-full blur-[2px]" />
-            </div>
-          </div>
+          />
 
-          {/* Bottom Cloud */}
+          {/* Bottom Gate */}
           <div
-            className="absolute bottom-0 left-0 w-full h-[50vh] bg-gray-100 drop-shadow-[0_-15px_15px_rgba(0,0,0,0.1)]"
+            className="absolute bottom-0 left-0 w-full h-[50vh] bg-gray-100"
             style={{
               transform: `translateY(${bottomOffset})`,
               transition: shouldAnimate
-                ? `transform ${isClosed ? CLOSE_DURATION : OPEN_DURATION}ms cubic-bezier(0.65, 0, 0.35, 1)`
+                ? `transform ${isClosed ? CLOSE_DURATION : OPEN_DURATION}ms ${isClosed ? "cubic-bezier(0.7, 0, 0.84, 0)" : "cubic-bezier(0.16, 1, 0.3, 1)"}`
                 : "none",
+              boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.08)",
+              borderTop: "1px solid rgba(0, 0, 0, 0.12)",
             }}
-          >
-            <div className="absolute top-0 left-[-10vw] right-[-10vw] flex items-center justify-between -translate-y-[45%]">
-              <div className="w-[30vw] h-[30vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[25vw] h-[25vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[40vw] h-[40vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[28vw] h-[28vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[35vw] h-[35vw] bg-gray-100 rounded-full blur-[2px]" />
-              <div className="w-[25vw] h-[25vw] bg-gray-100 rounded-full blur-[2px]" />
-            </div>
-          </div>
+          />
         </>
       )}
     </div>
