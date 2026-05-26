@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Cursor from "@/components/layout/Cursor";
+import CloudTransition from "@/components/layout/CloudTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,12 +37,14 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-white text-black">
         <Navbar />
         <div className="flex-1 flex flex-col" style={{ minHeight: "calc(100svh - var(--navbar-h))" }}>
           {children}
         </div>
         <Footer />
+        <Cursor />
+        <CloudTransition />
       </body>
     </html>
   );

@@ -24,6 +24,8 @@ async function uploadImage(file: File): Promise<string> {
 export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -36,7 +38,10 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
     ],
     content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        onChange(editor.getHTML());
+      }, 500);
     },
   });
 

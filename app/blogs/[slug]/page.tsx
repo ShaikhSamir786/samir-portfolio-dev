@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { query } from "@/lib/db";
 
+export const revalidate = 3600;
+
 interface Blog {
   id: string;
   title: string;

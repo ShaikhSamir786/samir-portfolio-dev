@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { query } from "@/lib/db";
 import PageHeader from "@/components/layout/PageHeader";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "About | Shreyash Swami",
   description: "A little bit about me.",

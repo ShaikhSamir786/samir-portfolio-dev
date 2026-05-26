@@ -4,6 +4,8 @@ import Image from "next/image";
 import { query } from "@/lib/db";
 import PageHeader from "@/components/layout/PageHeader";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Blogs | Shreyash Swami",
   description: "Articles and thoughts on backend engineering, AI, and software development.",

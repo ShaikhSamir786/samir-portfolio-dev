@@ -4,6 +4,8 @@ import Link from "next/link";
 import { query } from "@/lib/db";
 import type { Metadata, ResolvingMetadata } from "next";
 
+export const revalidate = 3600;
+
 interface Project {
   id: string;
   title: string;

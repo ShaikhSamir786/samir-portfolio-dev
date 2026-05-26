@@ -72,6 +72,20 @@ export default function Navbar() {
               </Link>
             );
           })}
+          
+          <div className="relative group ml-2 flex items-center">
+            <Link
+              href="https://github.com/sponsors/Shreyash0712"
+              target="_blank"
+              className="group relative overflow-hidden flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-pink-600 hover:text-white border border-pink-200 rounded-full bg-pink-50/50 hover:border-pink-500 transition-colors duration-300 z-10"
+            >
+              <span className="absolute inset-0 bg-pink-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out -z-10" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-pink-500 group-hover:text-white transition-colors duration-300">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              Sponsor
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Hamburger */}
@@ -125,6 +139,24 @@ export default function Navbar() {
             </Link>
           );
         })}
+
+        <Link
+          href="https://github.com/sponsors/Shreyash0712"
+          target="_blank"
+          onClick={() => setMenuOpen(false)}
+          style={{ transitionDelay: menuOpen ? `${links.length * 50}ms` : "0ms" }}
+          className={`group relative overflow-hidden flex items-center gap-2 px-6 py-3 mt-4 text-lg font-semibold text-pink-600 hover:text-white bg-pink-50 border border-pink-100 hover:border-pink-500 rounded-full transition-colors duration-300 z-10 ${
+            menuOpen
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
+          }`}
+        >
+          <span className="absolute inset-0 bg-pink-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out -z-10" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-pink-500 group-hover:text-white transition-colors duration-300">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          Sponsor
+        </Link>
       </div>
 
       {/* Spacer so content doesn't hide under fixed navbar */}
