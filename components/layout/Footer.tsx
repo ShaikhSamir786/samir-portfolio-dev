@@ -84,12 +84,12 @@ export default async function Footer() {
               </div>
             </Link>
             <p className="text-sm text-gray-500 max-w-[200px] leading-relaxed">
-              Building things for the web, one project at a time.
+              Lost among the stars, I found myself.
             </p>
           </div>
 
           {/* Link columns */}
-          <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 ml-auto">
+          <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 lg:ml-auto">
 
             {/* Pages */}
             <div className="min-w-[120px]">
