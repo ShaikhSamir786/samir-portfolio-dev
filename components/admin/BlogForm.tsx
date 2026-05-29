@@ -166,21 +166,28 @@ export default function BlogForm({ initialData, blogId }: BlogFormProps) {
 
       <div className="mb-4">
         <label className={labelClass}>Cover Image</label>
-        <div className="flex items-center gap-3">
-          <label className="cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
-            {uploading ? "Uploading..." : "Choose File"}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              disabled={uploading}
-              className="hidden"
-            />
-          </label>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className="inline-block cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
+              {uploading ? "Uploading..." : "Choose File"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                disabled={uploading}
+                className="hidden"
+              />
+            </label>
+          </div>
           {form.cover_image_url && (
-            <span className="text-xs text-gray-500 truncate flex-1 min-w-0">
-              {form.cover_image_url}
-            </span>
+            <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-gray-200 bg-gray-50 aspect-video">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={form.cover_image_url}
+                alt="Cover preview"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
           )}
         </div>
       </div>
