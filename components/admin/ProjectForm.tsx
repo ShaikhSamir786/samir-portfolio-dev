@@ -132,7 +132,7 @@ export default function ProjectForm({ initialData, projectId }: ProjectFormProps
   const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl">
+    <form onSubmit={handleSubmit} className="w-full">
       {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -177,12 +177,12 @@ export default function ProjectForm({ initialData, projectId }: ProjectFormProps
       <div className="mb-4">
         <label className={labelClass}>Cover Image</label>
         <div className="flex items-center gap-3">
-          <label className="cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <label className="cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
             {uploading ? "Uploading..." : "Choose File"}
             <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="hidden" />
           </label>
           {form.cover_image_url && (
-            <span className="text-xs text-gray-500 truncate max-w-xs">{form.cover_image_url}</span>
+            <span className="text-xs text-gray-500 truncate flex-1 min-w-0">{form.cover_image_url}</span>
           )}
         </div>
       </div>
@@ -204,10 +204,10 @@ export default function ProjectForm({ initialData, projectId }: ProjectFormProps
       </div>
 
       <div className="flex items-center gap-3">
-        <button 
-          type="submit" 
-          title={isEdit ? "Update Project" : "Create Project"} 
-          disabled={loading || uploading} 
+        <button
+          type="submit"
+          title={isEdit ? "Update Project" : "Create Project"}
+          disabled={loading || uploading}
           className="rounded-xl bg-white border border-gray-900 p-3 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {loading ? (
