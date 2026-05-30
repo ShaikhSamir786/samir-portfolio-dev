@@ -53,3 +53,9 @@ CREATE TABLE contact (
   seen BOOLEAN DEFAULT false,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE TABLE socials (
+  name TEXT,
+  url TEXT,
+  display_order INT
+);

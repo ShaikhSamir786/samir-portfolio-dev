@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { neon } from "@neondatabase/serverless";
+import { SocialIcon } from "@/components/SocialIcons";
 
 const pageLinks = [
   { label: "Home", href: "/" },
@@ -50,10 +51,25 @@ async function getPublishedBlogs(): Promise<SlimItem[]> {
   }
 }
 
+async function getSocials() {
+  try {
+    const sql = neon(process.env.DATABASE_URL!);
+    const rows = await sql`
+      SELECT name, url FROM socials
+      ORDER BY display_order ASC
+    `;
+    return rows as { name: string; url: string }[];
+  } catch (err) {
+    console.error("Footer: Failed to fetch socials", err);
+    return [];
+  }
+}
+
 export default async function Footer() {
-  const [projects, blogs] = await Promise.all([
+  const [projects, blogs, socials] = await Promise.all([
     getPublishedProjects(),
     getPublishedBlogs(),
+    getSocials(),
   ]);
 
   const visibleProjects = projects.slice(0, MAX_ITEMS);
@@ -86,6 +102,22 @@ export default async function Footer() {
             <p className="text-sm text-gray-500 max-w-[200px] leading-relaxed">
               Lost among the stars, I found myself.
             </p>
+            {socials.length > 0 && (
+              <div className="flex flex-wrap gap-3 mt-1">
+                {socials.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-gray-900 hover:border-gray-900 hover:shadow-sm transition-all duration-200 flex items-center justify-center"
+                    title={social.name}
+                  >
+                    <SocialIcon name={social.name} className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Link columns */}
