@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { cloudinary } from "@/lib/cloudinary";
+import sharp from "sharp";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -17,7 +18,28 @@ export async function POST(req: NextRequest) {
     }
 
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    let buffer = Buffer.from(bytes) as any;
+
+    // Optimize images before upload to save Cloudinary space & keep OG tags light
+    if (file.type.startsWith("image/") && !file.type.includes("svg") && !file.type.includes("gif")) {
+      const image = sharp(buffer);
+      const metadata = await image.metadata();
+
+      // Resize large images
+      let sharpInstance = image.resize(1200, 1200, {
+        fit: "inside",
+        withoutEnlargement: true
+      });
+
+      // Compress format
+      if (metadata.hasAlpha) {
+        sharpInstance = sharpInstance.webp({ quality: 80 });
+      } else {
+        sharpInstance = sharpInstance.jpeg({ quality: 80, progressive: true });
+      }
+
+      buffer = await sharpInstance.toBuffer();
+    }
 
     const result = await new Promise<{ secure_url: string; public_id: string }>(
       (resolve, reject) => {
