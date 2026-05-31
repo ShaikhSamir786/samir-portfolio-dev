@@ -5,7 +5,7 @@ import { query } from "@/lib/db";
 import type { Metadata, ResolvingMetadata } from "next";
 import ContentWithToc from "@/components/ContentWithToc";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 interface Project {
   id: string;

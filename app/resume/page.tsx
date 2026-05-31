@@ -3,7 +3,7 @@ import { query } from "@/lib/db";
 import ResumeViewer from "@/components/resume/ResumeViewer";
 import PageHeader from "@/components/layout/PageHeader";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Resume | Shreyash Swami",
