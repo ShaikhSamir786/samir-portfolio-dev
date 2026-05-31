@@ -5,7 +5,7 @@ import Image from "next/image";
 import { query } from "@/lib/db";
 import ContentWithToc from "@/components/ContentWithToc";
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 interface Blog {
   id: string;
