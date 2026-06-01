@@ -11,7 +11,8 @@
 }
 
 html {
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -21,6 +22,7 @@ html::-webkit-scrollbar {
 }
 
 body {
+  overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -45,6 +47,8 @@ body::-webkit-scrollbar {
   line-height: 1.3;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .prose h1 { font-size: 1.875rem; }
@@ -218,6 +222,7 @@ body::-webkit-scrollbar {
   border-left: 2px solid transparent;
   border-radius: 0 0.25rem 0.25rem 0;
   transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+  word-break: break-word;
 }
 
 .toc-link:hover {
@@ -271,8 +276,10 @@ body::-webkit-scrollbar {
   bottom: calc(100% + 0.5rem);
   right: 0;
   width: 15rem;
+  max-width: calc(100vw - 3rem);
   max-height: 60vh;
   overflow-y: auto;
+  overflow-x: hidden;
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 0.75rem;
