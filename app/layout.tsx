@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Cursor from "@/components/layout/Cursor";
 import CloudTransition from "@/components/layout/CloudTransition";
 import { PushSettings } from "@/components/PushSettings";
 
@@ -48,7 +47,6 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
-        <Cursor />
         <CloudTransition />
         <PushSettings />
       </body>
