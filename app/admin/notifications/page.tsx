@@ -49,13 +49,22 @@ export default function NotificationsAdminPage() {
       <div className="flex-1 p-6 md:p-10 overflow-y-auto">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold tracking-tight">Notifications</h1>
-          <Link
-          href="/admin/notifications/new"
-          title="Send Notification"
-          className="rounded-lg bg-white border border-gray-900 p-2.5 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-        </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/admin/notifications/logs"
+              title="View Logs"
+              className="rounded-lg bg-white border border-gray-200 p-2.5 text-gray-700 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            </Link>
+            <Link
+              href="/admin/notifications/new"
+              title="Send Notification"
+              className="rounded-lg bg-white border border-gray-900 p-2.5 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+            </Link>
+          </div>
         </div>
         {/* Metrics */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">

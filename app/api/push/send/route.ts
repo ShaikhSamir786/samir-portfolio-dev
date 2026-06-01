@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
       const sub = row.subscription_json;
       try {
         await webpush.sendNotification(sub, payload);
+        return true;
       } catch (err: any) {
         if (err.statusCode === 410 || err.statusCode === 404) {
           // Subscription expired or is invalid, remove it from the DB
@@ -39,12 +40,20 @@ export async function POST(req: NextRequest) {
         } else {
           console.error("Error sending push:", err);
         }
+        return false;
       }
     });
 
-    await Promise.allSettled(sendPromises);
+    const results = await Promise.all(sendPromises);
+    const successCount = results.filter(Boolean).length;
 
-    return NextResponse.json({ success: true, count: result.rows.length });
+    await query(
+      `INSERT INTO sent_notifications (title, body, url, image_url, target_topic, success_count)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [title, body, url || null, image || null, targetTopic, successCount]
+    );
+
+    return NextResponse.json({ success: true, count: successCount });
   } catch (err) {
     console.error("Send push error:", err);
     return NextResponse.json({ error: "Failed to send notifications" }, { status: 500 });

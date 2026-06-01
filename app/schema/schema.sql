@@ -67,3 +67,14 @@ CREATE TABLE push_subscriptions (
     topic TEXT NOT NULL DEFAULT 'all',
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE TABLE sent_notifications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    url TEXT,
+    image_url TEXT,
+    target_topic TEXT NOT NULL,
+    success_count INT DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
