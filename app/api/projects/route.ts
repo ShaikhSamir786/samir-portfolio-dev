@@ -34,19 +34,35 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { title, slug } = await req.json();
+    const body = await req.json();
+    const { title, slug, excerpt, content, cover_image_url, is_published, technologies, github_link, demo_link } = body;
 
-    if (!title || !slug) {
-      return NextResponse.json({ error: "Title and slug are required" }, { status: 400 });
+    if (!title || !slug || !content) {
+      return NextResponse.json(
+        { error: "Title, slug and content are required" },
+        { status: 400 }
+      );
     }
 
     const result = await query(
-      `INSERT INTO projects (title, slug, content) 
-       VALUES ($1, $2, $3) RETURNING id`,
-      [title, slug, ""]
+      `INSERT INTO projects (title, slug, excerpt, content, cover_image_url, is_published, published_at, technologies, github_link, demo_link)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+       RETURNING *`,
+      [
+        title,
+        slug,
+        excerpt || null,
+        content,
+        cover_image_url || null,
+        is_published ?? false,
+        is_published ? new Date().toISOString() : null,
+        technologies || [],
+        github_link || null,
+        demo_link || null,
+      ]
     );
 
-    return NextResponse.json({ id: result.rows[0].id }, { status: 201 });
+    return NextResponse.json(result.rows[0], { status: 201 });
   } catch (error: any) {
     console.error("POST /api/projects error:", error);
     if (error.code === "23505") {

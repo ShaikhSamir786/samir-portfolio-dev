@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaPaperPlane, FaUsers, FaBlog, FaGlobe } from "react-icons/fa";
+import Link from "next/link";
 
 interface Subscriber {
   id: string;
@@ -10,58 +10,32 @@ interface Subscriber {
   created_at: string;
 }
 
-export default function NotificationsAdmin() {
+export default function NotificationsAdminPage() {
   const [metrics, setMetrics] = useState({ total: 0, blogsOnly: 0, all: 0 });
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [filter, setFilter] = useState<"all" | "blogs" | "everything">("all");
-  
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [url, setUrl] = useState("/");
-  const [image, setImage] = useState("");
-  const [targetTopic, setTargetTopic] = useState<"all" | "blogs">("all");
-  
-  const [sending, setSending] = useState(false);
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/push/subscribers")
-      .then((res) => res.json())
-      .then((data) => {
+    fetchSubscribers();
+  }, []);
+
+  async function fetchSubscribers() {
+    try {
+      const res = await fetch("/api/push/subscribers");
+      if (res.ok) {
+        const data = await res.json();
         if (data.metrics) {
           setMetrics(data.metrics);
           setSubscribers(data.subscribers);
         }
-      });
-  }, []);
-
-  const handleSend = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSending(true);
-    setMessage("");
-
-    try {
-      const res = await fetch("/api/push/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, body, url, image, targetTopic }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setMessage(`Success! Sent to ${data.count} subscribers.`);
-        setTitle("");
-        setBody("");
-        setUrl("/");
-        setImage("");
-      } else {
-        setMessage(data.error || "Failed to send");
       }
     } catch (err) {
-      setMessage("An error occurred");
+      console.error("Failed to fetch subscribers:", err);
     } finally {
-      setSending(false);
+      setLoading(false);
     }
-  };
+  }
 
   const filteredSubscribers = subscribers.filter((s) => {
     if (filter === "all") return true;
@@ -71,177 +45,92 @@ export default function NotificationsAdmin() {
   });
 
   return (
-    <div className="p-6 max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-      {/* Left side: Metrics & Subscribers */}
-      <div className="flex-1">
-        <h1 className="text-3xl font-bold mb-6">Notifications Center</h1>
-        
+    <main className="flex flex-1">
+      <div className="flex-1 p-6 md:p-10 overflow-y-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight">Notifications</h1>
+          <Link
+          href="/admin/notifications/new"
+          title="Send Notification"
+          className="rounded-lg bg-white border border-gray-900 p-2.5 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+        </Link>
+        </div>
         {/* Metrics */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white border p-4 rounded-xl shadow-sm flex items-center gap-4">
-            <div className="p-3 bg-blue-100 text-blue-600 rounded-full">
-              <FaUsers className="text-xl" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Total Subscribers</p>
-              <p className="text-2xl font-bold">{metrics.total}</p>
-            </div>
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="flex-1 border border-gray-200 rounded-xl p-5 bg-white shadow-sm">
+            <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Total</p>
+            <p className="text-3xl font-semibold text-gray-900">{metrics.total}</p>
           </div>
-          <div className="bg-white border p-4 rounded-xl shadow-sm flex items-center gap-4">
-            <div className="p-3 bg-green-100 text-green-600 rounded-full">
-              <FaBlog className="text-xl" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Blogs Only</p>
-              <p className="text-2xl font-bold">{metrics.blogsOnly}</p>
-            </div>
+          <div className="flex-1 border border-gray-200 rounded-xl p-5 bg-white shadow-sm">
+            <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Blogs Only</p>
+            <p className="text-3xl font-semibold text-gray-900">{metrics.blogsOnly}</p>
           </div>
-          <div className="bg-white border p-4 rounded-xl shadow-sm flex items-center gap-4">
-            <div className="p-3 bg-purple-100 text-purple-600 rounded-full">
-              <FaGlobe className="text-xl" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Everything</p>
-              <p className="text-2xl font-bold">{metrics.all}</p>
-            </div>
+          <div className="flex-1 border border-gray-200 rounded-xl p-5 bg-white shadow-sm">
+            <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">All Updates</p>
+            <p className="text-3xl font-semibold text-gray-900">{metrics.all}</p>
           </div>
         </div>
 
-        {/* Filters & List */}
-        <div className="bg-white border rounded-xl shadow-sm overflow-hidden">
-          <div className="p-4 border-b flex items-center justify-between">
-            <h2 className="font-semibold text-lg">Subscriber List</h2>
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value as any)}
-              className="text-sm border rounded p-1"
-            >
-              <option value="all">View All</option>
-              <option value="blogs">Blogs Only</option>
-              <option value="everything">Everything</option>
-            </select>
-          </div>
-          
-          <div className="max-h-[500px] overflow-y-auto">
-            {filteredSubscribers.length === 0 ? (
-              <p className="text-gray-500 p-4 text-center">No subscribers found.</p>
-            ) : (
-              <table className="w-full text-left text-sm">
-                <thead className="bg-gray-50 text-gray-600">
-                  <tr>
-                    <th className="px-4 py-3">ID / Endpoint</th>
-                    <th className="px-4 py-3">Topic</th>
-                    <th className="px-4 py-3">Subscribed On</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {filteredSubscribers.map((s) => (
-                    <tr key={s.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 truncate max-w-[200px]" title={s.endpoint}>
-                        {s.id.slice(0, 8)}...
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          s.topic === "blogs" ? "bg-green-100 text-green-700" : "bg-purple-100 text-purple-700"
+        {/* Subscribers Table */}
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-base font-semibold text-gray-900">Subscribers</h3>
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value as any)}
+            className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-gray-400 outline-none transition-colors appearance-none bg-white cursor-pointer pr-8"
+            style={{
+              backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%236b7280\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E")',
+              backgroundPosition: 'right 0.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '1.25em 1.25em'
+            }}
+          >
+            <option value="all">View All</option>
+            <option value="blogs">Blogs Only</option>
+            <option value="everything">All Updates</option>
+          </select>
+        </div>
+
+        <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+          {loading ? (
+            <p className="text-sm text-gray-400 p-6">Loading subscribers...</p>
+          ) : filteredSubscribers.length === 0 ? (
+            <p className="text-sm text-gray-400 p-6">No subscribers found.</p>
+          ) : (
+            <table className="w-full text-sm text-left">
+              <thead className="bg-gray-50 border-b border-gray-200 text-gray-600">
+                <tr>
+                  <th className="px-4 py-3 font-medium">ID</th>
+                  <th className="px-4 py-3 font-medium">Topic</th>
+                  <th className="px-4 py-3 font-medium">Date Subscribed</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filteredSubscribers.map((s) => (
+                  <tr key={s.id} className="hover:bg-gray-50/50">
+                    <td className="px-4 py-3 text-gray-900 font-medium truncate max-w-[150px] sm:max-w-[250px]">
+                      {s.id.slice(0, 13)}...
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium border ${s.topic === "blogs"
+                          ? "bg-gray-50 text-gray-600 border-gray-200"
+                          : "bg-gray-900 text-white border-gray-900"
                         }`}>
-                          {s.topic}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-500">
-                        {new Date(s.created_at).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
+                        {s.topic === "blogs" ? "Blogs" : "All"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500">
+                      {new Date(s.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
-
-      {/* Right side: Send Notification Form */}
-      <div className="w-full lg:w-[400px]">
-        <div className="bg-white border rounded-xl shadow-sm p-6 sticky top-24">
-          <div className="flex items-center gap-2 mb-6">
-            <FaPaperPlane className="text-blue-600" />
-            <h2 className="text-xl font-bold">New Notification</h2>
-          </div>
-
-          <form onSubmit={handleSend} className="flex flex-col gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Title</label>
-              <input
-                required
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="New Blog Post: Next.js PWA!"
-                className="w-full border rounded-lg p-2 focus:ring-2 outline-none"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-1">Description</label>
-              <textarea
-                required
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="Learn how to turn your app into a PWA..."
-                className="w-full border rounded-lg p-2 min-h-[80px] focus:ring-2 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Target URL</label>
-              <input
-                type="text"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="/blogs/my-new-post"
-                className="w-full border rounded-lg p-2 focus:ring-2 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Image URL (Optional)</label>
-              <input
-                type="text"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                placeholder="https://.../cover.jpg"
-                className="w-full border rounded-lg p-2 focus:ring-2 outline-none"
-              />
-              <p className="text-xs text-gray-500 mt-1">A large preview image for the notification.</p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Audience</label>
-              <select
-                value={targetTopic}
-                onChange={(e) => setTargetTopic(e.target.value as any)}
-                className="w-full border rounded-lg p-2 focus:ring-2 outline-none"
-              >
-                <option value="all">Everything Subscribers Only</option>
-                <option value="blogs">Blogs + Everything Subscribers</option>
-              </select>
-            </div>
-
-            {message && (
-              <div className={`p-3 rounded-lg text-sm ${message.includes("Success") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                {message}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={sending}
-              className="w-full bg-black text-white rounded-lg py-3 font-medium mt-2 hover:bg-gray-800 transition-colors disabled:opacity-50"
-            >
-              {sending ? "Sending..." : "Send Notification"}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+    </main>
   );
 }

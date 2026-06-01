@@ -35,11 +35,11 @@ export default function ResumeAdminPage() {
   }
 
   return (
-    <>
-      {/* Top Bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Resume</h2>
-        <button
+    <main className="flex flex-1">
+      <div className="flex-1 p-6 md:p-10">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight">Resume</h1>
+          <button
           onClick={handleSave}
           title="Save"
           disabled={saving || loading}
@@ -53,10 +53,7 @@ export default function ResumeAdminPage() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
           )}
         </button>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 p-6 md:p-10">
+        </div>
         <div className="max-w-xl">
           <label
             htmlFor="resume-url"
@@ -92,6 +89,6 @@ export default function ResumeAdminPage() {
           )}
         </div>
       </div>
-    </>
+    </main>
   );
 }

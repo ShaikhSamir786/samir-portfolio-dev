@@ -77,21 +77,18 @@ export default function BlogsAdminPage() {
   }
 
   return (
-    <>
-      {/* Top Bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Blogs</h2>
-        <Link
+    <main className="flex flex-1">
+      <div className="flex-1 p-6 md:p-10 overflow-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight">Blogs</h1>
+          <Link
           href="/admin/blogs/new"
           title="Add Blog"
           className="rounded-lg bg-white border border-gray-900 p-2.5 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
         </Link>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 p-6 md:p-10 overflow-auto">
+        </div>
         {loading ? (
           <p className="text-sm text-gray-400">Loading blogs...</p>
         ) : blogs.length === 0 ? (
@@ -169,6 +166,6 @@ export default function BlogsAdminPage() {
           </div>
         )}
       </div>
-    </>
+    </main>
   );
 }

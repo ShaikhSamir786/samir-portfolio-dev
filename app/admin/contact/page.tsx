@@ -108,20 +108,17 @@ export default function ContactAdminPage() {
   }
 
   return (
-    <>
-      {/* Top Bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Contact Messages</h2>
-        <button
+    <main className="flex flex-1">
+      <div className="flex-1 p-6 md:p-10 overflow-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight">Contact Messages</h1>
+          <button
           onClick={markAllSeen}
           className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
         >
           Mark all as seen
         </button>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 p-6 md:p-10 overflow-auto">
+        </div>
         {messages.length === 0 ? (
           <p className="text-gray-500 text-sm">No messages yet.</p>
         ) : (
@@ -216,6 +213,6 @@ export default function ContactAdminPage() {
           </div>
         </div>
       )}
-    </>
+    </main>
   );
 }
