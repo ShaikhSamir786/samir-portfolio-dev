@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Cursor from "@/components/layout/Cursor";
 import CloudTransition from "@/components/layout/CloudTransition";
+import { PushSettings } from "@/components/PushSettings";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,6 +50,7 @@ export default function RootLayout({
         <Footer />
         <Cursor />
         <CloudTransition />
+        <PushSettings />
       </body>
     </html>
   );
