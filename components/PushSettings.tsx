@@ -117,10 +117,10 @@ export function PushSettings() {
             <button 
               onClick={() => subscribe("all")}
               disabled={loadingTopic !== null}
-              className="flex-1 bg-black hover:bg-gray-800 text-white text-sm font-medium py-2.5 px-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center shadow-md"
+              className="flex-1 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 px-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center"
             >
               {loadingTopic === "all" ? (
-                <span className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></span>
+                <span className="w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></span>
               ) : "Everything"}
             </button>
           </div>
