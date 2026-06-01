@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
+    "@serwist/next": "^9.5.11",
     "@tiptap/extension-bubble-menu": "^3.23.6",
     "@tiptap/extension-image": "^3.23.1",
     "@tiptap/extension-link": "^3.23.6",
@@ -27,6 +28,7 @@
     "react-dom": "19.2.4",
     "react-icons": "^5.6.0",
     "react-pdf": "^10.4.1",
+    "serwist": "^9.5.11",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
