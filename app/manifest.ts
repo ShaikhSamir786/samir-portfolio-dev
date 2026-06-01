@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Portfolio",
-    short_name: "Portfolio",
-    description: "My Developer Portfolio",
+    name: "Shreyash | Full Stack Developer",
+    short_name: "Shreyash",
+    description: "The personal portfolio and blog of Shreyash, showcasing my projects, skills, and developer journey.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

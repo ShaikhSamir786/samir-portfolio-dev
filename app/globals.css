@@ -291,3 +291,14 @@ body::-webkit-scrollbar {
 html {
   scroll-padding-top: calc(var(--navbar-h) + 1rem);
 }
+
+/* PWA Splash Screen visibility control */
+.pwa-splash-screen {
+  display: none !important;
+}
+
+@media all and (display-mode: standalone) {
+  .pwa-splash-screen {
+    display: flex !important;
+  }
+}
