@@ -11,10 +11,11 @@
 }
 
 html {
-  overflow: scroll;
+  overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 
 html::-webkit-scrollbar {
   display: none;
@@ -65,6 +66,8 @@ body::-webkit-scrollbar {
   text-underline-offset: 3px;
   text-decoration-color: #d1d5db;
   transition: text-decoration-color 0.2s;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .prose a:hover {
