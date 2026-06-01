@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   );
 
   try {
-    const { title, body, url, targetTopic } = await req.json();
+    const { title, body, url, image, targetTopic } = await req.json();
 
     // If targetTopic is "blogs", we send to users subscribed to "blogs" OR "all".
     // If targetTopic is "all", we only send to users subscribed to "all".
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     const result = await query(sqlQuery);
 
-    const payload = JSON.stringify({ title, body, url });
+    const payload = JSON.stringify({ title, body, url, image });
 
     const sendPromises = result.rows.map(async (row: any) => {
       const sub = row.subscription_json;
