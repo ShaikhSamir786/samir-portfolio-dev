@@ -59,3 +59,11 @@ CREATE TABLE socials (
   url TEXT,
   display_order INT
 );
+
+CREATE TABLE push_subscriptions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    endpoint TEXT UNIQUE NOT NULL,
+    subscription_json JSONB NOT NULL,
+    topic TEXT NOT NULL DEFAULT 'all',
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
