@@ -48,9 +48,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${blog.title} | Shreyash Swami`,
     description: blog.excerpt ?? undefined,
-    openGraph: blog.cover_image_url
-      ? { images: [blog.cover_image_url] }
-      : undefined,
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt || undefined,
+      images: blog.cover_image_url ? [blog.cover_image_url] : [],
+      type: "article",
+    },
   };
 }
 

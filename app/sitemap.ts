@@ -3,9 +3,9 @@ import { db } from "@/lib/db";
 import { projects as projectsSchema, blogs as blogsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+const APP_URL = process.env.NEXTAUTH_URL;
 
-export const revalidate = 3600; // Revalidate every hour
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all published projects

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'A directory of all pages on the website.',
 };
 
-export const revalidate = 3600; // Revalidate every hour
+export const dynamic = 'force-dynamic';
 
 export default async function SitemapPage() {
   const projects = await db.select({ title: projectsSchema.title, slug: projectsSchema.slug })

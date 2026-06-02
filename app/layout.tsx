@@ -22,9 +22,27 @@ const playfair = Playfair_Display({
   weight: ["400", "500", "600", "700"],
 });
 
+const APP_URL = process.env.NEXTAUTH_URL;
+
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "My personal portfolio",
+  metadataBase: new URL(APP_URL || ''),
+  title: {
+    default: "Shreyash Swami",
+    template: "%s | Shreyash Swami",
+  },
+  description: "My personal portfolio.",
+  openGraph: {
+    title: "Shreyash Swami",
+    description: "My personal portfolio.",
+    images: ["/Filled_Logo.png"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shreyash Swami",
+    description: "My personal portfolio.",
+    images: ["/Filled_Logo.png"],
+  },
 };
 
 export const viewport: Viewport = {
