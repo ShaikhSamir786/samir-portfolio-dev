@@ -179,6 +179,26 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             prose-a:text-gray-900 prose-a:underline-offset-4 hover:prose-a:text-gray-600
             prose-img:rounded-2xl prose-img:border prose-img:border-gray-100 prose-img:shadow-sm"
         />
+
+        {/* Schema Markup for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: project.title,
+              description: project.excerpt || undefined,
+              image: project.cover_image_url ? [project.cover_image_url] : undefined,
+              datePublished: project.published_at,
+              author: {
+                "@type": "Person",
+                name: "Shreyash Swami",
+                url: process.env.NEXTAUTH_URL,
+              }
+            })
+          }}
+        />
       </article>
     </main>
   );

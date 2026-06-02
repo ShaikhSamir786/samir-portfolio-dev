@@ -130,6 +130,28 @@ export default async function BlogPostPage({ params }: Props) {
           html={blog.content}
           className="prose prose-gray max-w-none"
         />
+        
+        {/* Schema Markup for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: blog.title,
+              description: blog.excerpt || undefined,
+              image: blog.cover_image_url ? [blog.cover_image_url] : undefined,
+              datePublished: blog.published_at,
+              author: [
+                {
+                  "@type": "Person",
+                  name: "Shreyash Swami",
+                  url: process.env.NEXTAUTH_URL,
+                }
+              ]
+            })
+          }}
+        />
       </div>
     </main>
   );
