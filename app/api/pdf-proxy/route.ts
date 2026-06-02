@@ -13,9 +13,7 @@ export async function GET(req: NextRequest) {
       throw new Error(`Failed to fetch PDF: ${response.statusText}`);
     }
 
-    const data = await response.arrayBuffer();
-
-    return new NextResponse(data, {
+    return new NextResponse(response.body, {
       headers: {
         "Content-Type": "application/pdf",
         "Cache-Control": "public, max-age=3600",

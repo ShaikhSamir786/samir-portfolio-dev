@@ -219,10 +219,17 @@ export default async function Footer() {
         {/* Divider */}
         <div className="mt-12 border-t border-gray-200" />
 
-        {/* Copyright */}
-        <p className="mt-6 text-center text-sm text-gray-400">
-          © {new Date().getFullYear()} All rights reserved.
-        </p>
+        {/* Bottom Section */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-gray-400">
+          <p>
+            © {new Date().getFullYear()} All rights reserved.
+          </p>
+          <div className="mt-4 sm:mt-0">
+            <Link href="/sitemap" className="hover:text-gray-900 transition-colors">
+              Sitemap
+            </Link>
+          </div>
+        </div>
 
       </div>
     </footer>
