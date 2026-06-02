@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { pushSubscriptions as pushSubscriptionsSchema } from "@/lib/schema";
+import { desc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 
 export async function GET() {
@@ -9,11 +11,12 @@ export async function GET() {
   }
 
   try {
-    const result = await query(
-      "SELECT id, endpoint, topic, created_at FROM push_subscriptions ORDER BY created_at DESC"
-    );
-    
-    const subscribers = result.rows;
+    const subscribers = await db.select({
+      id: pushSubscriptionsSchema.id,
+      endpoint: pushSubscriptionsSchema.endpoint,
+      topic: pushSubscriptionsSchema.topic,
+      created_at: pushSubscriptionsSchema.createdAt,
+    }).from(pushSubscriptionsSchema).orderBy(desc(pushSubscriptionsSchema.createdAt));
     const total = subscribers.length;
     const blogsOnly = subscribers.filter((s: any) => s.topic === "blogs").length;
     const all = subscribers.filter((s: any) => s.topic === "all").length;

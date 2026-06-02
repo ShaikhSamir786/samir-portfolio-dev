@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import webpush from "web-push";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { pushSubscriptions as pushSubscriptionsSchema, sentNotifications as sentNotificationsSchema } from "@/lib/schema";
+import { eq, or } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -20,15 +22,20 @@ export async function POST(req: NextRequest) {
 
     // If targetTopic is "blogs", we send to users subscribed to "blogs" OR "all".
     // If targetTopic is "all", we only send to users subscribed to "all".
-    const sqlQuery = targetTopic === "blogs" 
-      ? "SELECT subscription_json FROM push_subscriptions WHERE topic = 'blogs' OR topic = 'all'"
-      : "SELECT subscription_json FROM push_subscriptions WHERE topic = 'all'";
-
-    const result = await query(sqlQuery);
+    let subscribers;
+    if (targetTopic === "blogs") {
+      subscribers = await db.select({ subscription_json: pushSubscriptionsSchema.subscriptionJson })
+        .from(pushSubscriptionsSchema)
+        .where(or(eq(pushSubscriptionsSchema.topic, "blogs"), eq(pushSubscriptionsSchema.topic, "all")));
+    } else {
+      subscribers = await db.select({ subscription_json: pushSubscriptionsSchema.subscriptionJson })
+        .from(pushSubscriptionsSchema)
+        .where(eq(pushSubscriptionsSchema.topic, "all"));
+    }
 
     const payload = JSON.stringify({ title, body, url, image });
 
-    const sendPromises = result.rows.map(async (row: any) => {
+    const sendPromises = subscribers.map(async (row: any) => {
       const sub = row.subscription_json;
       try {
         await webpush.sendNotification(sub, payload);
@@ -36,7 +43,7 @@ export async function POST(req: NextRequest) {
       } catch (err: any) {
         if (err.statusCode === 410 || err.statusCode === 404) {
           // Subscription expired or is invalid, remove it from the DB
-          await query("DELETE FROM push_subscriptions WHERE endpoint = $1", [sub.endpoint]);
+          await db.delete(pushSubscriptionsSchema).where(eq(pushSubscriptionsSchema.endpoint, sub.endpoint));
         } else {
           console.error("Error sending push:", err);
         }
@@ -47,11 +54,9 @@ export async function POST(req: NextRequest) {
     const results = await Promise.all(sendPromises);
     const successCount = results.filter(Boolean).length;
 
-    await query(
-      `INSERT INTO sent_notifications (title, body, url, image_url, target_topic, success_count)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [title, body, url || null, image || null, targetTopic, successCount]
-    );
+    await db.insert(sentNotificationsSchema).values({
+      title, body, url: url || null, imageUrl: image || null, targetTopic, successCount
+    });
 
     return NextResponse.json({ success: true, count: successCount });
   } catch (err) {

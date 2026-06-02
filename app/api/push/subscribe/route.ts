@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { pushSubscriptions as pushSubscriptionsSchema } from "@/lib/schema";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,12 +17,14 @@ export async function POST(req: NextRequest) {
     // Default to 'all' if the user somehow submits an invalid topic
     const topicValue = topic === "blogs" ? "blogs" : "all";
 
-    await query(
-      `INSERT INTO push_subscriptions (endpoint, subscription_json, topic)
-       VALUES ($1, $2, $3)
-       ON CONFLICT (endpoint) DO UPDATE SET topic = $3, subscription_json = $2`,
-      [subscription.endpoint, JSON.stringify(subscription), topicValue]
-    );
+    await db.insert(pushSubscriptionsSchema).values({
+      endpoint: subscription.endpoint,
+      subscriptionJson: subscription,
+      topic: topicValue,
+    }).onConflictDoUpdate({
+      target: pushSubscriptionsSchema.endpoint,
+      set: { topic: topicValue, subscriptionJson: subscription }
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

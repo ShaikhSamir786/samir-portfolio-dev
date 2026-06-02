@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { blogs as blogsSchema } from "@/lib/schema";
+import { eq, desc } from "drizzle-orm";
 import PageHeader from "@/components/layout/PageHeader";
 
 export const revalidate = 3600;
@@ -22,11 +24,15 @@ interface Blog {
 
 async function getBlogs(): Promise<Blog[]> {
   try {
-    const result = await query(
-      `SELECT id, title, slug, excerpt, cover_image_url, published_at
-       FROM blogs WHERE is_published = true ORDER BY published_at DESC`
-    );
-    return result.rows as unknown as Blog[];
+    const result = await db.select({
+      id: blogsSchema.id,
+      title: blogsSchema.title,
+      slug: blogsSchema.slug,
+      excerpt: blogsSchema.excerpt,
+      cover_image_url: blogsSchema.coverImageUrl,
+      published_at: blogsSchema.publishedAt,
+    }).from(blogsSchema).where(eq(blogsSchema.isPublished, true)).orderBy(desc(blogsSchema.publishedAt));
+    return result as unknown as Blog[];
   } catch {
     return [];
   }

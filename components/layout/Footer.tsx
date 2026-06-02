@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { neon } from "@neondatabase/serverless";
+import { db } from "@/lib/db";
+import { projects as projectsSchema, blogs as blogsSchema, socials as socialsSchema } from "@/lib/schema";
+import { eq, desc } from "drizzle-orm";
 import { SocialIcon } from "@/components/SocialIcons";
 
 const pageLinks = [
@@ -21,13 +23,11 @@ interface SlimItem {
 
 async function getPublishedProjects(): Promise<SlimItem[]> {
   try {
-    const sql = neon(process.env.DATABASE_URL!);
-    const rows = await sql`
-      SELECT title, slug FROM projects
-      WHERE is_published = true
-      ORDER BY published_at DESC
-      LIMIT 6
-    `;
+    const rows = await db.select({ title: projectsSchema.title, slug: projectsSchema.slug })
+      .from(projectsSchema)
+      .where(eq(projectsSchema.isPublished, true))
+      .orderBy(desc(projectsSchema.publishedAt))
+      .limit(6);
     return rows as SlimItem[];
   } catch (err) {
     console.error("Footer: Failed to fetch projects", err);
@@ -37,13 +37,11 @@ async function getPublishedProjects(): Promise<SlimItem[]> {
 
 async function getPublishedBlogs(): Promise<SlimItem[]> {
   try {
-    const sql = neon(process.env.DATABASE_URL!);
-    const rows = await sql`
-      SELECT title, slug FROM blogs
-      WHERE is_published = true
-      ORDER BY published_at DESC
-      LIMIT 6
-    `;
+    const rows = await db.select({ title: blogsSchema.title, slug: blogsSchema.slug })
+      .from(blogsSchema)
+      .where(eq(blogsSchema.isPublished, true))
+      .orderBy(desc(blogsSchema.publishedAt))
+      .limit(6);
     return rows as SlimItem[];
   } catch (err) {
     console.error("Footer: Failed to fetch blogs", err);
@@ -53,11 +51,9 @@ async function getPublishedBlogs(): Promise<SlimItem[]> {
 
 async function getSocials() {
   try {
-    const sql = neon(process.env.DATABASE_URL!);
-    const rows = await sql`
-      SELECT name, url FROM socials
-      ORDER BY display_order ASC
-    `;
+    const rows = await db.select({ name: socialsSchema.name, url: socialsSchema.url })
+      .from(socialsSchema)
+      .orderBy(socialsSchema.displayOrder);
     return rows as { name: string; url: string }[];
   } catch (err) {
     console.error("Footer: Failed to fetch socials", err);

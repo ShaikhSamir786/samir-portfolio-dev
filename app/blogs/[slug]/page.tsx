@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { blogs as blogsSchema } from "@/lib/schema";
+import { eq, and } from "drizzle-orm";
 import ContentWithToc from "@/components/ContentWithToc";
 
 export const revalidate = 3600;
@@ -23,12 +25,17 @@ interface Props {
 
 async function getBlog(slug: string): Promise<Blog | null> {
   try {
-    const result = await query(
-      "SELECT * FROM blogs WHERE slug = $1 AND is_published = true",
-      [slug]
-    );
-    if (result.rows.length === 0) return null;
-    return result.rows[0] as unknown as Blog;
+    const result = await db.select({
+      id: blogsSchema.id,
+      title: blogsSchema.title,
+      slug: blogsSchema.slug,
+      excerpt: blogsSchema.excerpt,
+      content: blogsSchema.content,
+      cover_image_url: blogsSchema.coverImageUrl,
+      published_at: blogsSchema.publishedAt,
+    }).from(blogsSchema).where(and(eq(blogsSchema.slug, slug), eq(blogsSchema.isPublished, true)));
+    if (result.length === 0) return null;
+    return result[0] as unknown as Blog;
   } catch {
     return null;
   }

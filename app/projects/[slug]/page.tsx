@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { projects as projectsSchema } from "@/lib/schema";
+import { eq, and } from "drizzle-orm";
 import type { Metadata, ResolvingMetadata } from "next";
 import ContentWithToc from "@/components/ContentWithToc";
 
@@ -26,14 +28,21 @@ interface PageProps {
 
 async function getProject(slug: string): Promise<Project | null> {
   try {
-    const result = await query(
-      `SELECT id, title, slug, excerpt, content, cover_image_url, technologies, github_link, demo_link, published_at
-       FROM projects WHERE slug = $1 AND is_published = true`,
-      [slug]
-    );
+    const result = await db.select({
+      id: projectsSchema.id,
+      title: projectsSchema.title,
+      slug: projectsSchema.slug,
+      excerpt: projectsSchema.excerpt,
+      content: projectsSchema.content,
+      cover_image_url: projectsSchema.coverImageUrl,
+      technologies: projectsSchema.technologies,
+      github_link: projectsSchema.githubLink,
+      demo_link: projectsSchema.demoLink,
+      published_at: projectsSchema.publishedAt,
+    }).from(projectsSchema).where(and(eq(projectsSchema.slug, slug), eq(projectsSchema.isPublished, true)));
 
-    if (result.rows.length === 0) return null;
-    return result.rows[0] as unknown as Project;
+    if (result.length === 0) return null;
+    return result[0] as unknown as Project;
   } catch (err) {
     console.error(err);
     return null;

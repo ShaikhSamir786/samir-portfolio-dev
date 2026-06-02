@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { resume } from "@/lib/schema";
 
 export async function GET() {
   try {
-    const result = await query("SELECT resume FROM resume LIMIT 1");
-    const resume = (result.rows[0] as { resume: string } | undefined)?.resume ?? "";
-    return NextResponse.json({ resume });
+    const result = await db.select({ resume: resume.resume }).from(resume).limit(1);
+    const resumeData = result[0]?.resume ?? "";
+    return NextResponse.json({ resume: resumeData });
   } catch (error) {
     console.error("GET /api/resume error:", error);
     return NextResponse.json({ error: "Failed to fetch resume" }, { status: 500 });
@@ -20,14 +21,14 @@ export async function PUT(req: NextRequest) {
   }
 
   try {
-    const { resume } = await req.json();
+    const reqData = await req.json();
+    const resumeData = reqData.resume;
 
-    // Upsert — table holds at most one row
-    const existing = await query("SELECT 1 FROM resume LIMIT 1");
-    if (existing.rows.length > 0) {
-      await query("UPDATE resume SET resume = $1", [resume ?? ""]);
+    const existing = await db.select({ resume: resume.resume }).from(resume).limit(1);
+    if (existing.length > 0) {
+      await db.update(resume).set({ resume: resumeData ?? "" });
     } else {
-      await query("INSERT INTO resume (resume) VALUES ($1)", [resume ?? ""]);
+      await db.insert(resume).values({ resume: resumeData ?? "" });
     }
 
     return NextResponse.json({ success: true });

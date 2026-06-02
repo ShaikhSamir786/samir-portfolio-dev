@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { projects as projectsSchema } from "@/lib/schema";
+import { eq, desc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 
 export async function GET() {
@@ -9,18 +11,12 @@ export async function GET() {
     let result;
     if (session) {
       // Admin sees everything
-      result = await query(
-        `SELECT id, title, slug, excerpt, cover_image_url, is_published, created_at, technologies, github_link, demo_link 
-         FROM projects ORDER BY created_at DESC`
-      );
+      result = await db.select().from(projectsSchema).orderBy(desc(projectsSchema.createdAt));
     } else {
       // Public sees only published
-      result = await query(
-        `SELECT id, title, slug, excerpt, cover_image_url, published_at, technologies, github_link, demo_link 
-         FROM projects WHERE is_published = true ORDER BY published_at DESC`
-      );
+      result = await db.select().from(projectsSchema).where(eq(projectsSchema.isPublished, true)).orderBy(desc(projectsSchema.publishedAt));
     }
-    return NextResponse.json(result.rows);
+    return NextResponse.json(result);
   } catch (error) {
     console.error("GET /api/projects error:", error);
     return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
@@ -44,25 +40,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await query(
-      `INSERT INTO projects (title, slug, excerpt, content, cover_image_url, is_published, published_at, technologies, github_link, demo_link)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-       RETURNING *`,
-      [
-        title,
-        slug,
-        excerpt || null,
-        content,
-        cover_image_url || null,
-        is_published ?? false,
-        is_published ? new Date().toISOString() : null,
-        technologies || [],
-        github_link || null,
-        demo_link || null,
-      ]
-    );
+    const result = await db.insert(projectsSchema).values({
+      title,
+      slug,
+      excerpt: excerpt || null,
+      content,
+      coverImageUrl: cover_image_url || null,
+      isPublished: is_published ?? false,
+      publishedAt: is_published ? new Date() : null,
+      technologies: technologies || [],
+      githubLink: github_link || null,
+      demoLink: demo_link || null,
+    }).returning();
 
-    return NextResponse.json(result.rows[0], { status: 201 });
+    return NextResponse.json(result[0], { status: 201 });
   } catch (error: any) {
     console.error("POST /api/projects error:", error);
     if (error.code === "23505") {

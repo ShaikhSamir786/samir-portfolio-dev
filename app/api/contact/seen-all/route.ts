@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { contact as contactSchema } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 
 export async function POST() {
   const session = await auth();
@@ -9,7 +11,7 @@ export async function POST() {
   }
 
   try {
-    await query(`UPDATE contact SET seen = true WHERE seen = false`);
+    await db.update(contactSchema).set({ seen: true }).where(eq(contactSchema.seen, false));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(`POST /api/contact/seen-all error:`, error);

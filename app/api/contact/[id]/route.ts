@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { contact as contactSchema } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 
 export async function PATCH(
   req: NextRequest,
@@ -16,10 +18,7 @@ export async function PATCH(
   try {
     const { seen } = await req.json();
 
-    await query(
-      `UPDATE contact SET seen = $1 WHERE id = $2`,
-      [seen, id]
-    );
+    await db.update(contactSchema).set({ seen }).where(eq(contactSchema.id, id));
 
     return NextResponse.json({ success: true });
   } catch (error) {

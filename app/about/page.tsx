@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { about } from "@/lib/schema";
 import PageHeader from "@/components/layout/PageHeader";
 
 export const revalidate = 3600;
@@ -11,8 +12,8 @@ export const metadata: Metadata = {
 
 async function getAbout(): Promise<string> {
   try {
-    const result = await query("SELECT description FROM about LIMIT 1");
-    return ((result.rows[0] as { description: string } | undefined)?.description) ?? "";
+    const result = await db.select({ description: about.description }).from(about).limit(1);
+    return result[0]?.description ?? "";
   } catch {
     return "";
   }

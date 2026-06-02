@@ -8,9 +8,9 @@ interface Project {
   title: string;
   slug: string;
   excerpt: string | null;
-  cover_image_url: string | null;
-  is_published: boolean;
-  created_at: string;
+  coverImageUrl: string | null;
+  isPublished: boolean;
+  createdAt: string;
   technologies: string[] | null;
 }
 
@@ -41,7 +41,7 @@ export default function ProjectsAdminPage() {
     setToggling((prev) => new Set(prev).add(id));
     // Optimistic update
     setProjects((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, is_published: !current } : p))
+      prev.map((p) => (p.id === id ? { ...p, isPublished: !current } : p))
     );
     try {
       const res = await fetch(`/api/projects/${id}`, {
@@ -53,7 +53,7 @@ export default function ProjectsAdminPage() {
     } catch {
       // Roll back on error
       setProjects((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, is_published: current } : p))
+        prev.map((p) => (p.id === id ? { ...p, isPublished: current } : p))
       );
     } finally {
       setToggling((prev) => {
@@ -121,10 +121,10 @@ export default function ProjectsAdminPage() {
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
                       <button
-                        onClick={() => handleTogglePublish(project.id, project.is_published)}
+                        onClick={() => handleTogglePublish(project.id, project.isPublished)}
                         disabled={toggling.has(project.id)}
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${
-                          project.is_published
+                          project.isPublished
                             ? "bg-green-50 text-green-700 hover:bg-green-100"
                             : "bg-amber-50 text-amber-700 hover:bg-amber-100"
                         }`}
@@ -132,9 +132,9 @@ export default function ProjectsAdminPage() {
                         {toggling.has(project.id) ? (
                           <span className="w-2.5 h-2.5 rounded-full border border-current border-t-transparent animate-spin" />
                         ) : (
-                          <span className={`w-1.5 h-1.5 rounded-full ${project.is_published ? "bg-green-500" : "bg-amber-500"}`} />
+                          <span className={`w-1.5 h-1.5 rounded-full ${project.isPublished ? "bg-green-500" : "bg-amber-500"}`} />
                         )}
-                        {project.is_published ? "Published" : "Draft"}
+                        {project.isPublished ? "Published" : "Draft"}
                       </button>
                     </td>
                     <td className="px-4 py-3 text-right">

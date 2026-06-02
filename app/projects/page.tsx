@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { projects as projectsSchema } from "@/lib/schema";
+import { eq, desc } from "drizzle-orm";
 import PageHeader from "@/components/layout/PageHeader";
 
 export const revalidate = 3600;
@@ -24,11 +26,17 @@ interface Project {
 
 async function getProjects(): Promise<Project[]> {
   try {
-    const result = await query(
-      `SELECT id, title, slug, excerpt, cover_image_url, technologies, github_link, demo_link 
-       FROM projects WHERE is_published = true ORDER BY published_at DESC`
-    );
-    return result.rows as unknown as Project[];
+    const result = await db.select({
+      id: projectsSchema.id,
+      title: projectsSchema.title,
+      slug: projectsSchema.slug,
+      excerpt: projectsSchema.excerpt,
+      cover_image_url: projectsSchema.coverImageUrl,
+      technologies: projectsSchema.technologies,
+      github_link: projectsSchema.githubLink,
+      demo_link: projectsSchema.demoLink,
+    }).from(projectsSchema).where(eq(projectsSchema.isPublished, true)).orderBy(desc(projectsSchema.publishedAt));
+    return result as unknown as Project[];
   } catch {
     return [];
   }

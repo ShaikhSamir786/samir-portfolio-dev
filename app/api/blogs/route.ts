@@ -1,20 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { blogs as blogsSchema } from "@/lib/schema";
+import { eq, desc } from "drizzle-orm";
 
 export async function GET() {
   try {
     const session = await auth();
     const isAdmin = !!session;
 
-    const result = await query(
-      isAdmin
-        ? `SELECT id, title, slug, excerpt, cover_image_url, is_published, created_at, published_at
-           FROM blogs ORDER BY created_at DESC`
-        : `SELECT id, title, slug, excerpt, cover_image_url, is_published, created_at, published_at
-           FROM blogs WHERE is_published = true ORDER BY published_at DESC`
-    );
-    return NextResponse.json(result.rows);
+    const result = isAdmin
+      ? await db.select().from(blogsSchema).orderBy(desc(blogsSchema.createdAt))
+      : await db.select().from(blogsSchema).where(eq(blogsSchema.isPublished, true)).orderBy(desc(blogsSchema.publishedAt));
+    return NextResponse.json(result);
   } catch (error) {
     console.error("GET /api/blogs error:", error);
     return NextResponse.json({ error: "Failed to fetch blogs" }, { status: 500 });
@@ -38,22 +36,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await query(
-      `INSERT INTO blogs (title, slug, excerpt, content, cover_image_url, is_published, published_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING *`,
-      [
-        title,
-        slug,
-        excerpt || null,
-        content,
-        cover_image_url || null,
-        is_published ?? false,
-        is_published ? new Date().toISOString() : null,
-      ]
-    );
+    const result = await db.insert(blogsSchema).values({
+      title,
+      slug,
+      excerpt: excerpt || null,
+      content,
+      coverImageUrl: cover_image_url || null,
+      isPublished: is_published ?? false,
+      publishedAt: is_published ? new Date() : null,
+    }).returning();
 
-    return NextResponse.json(result.rows[0], { status: 201 });
+    return NextResponse.json(result[0], { status: 201 });
   } catch (error) {
     console.error("POST /api/blogs error:", error);
     return NextResponse.json({ error: "Failed to create blog" }, { status: 500 });

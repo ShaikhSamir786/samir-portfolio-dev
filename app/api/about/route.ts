@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { about } from "@/lib/schema";
 
 export async function GET() {
   try {
-    const result = await query("SELECT description FROM about LIMIT 1");
-    const description = (result.rows[0] as { description: string } | undefined)?.description ?? "";
+    const result = await db.select({ description: about.description }).from(about).limit(1);
+    const description = result[0]?.description ?? "";
     return NextResponse.json({ description });
   } catch (error) {
     console.error("GET /api/about error:", error);
@@ -22,12 +23,11 @@ export async function PUT(req: NextRequest) {
   try {
     const { description } = await req.json();
 
-    // Upsert — table holds at most one row
-    const existing = await query("SELECT 1 FROM about LIMIT 1");
-    if (existing.rows.length > 0) {
-      await query("UPDATE about SET description = $1", [description ?? ""]);
+    const existing = await db.select({ description: about.description }).from(about).limit(1);
+    if (existing.length > 0) {
+      await db.update(about).set({ description: description ?? "" });
     } else {
-      await query("INSERT INTO about (description) VALUES ($1)", [description ?? ""]);
+      await db.insert(about).values({ description: description ?? "" });
     }
 
     return NextResponse.json({ success: true });

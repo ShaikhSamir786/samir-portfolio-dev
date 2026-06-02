@@ -8,9 +8,9 @@ interface Blog {
   title: string;
   slug: string;
   excerpt: string | null;
-  cover_image_url: string | null;
-  is_published: boolean;
-  created_at: string;
+  coverImageUrl: string | null;
+  isPublished: boolean;
+  createdAt: string;
 }
 
 export default function BlogsAdminPage() {
@@ -41,7 +41,7 @@ export default function BlogsAdminPage() {
     setToggling((prev) => new Set(prev).add(id));
     // Optimistic update
     setBlogs((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, is_published: !current } : b))
+      prev.map((b) => (b.id === id ? { ...b, isPublished: !current } : b))
     );
     try {
       const res = await fetch(`/api/blogs/${id}`, { method: "PATCH" });
@@ -49,7 +49,7 @@ export default function BlogsAdminPage() {
     } catch {
       // Roll back on error
       setBlogs((prev) =>
-        prev.map((b) => (b.id === id ? { ...b, is_published: current } : b))
+        prev.map((b) => (b.id === id ? { ...b, isPublished: current } : b))
       );
     } finally {
       setToggling((prev) => {
@@ -125,10 +125,10 @@ export default function BlogsAdminPage() {
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
                       <button
-                        onClick={() => handleTogglePublish(blog.id, blog.is_published)}
+                        onClick={() => handleTogglePublish(blog.id, blog.isPublished)}
                         disabled={toggling.has(blog.id)}
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${
-                          blog.is_published
+                          blog.isPublished
                             ? "bg-green-50 text-green-700 hover:bg-green-100"
                             : "bg-amber-50 text-amber-700 hover:bg-amber-100"
                         }`}
@@ -136,9 +136,9 @@ export default function BlogsAdminPage() {
                         {toggling.has(blog.id) ? (
                           <span className="w-2.5 h-2.5 rounded-full border border-current border-t-transparent animate-spin" />
                         ) : (
-                          <span className={`w-1.5 h-1.5 rounded-full ${blog.is_published ? "bg-green-500" : "bg-amber-500"}`} />
+                          <span className={`w-1.5 h-1.5 rounded-full ${blog.isPublished ? "bg-green-500" : "bg-amber-500"}`} />
                         )}
-                        {blog.is_published ? "Published" : "Draft"}
+                        {blog.isPublished ? "Published" : "Draft"}
                       </button>
                     </td>
                     <td className="px-4 py-3 text-right">

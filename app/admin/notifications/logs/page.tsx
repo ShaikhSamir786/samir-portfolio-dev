@@ -1,5 +1,7 @@
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { sentNotifications as sentNotificationsSchema } from "@/lib/schema";
+import { desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -10,11 +12,7 @@ export default async function NotificationLogsPage() {
     redirect("/login");
   }
 
-  const result = await query(
-    `SELECT * FROM sent_notifications ORDER BY created_at DESC`
-  );
-  
-  const logs = result.rows;
+  const logs = await db.select().from(sentNotificationsSchema).orderBy(desc(sentNotificationsSchema.createdAt));
 
   return (
     <main className="flex flex-1">

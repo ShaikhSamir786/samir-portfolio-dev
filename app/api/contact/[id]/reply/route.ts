@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { contact as contactSchema } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import nodemailer from "nodemailer";
 
 export async function POST(
@@ -22,12 +24,16 @@ export async function POST(
     }
 
     // Get the user's email
-    const result = await query(`SELECT name, email, subject FROM contact WHERE id = $1`, [id]);
-    if (result.rows.length === 0) {
+    const result = await db.select({ name: contactSchema.name, email: contactSchema.email, subject: contactSchema.subject }).from(contactSchema).where(eq(contactSchema.id, id));
+    if (result.length === 0) {
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
 
-    const { name, email, subject } = result.rows[0] as { name: string, email: string, subject: string };
+    const { name, email, subject } = result[0];
+
+    if (!email) {
+      return NextResponse.json({ error: "Contact has no email address" }, { status: 400 });
+    }
 
     if (!process.env.SMTP_EMAIL || !process.env.SMTP_PASSWORD) {
       console.warn("SMTP credentials missing. Would have sent:", replyText, "to", email);
@@ -47,13 +53,13 @@ export async function POST(
     await transporter.sendMail({
       from: `"${process.env.NEXT_PUBLIC_SITE_NAME || "Shreyash Swami"}" <${process.env.SMTP_EMAIL}>`,
       to: email,
-      subject: `Re: ${subject}`,
+      subject: `Re: ${subject || "Your Message"}`,
       text: replyText,
-      html: `<p>Hi ${name},</p><p>${replyText.replace(/\n/g, "<br>")}</p>`,
+      html: `<p>Hi ${name || "there"},</p><p>${replyText.replace(/\n/g, "<br>")}</p>`,
     });
 
     // Optionally mark as seen if we replied
-    await query(`UPDATE contact SET seen = true WHERE id = $1`, [id]);
+    await db.update(contactSchema).set({ seen: true }).where(eq(contactSchema.id, id));
 
     return NextResponse.json({ success: true });
   } catch (error) {

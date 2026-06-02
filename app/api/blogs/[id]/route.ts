@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { blogs as blogsSchema } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 
 interface Params {
   params: Promise<{ id: string }>;
@@ -9,13 +11,13 @@ interface Params {
 export async function GET(_req: NextRequest, { params }: Params) {
   try {
     const { id } = await params;
-    const result = await query("SELECT * FROM blogs WHERE id = $1", [id]);
+    const result = await db.select().from(blogsSchema).where(eq(blogsSchema.id, id));
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    return NextResponse.json(result.rows[0]);
+    return NextResponse.json(result[0]);
   } catch (error) {
     console.error("GET /api/blogs/[id] error:", error);
     return NextResponse.json({ error: "Failed to fetch blog" }, { status: 500 });
@@ -41,31 +43,27 @@ export async function PUT(req: NextRequest, { params }: Params) {
     }
 
     // Get current blog to check if published status changed
-    const current = await query(
-      "SELECT is_published, published_at FROM blogs WHERE id = $1",
-      [id]
-    );
+    const current = await db.select({ isPublished: blogsSchema.isPublished, publishedAt: blogsSchema.publishedAt }).from(blogsSchema).where(eq(blogsSchema.id, id));
 
-    if (current.rows.length === 0) {
+    if (current.length === 0) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    const wasPublished = (current.rows[0] as { is_published: boolean; published_at: string | null }).is_published;
+    const wasPublished = current[0].isPublished ?? false;
     const publishedAt =
       !wasPublished && is_published
-        ? new Date().toISOString()
-        : (current.rows[0] as { published_at: string | null }).published_at;
+        ? new Date()
+        : current[0].publishedAt;
 
-    const result = await query(
-      `UPDATE blogs
-       SET title = $1, slug = $2, excerpt = $3, content = $4,
-           cover_image_url = $5, is_published = $6, published_at = $7, updated_at = NOW()
-       WHERE id = $8
-       RETURNING *`,
-      [title, slug, excerpt || null, content, cover_image_url || null, is_published ?? false, publishedAt, id]
-    );
+    const result = await db.update(blogsSchema)
+      .set({
+        title, slug, excerpt: excerpt || null, content, coverImageUrl: cover_image_url || null,
+        isPublished: is_published ?? false, publishedAt, updatedAt: new Date()
+      })
+      .where(eq(blogsSchema.id, id))
+      .returning();
 
-    return NextResponse.json(result.rows[0]);
+    return NextResponse.json(result[0]);
   } catch (error) {
     console.error("PUT /api/blogs/[id] error:", error);
     return NextResponse.json({ error: "Failed to update blog" }, { status: 500 });
@@ -81,28 +79,22 @@ export async function PATCH(_req: NextRequest, { params }: Params) {
   try {
     const { id } = await params;
 
-    const current = await query(
-      "SELECT is_published, published_at FROM blogs WHERE id = $1",
-      [id]
-    );
+    const current = await db.select({ isPublished: blogsSchema.isPublished, publishedAt: blogsSchema.publishedAt }).from(blogsSchema).where(eq(blogsSchema.id, id));
 
-    if (current.rows.length === 0) {
+    if (current.length === 0) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    const row = current.rows[0] as { is_published: boolean; published_at: string | null };
-    const newPublished = !row.is_published;
-    const publishedAt = newPublished && !row.published_at ? new Date().toISOString() : row.published_at;
+    const row = current[0];
+    const newPublished = !(row.isPublished ?? false);
+    const publishedAt = newPublished && !row.publishedAt ? new Date() : row.publishedAt;
 
-    const result = await query(
-      `UPDATE blogs
-       SET is_published = $1, published_at = $2, updated_at = NOW()
-       WHERE id = $3
-       RETURNING id, is_published, published_at`,
-      [newPublished, publishedAt, id]
-    );
+    const result = await db.update(blogsSchema)
+      .set({ isPublished: newPublished, publishedAt, updatedAt: new Date() })
+      .where(eq(blogsSchema.id, id))
+      .returning({ id: blogsSchema.id, isPublished: blogsSchema.isPublished, publishedAt: blogsSchema.publishedAt });
 
-    return NextResponse.json(result.rows[0]);
+    return NextResponse.json(result[0]);
   } catch (error) {
     console.error("PATCH /api/blogs/[id] error:", error);
     return NextResponse.json({ error: "Failed to toggle publish status" }, { status: 500 });
@@ -117,12 +109,9 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
 
   try {
     const { id } = await params;
-    const result = await query(
-      "DELETE FROM blogs WHERE id = $1 RETURNING id",
-      [id]
-    );
+    const result = await db.delete(blogsSchema).where(eq(blogsSchema.id, id)).returning({ id: blogsSchema.id });
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 

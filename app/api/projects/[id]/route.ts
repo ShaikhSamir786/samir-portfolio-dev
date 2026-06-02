@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { projects as projectsSchema } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 
 export async function GET(
@@ -14,17 +16,13 @@ export async function GET(
   const { id } = await params;
 
   try {
-    const result = await query(
-      `SELECT id, title, slug, excerpt, content, cover_image_url, is_published, technologies, github_link, demo_link 
-       FROM projects WHERE id = $1`,
-      [id]
-    );
+    const result = await db.select().from(projectsSchema).where(eq(projectsSchema.id, id));
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    return NextResponse.json(result.rows[0]);
+    return NextResponse.json(result[0]);
   } catch (error) {
     console.error("GET /api/projects/[id] error:", error);
     return NextResponse.json({ error: "Failed to fetch project" }, { status: 500 });
@@ -48,12 +46,11 @@ export async function PATCH(
     // If body only has is_published, it's a toggle publish
     if (Object.keys(body).length === 1 && "is_published" in body) {
       const { is_published } = body;
-      const published_at = is_published ? new Date().toISOString() : null;
+      const published_at = is_published ? new Date() : null;
 
-      await query(
-        `UPDATE projects SET is_published = $1, published_at = $2, updated_at = NOW() WHERE id = $3`,
-        [is_published, published_at, id]
-      );
+      await db.update(projectsSchema)
+        .set({ isPublished: is_published, publishedAt: published_at, updatedAt: new Date() })
+        .where(eq(projectsSchema.id, id));
 
       return NextResponse.json({ success: true });
     }
@@ -61,12 +58,11 @@ export async function PATCH(
     // Otherwise it's a full update
     const { title, slug, excerpt, content, cover_image_url, technologies, github_link, demo_link } = body;
 
-    await query(
-      `UPDATE projects 
-       SET title = $1, slug = $2, excerpt = $3, content = $4, cover_image_url = $5, technologies = $6, github_link = $7, demo_link = $8, updated_at = NOW() 
-       WHERE id = $9`,
-      [title, slug, excerpt, content, cover_image_url, technologies || [], github_link, demo_link, id]
-    );
+    await db.update(projectsSchema)
+      .set({ 
+        title, slug, excerpt, content, coverImageUrl: cover_image_url, technologies: technologies || [], githubLink: github_link, demoLink: demo_link, updatedAt: new Date()
+      })
+      .where(eq(projectsSchema.id, id));
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -87,7 +83,7 @@ export async function DELETE(
   const { id } = await params;
 
   try {
-    await query(`DELETE FROM projects WHERE id = $1`, [id]);
+    await db.delete(projectsSchema).where(eq(projectsSchema.id, id));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE /api/projects/[id] error:", error);

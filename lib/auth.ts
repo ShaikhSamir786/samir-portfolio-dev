@@ -2,7 +2,9 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { query } from "./db";
+import { db } from "./db";
+import { adminUsers } from "./schema";
+import { eq } from "drizzle-orm";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -22,20 +24,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         try {
-          const result = await query(
-            "SELECT * FROM admin_users WHERE email = $1",
-            [credentials.email]
-          );
+          const result = await db.select().from(adminUsers).where(eq(adminUsers.email, credentials.email as string));
 
-          if (result.rows.length === 0) {
+          if (result.length === 0) {
             return null;
           }
 
-          const user = result.rows[0] as {
-            id: string;
-            email: string;
-            password: string;
-          };
+          const user = result[0];
 
           const isValid = await bcrypt.compare(credentials.password as string, user.password);
 

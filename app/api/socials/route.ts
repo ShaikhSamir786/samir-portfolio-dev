@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { socials as socialsSchema } from "@/lib/schema";
 
 export async function GET() {
   try {
-    const result = await query("SELECT name, url, display_order FROM socials ORDER BY display_order ASC");
-    return NextResponse.json(result.rows);
+    const result = await db.select().from(socialsSchema).orderBy(socialsSchema.displayOrder);
+    return NextResponse.json(result);
   } catch (error) {
     console.error("GET /api/socials error:", error);
     return NextResponse.json({ error: "Failed to fetch socials" }, { status: 500 });
@@ -26,22 +27,19 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Expected an array of socials" }, { status: 400 });
     }
 
-    // Begin transaction
-    await query("BEGIN");
-    
-    // Clear existing
-    await query("DELETE FROM socials");
-
-    // Insert new
-    for (let i = 0; i < socials.length; i++) {
-      const s = socials[i];
-      await query(
-        "INSERT INTO socials (name, url, display_order) VALUES ($1, $2, $3)",
-        [s.name, s.url, i] // use array index for order
-      );
-    }
-
-    await query("COMMIT");
+    await db.transaction(async (tx) => {
+      await tx.delete(socialsSchema);
+      
+      if (socials.length > 0) {
+        await tx.insert(socialsSchema).values(
+          socials.map((s, i) => ({
+            name: s.name,
+            url: s.url,
+            displayOrder: i
+          }))
+        );
+      }
+    });
 
     revalidatePath("/");
     revalidatePath("/about");
@@ -52,7 +50,6 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    await query("ROLLBACK");
     console.error("PUT /api/socials error:", error);
     return NextResponse.json({ error: "Failed to update socials" }, { status: 500 });
   }

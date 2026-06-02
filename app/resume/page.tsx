@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { query } from "@/lib/db";
+import { db } from "@/lib/db";
+import { resume } from "@/lib/schema";
 import ResumeViewer from "@/components/resume/ResumeViewer";
 import PageHeader from "@/components/layout/PageHeader";
 
@@ -12,8 +13,8 @@ export const metadata: Metadata = {
 
 async function getResumeUrl(): Promise<string> {
   try {
-    const result = await query("SELECT resume FROM resume LIMIT 1");
-    return ((result.rows[0] as { resume: string } | undefined)?.resume) ?? "";
+    const result = await db.select({ resume: resume.resume }).from(resume).limit(1);
+    return result[0]?.resume ?? "";
   } catch {
     return "";
   }
