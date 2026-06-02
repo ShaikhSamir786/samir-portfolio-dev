@@ -1,2 +1,0 @@
-const { SiPolywork, SiPeerlist, SiBento, SiReadcv, SiLeetcode, SiHackerrank, SiCodeforces, SiCodechef, SiCodewars, SiTopcoder, SiHackerearth, SiProjecteuler, SiCodesandbox, SiStackblitz, SiJsfiddle, SiReplit, SiHashnode, SiSubstack, SiPypi, SiRust, SiRubygems, SiPackagist, SiApachemaven, SiNuget, SiHuggingface, SiHackthebox, SiTryhackme, SiItchio, SiIndiehackers, SiCrunchbase, SiStackoverflow, SiCalendly, SiUpwork, SiFiverr, SiBuymeacoffee, SiKofi } = require("react-icons/si");
-console.log("Imports ok");
