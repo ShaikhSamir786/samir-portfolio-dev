@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { projects as projectsSchema, blogs as blogsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 
-const APP_URL = process.env.NEXTAUTH_URL;
+const APP_URL = process.env.NEXTAUTH_URL || 'https://shreyashswami.is-a.dev';
 
 export const dynamic = 'force-dynamic';
 

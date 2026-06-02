@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const APP_URL = process.env.NEXTAUTH_URL;
+const APP_URL = process.env.NEXTAUTH_URL || 'https://shreyashswami.is-a.dev';
 
 export default function robots(): MetadataRoute.Robots {
   return {

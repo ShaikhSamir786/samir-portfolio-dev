@@ -23,26 +23,47 @@ const playfair = Playfair_Display({
   weight: ["400", "500", "600", "700"],
 });
 
-const APP_URL = process.env.NEXTAUTH_URL;
+const APP_URL = process.env.NEXTAUTH_URL || 'https://shreyashswami.is-a.dev';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(APP_URL || ''),
+  metadataBase: new URL(APP_URL),
   title: {
-    default: "Shreyash Swami",
+    default: "Shreyash Swami - Full Stack Developer",
     template: "%s | Shreyash Swami",
   },
-  description: "My personal portfolio.",
+  description: "Portfolio of Shreyash Swami, a passionate Full Stack Developer specializing in React, Next.js, Node.js, and modern web technologies. Explore my projects, read my blogs, and let's build something amazing.",
+  keywords: ["Shreyash Swami", "Shreyash Swami Portfolio", "Full Stack Developer", "Next.js", "React", "Node.js", "Web Developer"],
+  authors: [{ name: "Shreyash Swami", url: APP_URL }],
+  creator: "Shreyash Swami",
   openGraph: {
-    title: "Shreyash Swami",
-    description: "My personal portfolio.",
+    title: "Shreyash Swami - Full Stack Developer",
+    description: "Portfolio of Shreyash Swami, a passionate Full Stack Developer. Explore my projects and read my blogs.",
+    url: APP_URL,
+    siteName: "Shreyash Swami Portfolio",
     images: ["/Filled_Logo.png"],
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shreyash Swami",
-    description: "My personal portfolio.",
+    title: "Shreyash Swami - Full Stack Developer",
+    description: "Portfolio of Shreyash Swami, a passionate Full Stack Developer. Explore my projects and read my blogs.",
     images: ["/Filled_Logo.png"],
+    creator: "@Shreyash0712",
+  },
+  verification: {
+    google: "wG30YPnRWXKntcKGL7eYVh-CMNHF9l_2Dyr0T18ARl4",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
