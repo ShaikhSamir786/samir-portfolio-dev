@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { experiences as experiencesSchema } from "@/lib/schema";
 import { auth } from "@/lib/auth";
@@ -63,6 +64,10 @@ export async function PUT(req: NextRequest) {
         }))
       );
     }
+
+    revalidatePath("/about");
+    revalidatePath("/admin/experience");
+    revalidatePath("/");
 
     return NextResponse.json({ success: true });
   } catch (error) {
