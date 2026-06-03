@@ -45,7 +45,7 @@ export default async function Hero() {
           {stats && (
             <>
               {/* Contributions Card - Large */}
-              <div className="col-span-1 md:col-span-1 row-span-3 bg-white text-gray-900 p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 flex flex-col justify-between group hover:shadow-md transition-shadow">
+              <div className="col-span-1 md:col-span-1 row-span-3 bg-white text-gray-900 p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   <div className="flex items-center gap-2 mb-2 text-gray-500">
                     <FiGitCommit className="text-lg" />
@@ -54,29 +54,49 @@ export default async function Hero() {
                   <div className="text-4xl md:text-5xl font-bold tracking-tight">
                     {stats.commits.toLocaleString()}
                   </div>
-                  <p className="text-gray-400 mt-1 text-sm">in the last year</p>
+                  <p className="text-gray-400 mt-1 text-sm">in the last 28 days</p>
                 </div>
 
-                {/* Simplified Sparkline / Calendar visual with side numeric value */}
-                <div className="mt-8 flex items-end gap-2 flex-1 min-h-[120px]">
+                {/* Interactive Bar Chart Graph */}
+                <div className="mt-8 flex items-end gap-1.5 flex-1 min-h-[120px]">
                   {/* The Graph */}
-                  <div className="flex-1 flex items-end gap-1 h-full opacity-80 pt-4">
-                    {stats.calendar.slice(-24).map((week: any, i: number) => {
-                      const total = week.contributionDays.reduce((acc: number, day: any) => acc + day.contributionCount, 0);
-                      const height = Math.max(10, Math.min(100, (total / 15) * 100)); // normalized roughly
-                      return (
-                        <div
-                          key={i}
-                          className="flex-1 bg-gray-800 rounded-t-sm transition-all duration-300 hover:bg-gray-600"
-                          style={{ height: `${height}%`, opacity: height > 10 ? 1 : 0.3 }}
-                        />
-                      );
-                    })}
-                  </div>
-                  {/* Numeric Side Value */}
-                  <div className="flex flex-col justify-between h-full py-1 text-[10px] text-gray-400 font-medium">
-                    <span>15+</span>
-                    <span>0</span>
+                  <div className="flex-1 flex items-end gap-[3px] h-full pt-4">
+                    {(() => {
+                      const allDays = stats.calendar.flatMap((week: any) => week.contributionDays);
+                      const last28Days = allDays.slice(-28);
+
+                      return last28Days.map((day: any, i: number) => {
+                        const total = day.contributionCount;
+                        
+                        // 0 commits: tiny subtle bar. Active days: scale up to 6 commits max for clear variation
+                        const height = total === 0 ? 4 : Math.max(15, Math.min(100, (total / 6) * 100));
+                        
+                        const dateObj = new Date(day.date);
+                        const dayDate = dateObj.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+                        // distinct colors for active vs inactive days
+                        const barColor = total === 0 
+                          ? "bg-gray-100 group-hover/bar:bg-gray-200" 
+                          : "bg-gray-300 group-hover/bar:bg-gray-800";
+
+                        return (
+                          <div key={i} className="relative flex-1 group/bar h-full flex items-end">
+                            <div
+                              className={`w-full rounded-t-sm transition-all duration-300 cursor-pointer ${barColor}`}
+                              style={{ height: `${height}%` }}
+                            />
+
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white text-gray-900 border border-gray-200 text-xs whitespace-nowrap rounded-lg opacity-0 group-hover/bar:opacity-100 transition-all duration-200 pointer-events-none z-50 shadow-lg flex flex-col items-center scale-95 group-hover/bar:scale-100">
+                              <span className="font-semibold">{total} commits</span>
+                              <span className="text-gray-500 text-[10px]">{dayDate}</span>
+                              {/* Tooltip Arrow */}
+                              <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white border-b border-r border-gray-200 transform rotate-45"></div>
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
                   </div>
                 </div>
               </div>
