@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, timestamp, uuid, integer, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, timestamp, uuid, integer, jsonb, date } from "drizzle-orm/pg-core";
 
 export const adminUsers = pgTable('admin_users', {
     id: uuid('id').defaultRandom().primaryKey(),
@@ -77,4 +77,19 @@ export const sentNotifications = pgTable('sent_notifications', {
     targetTopic: text('target_topic').notNull(),
     successCount: integer('success_count').default(0),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+});
+
+export const experiences = pgTable('experiences', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    companyName: text('company_name').notNull(),
+    logoUrl: text('logo_url'),
+    position: text('position').notNull(),
+    description: text('description'),
+    startDate: date('start_date', { mode: 'string' }).notNull(),
+    endDate: date('end_date', { mode: 'string' }),
+    pay: text('pay'),
+    isCurrent: boolean('is_current').default(false),
+    displayOrder: integer('display_order'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });

@@ -197,6 +197,7 @@ export default function BlogForm({ initialData, blogId }: BlogFormProps) {
         <TipTapEditor
           content={form.content}
           onChange={(html) => setForm((p) => ({ ...p, content: html }))}
+          stickyToolbar={true}
         />
       </div>
 

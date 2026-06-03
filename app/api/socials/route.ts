@@ -27,19 +27,17 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Expected an array of socials" }, { status: 400 });
     }
 
-    await db.transaction(async (tx) => {
-      await tx.delete(socialsSchema);
+    await db.delete(socialsSchema);
       
-      if (socials.length > 0) {
-        await tx.insert(socialsSchema).values(
-          socials.map((s, i) => ({
-            name: s.name,
-            url: s.url,
-            displayOrder: i
-          }))
-        );
-      }
-    });
+    if (socials.length > 0) {
+      await db.insert(socialsSchema).values(
+        socials.map((s, i) => ({
+          name: s.name,
+          url: s.url,
+          displayOrder: i
+        }))
+      );
+    }
 
     revalidatePath("/");
     revalidatePath("/about");

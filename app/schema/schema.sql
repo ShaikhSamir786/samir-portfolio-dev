@@ -78,3 +78,19 @@ CREATE TABLE sent_notifications (
     success_count INT DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Work Experience
+CREATE TABLE experiences (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    company_name TEXT NOT NULL,
+    logo_url TEXT,
+    position TEXT NOT NULL,
+    description TEXT,
+    start_date DATE NOT NULL,
+    end_date DATE,
+    pay TEXT,
+    is_current BOOLEAN DEFAULT false,
+    display_order INT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);

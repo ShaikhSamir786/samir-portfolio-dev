@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { about } from "@/lib/schema";
 import PageHeader from "@/components/layout/PageHeader";
+import ExperienceTimeline from "@/components/about/ExperienceTimeline";
 
 export const revalidate = 3600;
 
@@ -34,6 +35,8 @@ export default async function AboutPage() {
         ) : (
           <p className="text-gray-400 text-sm text-center">Nothing here yet.</p>
         )}
+        
+        <ExperienceTimeline />
       </div>
     </main>
   );

@@ -6,12 +6,12 @@ import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
 import Image from "@tiptap/extension-image";
 
 interface TipTapEditorProps {
   content: string;
   onChange: (html: string) => void;
+  stickyToolbar?: boolean;
 }
 
 async function uploadImage(file: File): Promise<string> {
@@ -23,19 +23,9 @@ async function uploadImage(file: File): Promise<string> {
   return json.url;
 }
 
-const extensions = [
-  StarterKit,
-  Underline,
-  Link.configure({
-    openOnClick: false,
-    HTMLAttributes: {
-      class: "underline underline-offset-4 decoration-gray-300 hover:decoration-gray-900 transition-colors cursor-pointer text-gray-900 font-medium",
-    },
-  }),
-  Image.configure({ inline: true }),
-];
 
-export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
+
+export default function TipTapEditor({ content, onChange, stickyToolbar = false }: TipTapEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -44,7 +34,17 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
 
   const editor = useEditor({
     immediatelyRender: false,
-    extensions,
+    extensions: [
+      StarterKit,
+      Underline,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: "underline underline-offset-4 decoration-gray-300 hover:decoration-gray-900 transition-colors cursor-pointer text-gray-900 font-medium",
+        },
+      }),
+      Image.configure({ inline: true }),
+    ],
     content,
     onUpdate: ({ editor }) => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -224,7 +224,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
       )}
 
       {/* Toolbar */}
-      <div className="sticky top-[var(--navbar-h)] z-20 flex flex-wrap items-center gap-1.5 px-3 py-2 border-b border-gray-200 bg-gray-50/95 backdrop-blur-sm rounded-t-xl">
+      <div className={`${stickyToolbar ? "sticky top-[var(--navbar-h)] z-20" : "relative z-10"} flex flex-wrap items-center gap-1.5 px-3 py-2 border-b border-gray-200 bg-gray-50/95 backdrop-blur-sm rounded-t-xl`}>
         {btn("B", () => editor.chain().focus().toggleBold().run(), editor.isActive("bold"))}
         {btn("I", () => editor.chain().focus().toggleItalic().run(), editor.isActive("italic"))}
         {btn("U", () => editor.chain().focus().toggleUnderline().run(), editor.isActive("underline"))}
@@ -278,7 +278,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
         editor={editor}
         onPaste={onPaste}
         onDrop={onDrop}
-        className="prose prose-sm max-w-none px-4 py-3 min-h-[300px] focus:outline-none [&_.ProseMirror:focus]:outline-none [&_.ProseMirror>p.is-empty::before]:text-gray-300 [&_.ProseMirror>p.is-empty::before]:content-[attr(data-placeholder)] [&_.ProseMirror>p.is-empty::before]:float-left [&_.ProseMirror>p.is-empty::before]:pointer-events-none [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:max-w-full"
+        className="prose prose-sm max-w-none px-4 py-3 min-h-[300px] focus:outline-none [&_.ProseMirror:focus]:outline-none [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:max-w-full"
       />
     </div>
   );

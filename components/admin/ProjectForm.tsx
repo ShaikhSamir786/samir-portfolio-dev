@@ -198,7 +198,7 @@ export default function ProjectForm({ initialData, projectId }: ProjectFormProps
 
       <div className="mb-6">
         <label className={labelClass}>Content *</label>
-        <TipTapEditor content={form.content} onChange={(html) => setForm((p) => ({ ...p, content: html }))} />
+        <TipTapEditor content={form.content} onChange={(html) => setForm((p) => ({ ...p, content: html }))} stickyToolbar={true} />
       </div>
 
       <div className="flex items-center gap-3 mb-8">
