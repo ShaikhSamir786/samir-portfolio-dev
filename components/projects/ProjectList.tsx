@@ -17,9 +17,10 @@ interface Project {
 
 interface ProjectListProps {
   initialProjects: Project[];
+  hideSearch?: boolean;
 }
 
-export default function ProjectList({ initialProjects }: ProjectListProps) {
+export default function ProjectList({ initialProjects, hideSearch = false }: ProjectListProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProjects = initialProjects.filter((project) => {
@@ -33,22 +34,24 @@ export default function ProjectList({ initialProjects }: ProjectListProps) {
 
   return (
     <>
-      <div className="mb-10">
-        <div className="relative w-full group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-gray-400 group-focus-within:text-gray-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+      {!hideSearch && (
+        <div className="mb-10">
+          <div className="relative w-full group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400 group-focus-within:text-gray-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              className="block w-full pl-12 pr-4 py-4 text-base text-gray-900 bg-gray-50/50 border border-gray-200/60 rounded-2xl focus:bg-white focus:ring-4 focus:ring-gray-50 focus:border-gray-300 focus:outline-none transition-all placeholder-gray-400"
+              placeholder="Search projects by name, description, or technology..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-          <input
-            type="text"
-            className="block w-full pl-12 pr-4 py-4 text-base text-gray-900 bg-gray-50/50 border border-gray-200/60 rounded-2xl focus:bg-white focus:ring-4 focus:ring-gray-50 focus:border-gray-300 focus:outline-none transition-all placeholder-gray-400"
-            placeholder="Search projects by name, description, or technology..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
         </div>
-      </div>
+      )}
 
       {filteredProjects.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-2xl border border-gray-100">
