@@ -44,10 +44,10 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex flex-1 overflow-hidden">
+    <div className="flex flex-1 items-start">
       {/* Sidebar */}
       <aside
-        className={`flex-shrink-0 border-r border-gray-200 bg-white transition-all duration-300 flex flex-col ${
+        className={`sticky top-[var(--navbar-h)] h-[calc(100vh-var(--navbar-h))] overflow-y-auto flex-shrink-0 border-r border-gray-200 bg-white transition-all duration-300 flex flex-col ${
           isSidebarOpen ? "w-48 md:w-56" : "w-16"
         }`}
       >
@@ -107,7 +107,7 @@ export default function AdminLayout({
       </aside>
 
       {/* Right Content */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">{children}</main>
+      <main className="flex-1 flex flex-col min-w-0">{children}</main>
     </div>
   );
 }

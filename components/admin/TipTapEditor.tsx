@@ -137,7 +137,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
   };
 
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden relative">
+    <div className="border border-gray-200 rounded-xl relative bg-white">
       {/* Link Bubble Menu */}
       {editor && (
         <BubbleMenu
@@ -224,7 +224,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
       )}
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-1.5 px-3 py-2 border-b border-gray-200 bg-gray-50/50">
+      <div className="sticky top-[var(--navbar-h)] z-20 flex flex-wrap items-center gap-1.5 px-3 py-2 border-b border-gray-200 bg-gray-50/95 backdrop-blur-sm rounded-t-xl">
         {btn("B", () => editor.chain().focus().toggleBold().run(), editor.isActive("bold"))}
         {btn("I", () => editor.chain().focus().toggleItalic().run(), editor.isActive("italic"))}
         {btn("U", () => editor.chain().focus().toggleUnderline().run(), editor.isActive("underline"))}

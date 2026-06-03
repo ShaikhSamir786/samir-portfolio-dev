@@ -160,7 +160,7 @@ export default function Navbar() {
       </div>
 
       {/* Spacer so content doesn't hide under fixed navbar */}
-      <div className="h-32 md:h-[172px]" />
+      <div className="h-[var(--navbar-h)]" />
     </>
   );
 }

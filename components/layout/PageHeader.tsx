@@ -6,7 +6,7 @@ interface PageHeaderProps {
 
 export default function PageHeader({ title, subtitle, children }: PageHeaderProps) {
   return (
-    <div className="pt-12 md:pt-16 pb-10 md:pb-12 text-center">
+    <div className="pt-6 md:pt-10 pb-8 md:pb-12 text-center">
       <h1
         className="text-4xl sm:text-5xl font-medium text-gray-900 tracking-tight"
         style={{ fontFamily: "var(--font-playfair)" }}

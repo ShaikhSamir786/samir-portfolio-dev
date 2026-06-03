@@ -43,7 +43,7 @@ export default function AboutAdminPage() {
 
   return (
     <main className="flex flex-1">
-      <div className="flex-1 p-6 md:p-10 overflow-auto">
+      <div className="flex-1 p-6 md:p-10">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold tracking-tight">About</h1>
           <button
