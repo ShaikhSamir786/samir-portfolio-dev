@@ -77,7 +77,7 @@ export default async function Hero() {
                         // distinct colors for active vs inactive days
                         const barColor = total === 0 
                           ? "bg-hover-bg group-hover/bar:bg-border-primary" 
-                          : "bg-border-primary group-hover/bar:bg-foreground";
+                          : "bg-border-primary group-hover/bar:bg-green-500 dark:group-hover/bar:bg-[var(--accent-green)]";
 
                         return (
                           <div key={i} className="relative flex-1 group/bar h-full flex items-end">

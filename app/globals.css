@@ -36,10 +36,14 @@
   --text-secondary: #d1d5db; /* gray-300 */
   --text-muted: #9ca3af; /* gray-400 */
   --nav-bg: rgba(0, 0, 0, 0.8);
-  --border-primary: #374151; /* gray-700 */
-  --nav-border: rgba(255, 255, 255, 0.1);
+  --border-primary: rgba(74, 222, 128, 0.25); /* Subtle green-400 border */
+  --nav-border: rgba(74, 222, 128, 0.15);
   --footer-bg: #0a0a0a;
-  --hover-bg: #1f2937; /* gray-800 */
+  --hover-bg: rgba(74, 222, 128, 0.08); /* Subtle green hover */
+  
+  /* Accents */
+  --accent-green: #4ade80; /* green-400 */
+  --accent-red: #f87171; /* red-400 */
 }
 
 @media (min-width: 768px) {
@@ -109,7 +113,8 @@ body::-webkit-scrollbar {
 }
 
 .prose a:hover {
-  text-decoration-color: var(--text-primary);
+  color: var(--accent-green, var(--text-primary));
+  text-decoration-color: var(--accent-green, var(--text-primary));
 }
 
 .prose strong {
@@ -265,7 +270,8 @@ body::-webkit-scrollbar {
 }
 
 .prose a:hover {
-  text-decoration-color: var(--text-primary);
+  color: var(--accent-green, var(--text-primary));
+  text-decoration-color: var(--accent-green, var(--text-primary));
 }
 
 .toc-link:hover {
@@ -274,7 +280,7 @@ body::-webkit-scrollbar {
 
 .toc-active {
   color: var(--text-primary);
-  border-left-color: var(--text-primary);
+  border-left-color: var(--accent-green, var(--text-primary));
   background-color: var(--hover-bg);
   font-weight: 500;
 }

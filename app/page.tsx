@@ -62,7 +62,7 @@ export default async function Home() {
             </div>
             <Link 
               href="/blogs" 
-              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground dark:hover:text-[var(--accent-red)] transition-colors group"
             >
               View all posts
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,7 +80,7 @@ export default async function Home() {
           <div className="mt-8 flex justify-center md:hidden">
             <Link 
               href="/blogs" 
-              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors px-4 py-2 border border-border-primary rounded-full bg-background shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground dark:hover:text-[var(--accent-red)] transition-colors px-4 py-2 border border-border-primary dark:hover:border-[var(--accent-red)] rounded-full bg-background shadow-sm"
             >
               View all posts
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,7 +100,7 @@ export default async function Home() {
             </div>
             <Link 
               href="/projects" 
-              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground dark:hover:text-[var(--accent-blue)] transition-colors group"
             >
               View all projects
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -118,7 +118,7 @@ export default async function Home() {
           <div className="mt-8 flex justify-center md:hidden">
             <Link 
               href="/projects" 
-              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors px-4 py-2 border border-border-primary rounded-full bg-background shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground dark:hover:text-[var(--accent-blue)] transition-colors px-4 py-2 border border-border-primary dark:hover:border-[var(--accent-blue)] rounded-full bg-background shadow-sm"
             >
               View all projects
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
