@@ -63,7 +63,6 @@ export default function MediaLibraryPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Media Library</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage your uploaded images</p>
         </div>
       </div>
 
@@ -93,7 +92,7 @@ export default function MediaLibraryPage() {
                 className="object-cover transition-transform group-hover:scale-105"
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
               />
-              
+
               {/* Overlay Content */}
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
                 <div className="flex justify-end gap-2">
@@ -118,7 +117,7 @@ export default function MediaLibraryPage() {
                     <FiTrash2 className="w-4 h-4" />
                   </button>
                 </div>
-                
+
                 <div className="text-white text-xs font-medium truncate drop-shadow-md">
                   {format(new Date(item.createdAt), "MMM d, yyyy")}
                 </div>
