@@ -4,6 +4,7 @@ import { sentNotifications as sentNotificationsSchema } from "@/lib/schema";
 import { desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { DeleteLogButton } from "@/components/admin/DeleteLogButton";
 
 export default async function NotificationLogsPage() {
   const session = await auth();
@@ -43,6 +44,7 @@ export default async function NotificationLogsPage() {
                   <th className="px-4 py-3 font-medium">Image</th>
                   <th className="px-4 py-3 font-medium text-center">Delivered</th>
                   <th className="px-4 py-3 font-medium text-right">Date</th>
+                  <th className="px-4 py-3 font-medium text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -60,18 +62,18 @@ export default async function NotificationLogsPage() {
                     </td>
                     <td className="px-4 py-3">
                       <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium border ${
-                        log.target_topic === "blogs"
+                        log.targetTopic === "blogs"
                           ? "bg-gray-50 text-gray-600 border-gray-200"
                           : "bg-gray-900 text-white border-gray-900"
                       }`}>
-                        {log.target_topic === "blogs" ? "Blogs Only" : "All Updates"}
+                        {log.targetTopic === "blogs" ? "Blogs Only" : "All Updates"}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      {log.image_url ? (
+                      {log.imageUrl ? (
                         /* eslint-disable-next-line @next/next/no-img-element */
                         <img 
-                          src={log.image_url} 
+                          src={log.imageUrl} 
                           alt="Notification" 
                           className="h-12 w-auto max-w-[120px] object-cover rounded-md border border-gray-200" 
                         />
@@ -81,11 +83,14 @@ export default async function NotificationLogsPage() {
                     </td>
                     <td className="px-4 py-3 text-center">
                       <span className="inline-flex items-center justify-center bg-green-50 text-green-700 border border-green-200 font-semibold px-2 py-1 rounded-md text-xs">
-                        {log.success_count}
+                        {log.successCount}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-gray-500 whitespace-nowrap text-right">
-                      {new Date(log.created_at).toLocaleDateString()}
+                      {new Date(log.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <DeleteLogButton id={log.id} />
                     </td>
                   </tr>
                 ))}
