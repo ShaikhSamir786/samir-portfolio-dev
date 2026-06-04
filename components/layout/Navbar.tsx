@@ -74,7 +74,7 @@ export default function Navbar() {
             );
           })}
           
-          <div className="relative group ml-2 flex items-center">
+          <div className="relative ml-2 flex items-center">
             <Link
               href="https://github.com/sponsors/Shreyash0712"
               target="_blank"
