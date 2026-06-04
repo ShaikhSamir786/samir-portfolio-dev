@@ -6,8 +6,16 @@ import { db } from "@/lib/db";
 import { blogs as blogsSchema } from "@/lib/schema";
 import { eq, and } from "drizzle-orm";
 import ContentWithToc from "@/components/ContentWithToc";
+import BlogInteractions from "@/components/blogs/BlogInteractions";
+import BlogStarInteraction from "@/components/blogs/BlogStarInteraction";
 
 export const revalidate = 3600;
+
+interface Comment {
+  name: string;
+  comment: string;
+  createdAt: string;
+}
 
 interface Blog {
   id: string;
@@ -17,6 +25,8 @@ interface Blog {
   content: string;
   cover_image_url: string | null;
   published_at: string;
+  stars: number;
+  comments: Comment[];
 }
 
 interface Props {
@@ -33,6 +43,8 @@ async function getBlog(slug: string): Promise<Blog | null> {
       content: blogsSchema.content,
       cover_image_url: blogsSchema.coverImageUrl,
       published_at: blogsSchema.publishedAt,
+      stars: blogsSchema.stars,
+      comments: blogsSchema.comments,
     }).from(blogsSchema).where(and(eq(blogsSchema.slug, slug), eq(blogsSchema.isPublished, true)));
     if (result.length === 0) return null;
     return result[0] as unknown as Blog;
@@ -95,9 +107,12 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Header */}
         <header className="mb-10">
-          <time className="text-xs text-gray-400 tabular-nums">
-            {formatDate(blog.published_at)}
-          </time>
+          <div className="flex flex-wrap items-center justify-between text-xs text-gray-400 tabular-nums mb-2">
+            <time>
+              {formatDate(blog.published_at)}
+            </time>
+            <BlogStarInteraction slug={blog.slug} initialStars={blog.stars ?? 0} />
+          </div>
           <h1
             className="mt-2 text-3xl sm:text-4xl md:text-5xl font-medium text-gray-900 leading-tight tracking-tight"
             style={{ fontFamily: "var(--font-playfair)" }}
@@ -129,6 +144,12 @@ export default async function BlogPostPage({ params }: Props) {
         <ContentWithToc
           html={blog.content}
           className="prose prose-gray max-w-none"
+        />
+        
+        {/* Blog Interactions (Comments) */}
+        <BlogInteractions 
+          slug={blog.slug} 
+          initialComments={blog.comments ?? []} 
         />
         
         {/* Schema Markup for SEO */}

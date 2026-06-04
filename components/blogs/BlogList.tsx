@@ -11,6 +11,7 @@ interface Blog {
   excerpt: string | null;
   cover_image_url: string | null;
   published_at: string;
+  stars?: number;
 }
 
 interface BlogListProps {
@@ -97,6 +98,12 @@ export default function BlogList({ initialBlogs, hideSearch = false }: BlogListP
                 <div className="flex flex-wrap gap-2 mb-3 min-h-[24px]">
                   <span className="text-[10px] font-semibold tracking-wide uppercase text-gray-500 bg-gray-100 px-2 py-0.5 rounded-sm">
                     {formatDate(blog.published_at)}
+                  </span>
+                  <span className="text-[10px] font-semibold tracking-wide flex items-center gap-1 text-gray-500 bg-gray-100 px-2 py-0.5 rounded-sm">
+                    <svg className="w-3 h-3 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                    {blog.stars ?? 0}
                   </span>
                 </div>
 

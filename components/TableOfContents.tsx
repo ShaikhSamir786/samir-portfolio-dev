@@ -51,6 +51,16 @@ function useHeadings(contentRef: React.RefObject<HTMLElement | null>): TocItem[]
       });
     });
 
+    // Automatically append Comments to the TOC if the section exists on the page
+    const commentsEl = document.getElementById("comments");
+    if (commentsEl) {
+      items.push({
+        id: "comments",
+        text: "Comments",
+        level: 1,
+      });
+    }
+
     setHeadings(items);
   }, [contentRef]);
 

@@ -21,6 +21,7 @@ interface Blog {
   excerpt: string | null;
   cover_image_url: string | null;
   published_at: string;
+  stars: number;
 }
 
 async function getBlogs(): Promise<Blog[]> {
@@ -32,6 +33,7 @@ async function getBlogs(): Promise<Blog[]> {
       excerpt: blogsSchema.excerpt,
       cover_image_url: blogsSchema.coverImageUrl,
       published_at: blogsSchema.publishedAt,
+      stars: blogsSchema.stars,
     }).from(blogsSchema).where(eq(blogsSchema.isPublished, true)).orderBy(desc(blogsSchema.publishedAt));
     return result as unknown as Blog[];
   } catch {

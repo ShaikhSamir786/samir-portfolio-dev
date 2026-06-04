@@ -35,6 +35,7 @@ async function getLatestBlogs() {
       excerpt: blogsSchema.excerpt,
       cover_image_url: blogsSchema.coverImageUrl,
       published_at: blogsSchema.publishedAt,
+      stars: blogsSchema.stars,
     }).from(blogsSchema).where(eq(blogsSchema.isPublished, true)).orderBy(desc(blogsSchema.publishedAt)).limit(3);
     return result as any[];
   } catch {

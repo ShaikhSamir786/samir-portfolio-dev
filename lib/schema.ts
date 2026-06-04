@@ -31,6 +31,8 @@ export const blogs = pgTable('blogs', {
     content: text('content').notNull(),
     coverImageUrl: text('cover_image_url'),
     isPublished: boolean('is_published').default(false),
+    stars: integer('stars').default(0),
+    comments: jsonb('comments').default([]),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
     publishedAt: timestamp('published_at', { withTimezone: true }),
