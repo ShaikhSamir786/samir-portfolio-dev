@@ -84,43 +84,43 @@ export default function BlogsAdminPage() {
           <Link
           href="/admin/blogs/new"
           title="Add Blog"
-          className="rounded-lg bg-white border border-gray-900 p-2.5 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
+          className="rounded-lg bg-background border border-border-primary p-2.5 text-foreground shadow-sm hover:bg-footer-bg transition-colors flex items-center justify-center"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
         </Link>
         </div>
         {loading ? (
-          <p className="text-sm text-gray-400">Loading blogs...</p>
+          <p className="text-sm text-text-muted">Loading blogs...</p>
         ) : blogs.length === 0 ? (
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-text-muted">
             No blogs yet. Click &quot;Add Blog&quot; to create one.
           </p>
         ) : (
-          <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <div className="border border-border-primary rounded-xl overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-footer-bg border-b border-border-primary">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700">
+                  <th className="text-left px-4 py-3 font-medium text-text-secondary">
                     Title
                   </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700 hidden md:table-cell">
+                  <th className="text-left px-4 py-3 font-medium text-text-secondary hidden md:table-cell">
                     Slug
                   </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700 hidden sm:table-cell">
+                  <th className="text-left px-4 py-3 font-medium text-text-secondary hidden sm:table-cell">
                     Status
                   </th>
-                  <th className="text-right px-4 py-3 font-medium text-gray-700">
+                  <th className="text-right px-4 py-3 font-medium text-text-secondary">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-border-primary">
                 {blogs.map((blog) => (
-                  <tr key={blog.id} className="hover:bg-gray-50/50">
-                    <td className="px-4 py-3 text-gray-900 font-medium truncate max-w-[200px]">
+                  <tr key={blog.id} className="hover:bg-footer-bg">
+                    <td className="px-4 py-3 text-foreground font-medium truncate max-w-[200px]">
                       {blog.title}
                     </td>
-                    <td className="px-4 py-3 text-gray-600 hidden md:table-cell">
+                    <td className="px-4 py-3 text-text-muted hidden md:table-cell">
                       {blog.slug}
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
@@ -129,8 +129,8 @@ export default function BlogsAdminPage() {
                         disabled={toggling.has(blog.id)}
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${
                           blog.isPublished
-                            ? "bg-green-50 text-green-700 hover:bg-green-100"
-                            : "bg-amber-50 text-amber-700 hover:bg-amber-100"
+                            ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/40"
+                            : "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/40"
                         }`}
                       >
                         {toggling.has(blog.id) ? (
@@ -146,14 +146,14 @@ export default function BlogsAdminPage() {
                         <Link
                           href={`/admin/blogs/${blog.id}/edit`}
                           title="Edit"
-                          className="rounded-md bg-white border border-gray-900 p-2 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
+                          className="rounded-md bg-background border border-border-primary p-2 text-foreground shadow-sm hover:bg-footer-bg transition-colors flex items-center justify-center"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                         </Link>
                         <button
                           onClick={() => handleDelete(blog.id)}
                           title="Delete"
-                          className="rounded-md bg-white border border-gray-900 p-2 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center"
+                          className="rounded-md bg-background border border-border-primary p-2 text-foreground shadow-sm hover:bg-footer-bg transition-colors flex items-center justify-center"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>

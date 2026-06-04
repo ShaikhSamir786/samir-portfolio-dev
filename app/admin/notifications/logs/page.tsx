@@ -21,22 +21,22 @@ export default async function NotificationLogsPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Notification Logs</h1>
-            <p className="text-sm text-gray-500 mt-1">History of dispatched web pushes</p>
+            <p className="text-sm text-text-muted mt-1">History of dispatched web pushes</p>
           </div>
           <Link
             href="/admin/notifications"
-            className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="text-sm font-medium text-text-muted hover:text-foreground transition-colors"
           >
             Back
           </Link>
         </div>
 
-        <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+        <div className="border border-border-primary rounded-xl overflow-hidden bg-background shadow-sm">
           {logs.length === 0 ? (
-            <p className="text-sm text-gray-400 p-6">No notifications sent yet.</p>
+            <p className="text-sm text-text-muted p-6">No notifications sent yet.</p>
           ) : (
             <table className="w-full text-sm text-left">
-              <thead className="bg-gray-50 border-b border-gray-200 text-gray-600">
+              <thead className="bg-footer-bg border-b border-border-primary text-text-muted">
                 <tr>
                   <th className="px-4 py-3 font-medium">Title</th>
                   <th className="px-4 py-3 font-medium">Description</th>
@@ -47,24 +47,24 @@ export default async function NotificationLogsPage() {
                   <th className="px-4 py-3 font-medium text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-border-primary">
                 {logs.map((log: any) => (
-                  <tr key={log.id} className="hover:bg-gray-50/50">
+                  <tr key={log.id} className="hover:bg-footer-bg">
                     <td className="px-4 py-3">
-                      <p className="text-gray-900 font-medium truncate max-w-[150px] sm:max-w-[200px]">
+                      <p className="text-foreground font-medium truncate max-w-[150px] sm:max-w-[200px]">
                         {log.title}
                       </p>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="text-gray-500 truncate max-w-[150px] sm:max-w-[250px] text-xs">
+                      <p className="text-text-muted truncate max-w-[150px] sm:max-w-[250px] text-xs">
                         {log.body}
                       </p>
                     </td>
                     <td className="px-4 py-3">
                       <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium border ${
                         log.targetTopic === "blogs"
-                          ? "bg-gray-50 text-gray-600 border-gray-200"
-                          : "bg-gray-900 text-white border-gray-900"
+                          ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800"
+                          : "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
                       }`}>
                         {log.targetTopic === "blogs" ? "Blogs Only" : "All Updates"}
                       </span>
@@ -75,18 +75,18 @@ export default async function NotificationLogsPage() {
                         <img 
                           src={log.imageUrl} 
                           alt="Notification" 
-                          className="h-12 w-auto max-w-[120px] object-cover rounded-md border border-gray-200" 
+                          className="h-12 w-auto max-w-[120px] object-cover rounded-md border border-border-primary" 
                         />
                       ) : (
-                        <span className="text-gray-400 text-xs italic">None</span>
+                        <span className="text-text-muted text-xs italic">None</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <span className="inline-flex items-center justify-center bg-green-50 text-green-700 border border-green-200 font-semibold px-2 py-1 rounded-md text-xs">
+                      <span className="inline-flex items-center justify-center bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 font-semibold px-2 py-1 rounded-md text-xs">
                         {log.successCount}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-gray-500 whitespace-nowrap text-right">
+                    <td className="px-4 py-3 text-text-muted whitespace-nowrap text-right">
                       {new Date(log.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3 text-right">

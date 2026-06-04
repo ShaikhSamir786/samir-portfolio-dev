@@ -90,12 +90,12 @@ export default function BlogForm({ initialData, blogId }: BlogFormProps) {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all";
-  const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
+    "w-full rounded-xl border border-border-primary px-4 py-3 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-border-primary transition-all";
+  const labelClass = "block text-sm font-medium text-text-secondary mb-1.5";
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
-      {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+      {error && <p className="mb-4 text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
@@ -148,13 +148,13 @@ export default function BlogForm({ initialData, blogId }: BlogFormProps) {
             <button
               type="button"
               onClick={() => setIsMediaModalOpen(true)}
-              className="inline-block cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+              className="inline-block cursor-pointer rounded-xl border border-border-primary px-4 py-3 text-sm font-medium text-text-secondary hover:bg-footer-bg transition-colors whitespace-nowrap"
             >
               Choose from Library
             </button>
           </div>
           {form.cover_image_url && (
-            <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-gray-200 bg-gray-50 aspect-video">
+            <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-border-primary bg-footer-bg aspect-video">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={form.cover_image_url}
@@ -183,9 +183,9 @@ export default function BlogForm({ initialData, blogId }: BlogFormProps) {
           onChange={(e) =>
             setForm((p) => ({ ...p, is_published: e.target.checked }))
           }
-          className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200"
+          className="h-4 w-4 rounded border-border-primary text-foreground focus:ring-border-primary"
         />
-        <label htmlFor="is_published" className="text-sm text-gray-700">
+        <label htmlFor="is_published" className="text-sm text-text-secondary">
           Publish immediately
         </label>
       </div>
@@ -195,7 +195,7 @@ export default function BlogForm({ initialData, blogId }: BlogFormProps) {
           type="submit"
           title={isEdit ? "Update Blog" : "Create Blog"}
           disabled={loading}
-          className="rounded-xl bg-white border border-gray-900 p-3 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="rounded-xl bg-background border border-border-primary p-3 text-foreground shadow-sm hover:bg-footer-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {loading ? (
             <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -206,7 +206,7 @@ export default function BlogForm({ initialData, blogId }: BlogFormProps) {
         <button
           type="button"
           onClick={() => router.push("/admin")}
-          className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          className="rounded-xl border border-border-primary px-6 py-3 text-sm font-medium text-text-secondary hover:bg-footer-bg transition-colors"
         >
           Cancel
         </button>

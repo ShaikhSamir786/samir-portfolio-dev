@@ -51,15 +51,15 @@ export default function AdminLayout({
     <div className="flex flex-1 items-start">
       {/* Sidebar */}
       <aside
-        className={`sticky top-[var(--navbar-h)] h-[calc(100vh-var(--navbar-h))] overflow-y-auto flex-shrink-0 border-r border-gray-200 bg-white transition-all duration-300 flex flex-col ${
+        className={`sticky top-[var(--navbar-h)] h-[calc(100vh-var(--navbar-h))] overflow-y-auto flex-shrink-0 border-r border-border-primary bg-background transition-all duration-300 flex flex-col ${
           isSidebarOpen ? "w-48 md:w-56" : "w-16"
         }`}
       >
-        <div className={`flex items-center pt-6 pb-2 border-b border-gray-100 ${isSidebarOpen ? "px-4 justify-between" : "justify-center"}`}>
-          {isSidebarOpen && <span className="font-semibold text-sm uppercase tracking-wider text-gray-500">Menu</span>}
+        <div className={`flex items-center pt-6 pb-2 border-b border-border-primary ${isSidebarOpen ? "px-4 justify-between" : "justify-center"}`}>
+          {isSidebarOpen && <span className="font-semibold text-sm uppercase tracking-wider text-text-muted">Menu</span>}
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-1 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors focus:outline-none"
+            className="p-1 text-text-muted hover:text-foreground hover:bg-hover-bg rounded-md transition-colors focus:outline-none"
             title={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           >
             {isSidebarOpen ? (
@@ -85,13 +85,13 @@ export default function AdminLayout({
                   isSidebarOpen ? "px-4 py-2.5 justify-start w-full" : "w-10 h-10 justify-center"
                 } ${
                   active
-                    ? "text-gray-900 bg-gray-50"
-                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                    ? "text-foreground bg-hover-bg"
+                    : "text-text-muted hover:text-text-secondary hover:bg-hover-bg"
                 }`}
                 title={!isSidebarOpen ? tab : undefined}
               >
                 <span className={`flex items-center ${isSidebarOpen ? "gap-3 w-full" : "justify-center"}`}>
-                  <span className={`${active ? "text-gray-900" : "text-gray-500 group-hover:text-gray-900"} transition-colors flex items-center justify-center`}>
+                  <span className={`${active ? "text-foreground" : "text-text-muted group-hover:text-foreground"} transition-colors flex items-center justify-center`}>
                     {getIcon(tab)}
                   </span>
                   {isSidebarOpen && <span>{tab}</span>}
@@ -99,7 +99,7 @@ export default function AdminLayout({
                 {/* Underline — matches Navbar style */}
                 {isSidebarOpen && (
                   <span
-                    className={`absolute bottom-1 left-4 h-0.5 bg-gray-900 transition-all duration-300 ${
+                    className={`absolute bottom-1 left-4 h-0.5 bg-foreground transition-all duration-300 ${
                       active ? "w-[calc(100%-2rem)]" : "w-0 group-hover:w-8"
                     }`}
                   />

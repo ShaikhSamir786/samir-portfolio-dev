@@ -44,19 +44,19 @@ export default function ContactForm() {
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       {success && (
-        <div className="rounded-lg bg-green-50 p-4 text-sm text-green-800 border border-green-200">
+        <div className="rounded-lg bg-green-50 dark:bg-green-900/20 p-4 text-sm text-green-800 dark:text-green-400 border border-green-200 dark:border-green-800">
           Message sent successfully! I&apos;ll get back to you soon.
         </div>
       )}
       {error && (
-        <div className="rounded-lg bg-red-50 p-4 text-sm text-red-800 border border-red-200">
+        <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-800 dark:text-red-400 border border-red-200 dark:border-red-800">
           {error}
         </div>
       )}
 
       <div className="flex flex-col sm:flex-row gap-6">
         <div className="flex-1">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">
             Name
           </label>
           <input
@@ -64,13 +64,13 @@ export default function ContactForm() {
             id="name"
             name="name"
             required
-            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all disabled:opacity-50"
+            className="w-full rounded-lg bg-background border border-border-primary px-4 py-3 text-sm text-foreground placeholder-text-muted outline-none focus:border-text-muted focus:ring-1 focus:ring-border-primary transition-all disabled:opacity-50"
             placeholder="John Doe"
             disabled={loading}
           />
         </div>
         <div className="flex-1">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">
             Email
           </label>
           <input
@@ -78,7 +78,7 @@ export default function ContactForm() {
             id="email"
             name="email"
             required
-            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all disabled:opacity-50"
+            className="w-full rounded-lg bg-background border border-border-primary px-4 py-3 text-sm text-foreground placeholder-text-muted outline-none focus:border-text-muted focus:ring-1 focus:ring-border-primary transition-all disabled:opacity-50"
             placeholder="john@example.com"
             disabled={loading}
           />
@@ -86,7 +86,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1.5">
+        <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">
           Subject
         </label>
         <input
@@ -94,14 +94,14 @@ export default function ContactForm() {
           id="subject"
           name="subject"
           required
-          className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all disabled:opacity-50"
+          className="w-full rounded-lg bg-background border border-border-primary px-4 py-3 text-sm text-foreground placeholder-text-muted outline-none focus:border-text-muted focus:ring-1 focus:ring-border-primary transition-all disabled:opacity-50"
           placeholder="What is this regarding?"
           disabled={loading}
         />
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1.5">
+        <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">
           Message
         </label>
         <textarea
@@ -109,7 +109,7 @@ export default function ContactForm() {
           name="message"
           rows={6}
           required
-          className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all resize-y min-h-[120px] disabled:opacity-50"
+          className="w-full rounded-lg bg-background border border-border-primary px-4 py-3 text-sm text-foreground placeholder-text-muted outline-none focus:border-text-muted focus:ring-1 focus:ring-border-primary transition-all resize-y min-h-[120px] disabled:opacity-50"
           placeholder="Your message here..."
           disabled={loading}
         />
@@ -118,7 +118,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={loading}
-        className="rounded-lg bg-gray-900 px-6 py-3 text-sm font-medium text-white hover:bg-gray-800 transition-colors w-full sm:w-auto self-start mt-2 disabled:opacity-50"
+        className="rounded-lg bg-foreground px-6 py-3 text-sm font-medium text-background hover:opacity-90 transition-opacity w-full sm:w-auto self-start mt-2 disabled:opacity-50"
       >
         {loading ? "Sending..." : "Send Message"}
       </button>

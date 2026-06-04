@@ -44,8 +44,8 @@ export default function NewNotificationPage() {
   };
 
   const inputClass =
-    "w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all";
-  const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
+    "w-full rounded-xl border border-border-primary px-4 py-3 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-border-primary transition-all";
+  const labelClass = "block text-sm font-medium text-text-secondary mb-1.5";
 
   return (
     <main className="flex flex-1">
@@ -55,7 +55,7 @@ export default function NewNotificationPage() {
         </h1>
 
         <form onSubmit={handleSend} className="w-full">
-          {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+          {error && <p className="mb-4 text-sm text-red-600 dark:text-red-400">{error}</p>}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
@@ -86,7 +86,7 @@ export default function NewNotificationPage() {
             <select
               value={targetTopic}
               onChange={(e) => setTargetTopic(e.target.value as any)}
-              className={`${inputClass} appearance-none bg-white cursor-pointer pr-8`}
+              className={`${inputClass} appearance-none bg-background cursor-pointer pr-8`}
               style={{
                 backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%236b7280\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E")',
                 backgroundPosition: 'right 0.75rem center',
@@ -106,13 +106,13 @@ export default function NewNotificationPage() {
                 <button
                   type="button"
                   onClick={() => setIsMediaModalOpen(true)}
-                  className="inline-block cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  className="inline-block cursor-pointer rounded-xl border border-border-primary px-4 py-3 text-sm font-medium text-text-secondary hover:bg-footer-bg transition-colors whitespace-nowrap"
                 >
                   Choose from Library
                 </button>
               </div>
               {image && (
-                <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-gray-200 bg-gray-50 aspect-video">
+                <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-border-primary bg-footer-bg aspect-video">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image}
@@ -141,7 +141,7 @@ export default function NewNotificationPage() {
               type="submit"
               title="Dispatch Notification"
               disabled={sending}
-              className="rounded-xl bg-white border border-gray-900 p-3 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="rounded-xl bg-background border border-border-primary p-3 text-foreground shadow-sm hover:bg-footer-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {sending ? (
                 <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -149,7 +149,7 @@ export default function NewNotificationPage() {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
               )}
             </button>
-            <button type="button" onClick={() => router.push("/admin/notifications")} className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            <button type="button" onClick={() => router.push("/admin/notifications")} className="rounded-xl border border-border-primary px-6 py-3 text-sm font-medium text-text-secondary hover:bg-footer-bg transition-colors">
               Cancel
             </button>
           </div>

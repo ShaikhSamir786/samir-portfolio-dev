@@ -89,7 +89,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Back link */}
         <Link
           href="/blogs"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-900 transition-colors mb-10 group"
+          className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-foreground transition-colors mb-10 group"
         >
           <svg
             className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5"
@@ -107,20 +107,20 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Header */}
         <header className="mb-10">
-          <div className="flex flex-wrap items-center justify-between text-xs text-gray-400 tabular-nums mb-2">
+          <div className="flex flex-wrap items-center justify-between text-xs text-text-muted tabular-nums mb-2">
             <time>
               {formatDate(blog.published_at)}
             </time>
             <BlogStarInteraction slug={blog.slug} initialStars={blog.stars ?? 0} />
           </div>
           <h1
-            className="mt-2 text-3xl sm:text-4xl md:text-5xl font-medium text-gray-900 leading-tight tracking-tight"
+            className="mt-2 text-3xl sm:text-4xl md:text-5xl font-medium text-foreground leading-tight tracking-tight"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
             {blog.title}
           </h1>
           {blog.excerpt && (
-            <p className="mt-4 text-base text-gray-500 leading-relaxed">
+            <p className="mt-4 text-base text-text-muted leading-relaxed">
               {blog.excerpt}
             </p>
           )}
@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Cover image */}
         {blog.cover_image_url && (
-          <div className="relative w-full aspect-[16/7] rounded-2xl overflow-hidden mb-12 bg-gray-50">
+          <div className="relative w-full aspect-[16/7] rounded-2xl overflow-hidden mb-12 bg-footer-bg">
             <Image
               src={blog.cover_image_url}
               alt={blog.title}
@@ -143,7 +143,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Blog content */}
         <ContentWithToc
           html={blog.content}
-          className="prose prose-gray max-w-none"
+          className="prose prose-gray dark:prose-invert max-w-none text-text-muted prose-headings:text-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-text-secondary"
         />
         
         {/* Blog Interactions (Comments) */}

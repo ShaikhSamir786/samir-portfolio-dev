@@ -23,12 +23,12 @@ export default async function Hero() {
         {/* Intro */}
         <div className="pt-6 md:pt-10 mb-8">
           <h1
-            className="text-4xl sm:text-5xl font-medium text-gray-900 tracking-tight mb-3"
+            className="text-4xl sm:text-5xl font-medium text-foreground tracking-tight mb-3"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
             Hey, I'm Shreyash.
           </h1>
-          <p className="text-base md:text-lg text-gray-500 max-w-2xl">
+          <p className="text-base md:text-lg text-text-muted max-w-2xl">
             Welcome to my abode.
           </p>
         </div>
@@ -36,7 +36,7 @@ export default async function Hero() {
         {/* GitHub Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 auto-rows-[minmax(110px,auto)]">
           {error && (
-            <div className="col-span-full p-6 bg-red-50 text-red-600 rounded-3xl border border-red-100 flex items-center gap-3">
+            <div className="col-span-full p-6 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-3xl border border-red-100 dark:border-red-800 flex items-center gap-3">
               <FaGithub className="text-xl" />
               <span>{error}</span>
             </div>
@@ -45,16 +45,16 @@ export default async function Hero() {
           {stats && (
             <>
               {/* Contributions Card - Large */}
-              <div className="col-span-1 md:col-span-1 row-span-3 bg-white text-gray-900 p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition-shadow">
+              <div className="col-span-1 md:col-span-1 row-span-3 bg-background text-foreground p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
-                  <div className="flex items-center gap-2 mb-2 text-gray-500">
+                  <div className="flex items-center gap-2 mb-2 text-text-muted">
                     <FiGitCommit className="text-lg" />
                     <h3 className="font-medium tracking-wide text-xs uppercase">Commits</h3>
                   </div>
                   <div className="text-4xl md:text-5xl font-bold tracking-tight">
                     {stats.commits.toLocaleString()}
                   </div>
-                  <p className="text-gray-400 mt-1 text-sm">in the last 28 days</p>
+                  <p className="text-text-muted mt-1 text-sm">in the last 28 days</p>
                 </div>
 
                 {/* Interactive Bar Chart Graph */}
@@ -76,8 +76,8 @@ export default async function Hero() {
 
                         // distinct colors for active vs inactive days
                         const barColor = total === 0 
-                          ? "bg-gray-100 group-hover/bar:bg-gray-200" 
-                          : "bg-gray-300 group-hover/bar:bg-gray-800";
+                          ? "bg-hover-bg group-hover/bar:bg-border-primary" 
+                          : "bg-border-primary group-hover/bar:bg-foreground";
 
                         return (
                           <div key={i} className="relative flex-1 group/bar h-full flex items-end">
@@ -87,11 +87,11 @@ export default async function Hero() {
                             />
 
                             {/* Tooltip */}
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white text-gray-900 border border-gray-200 text-xs whitespace-nowrap rounded-lg opacity-0 group-hover/bar:opacity-100 transition-all duration-200 pointer-events-none z-50 shadow-lg flex flex-col items-center scale-95 group-hover/bar:scale-100">
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-background text-foreground border border-border-primary text-xs whitespace-nowrap rounded-lg opacity-0 group-hover/bar:opacity-100 transition-all duration-200 pointer-events-none z-50 shadow-lg flex flex-col items-center scale-95 group-hover/bar:scale-100">
                               <span className="font-semibold">{total} commits</span>
-                              <span className="text-gray-500 text-[10px]">{dayDate}</span>
+                              <span className="text-text-muted text-[10px]">{dayDate}</span>
                               {/* Tooltip Arrow */}
-                              <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white border-b border-r border-gray-200 transform rotate-45"></div>
+                              <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-background border-b border-r border-border-primary transform rotate-45"></div>
                             </div>
                           </div>
                         );
@@ -102,53 +102,53 @@ export default async function Hero() {
               </div>
 
               {/* Stars */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex items-center justify-between">
-                <div className="flex items-center gap-3 text-gray-500">
+              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex items-center justify-between">
+                <div className="flex items-center gap-3 text-text-muted">
                   <FaStar className="text-xl" />
                   <h3 className="font-medium text-sm uppercase tracking-wider">Total Stars</h3>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-gray-900">{stats.totalStars.toLocaleString()}</div>
+                <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.totalStars.toLocaleString()}</div>
               </div>
 
               {/* Followers */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex items-center justify-between">
-                <div className="flex items-center gap-3 text-gray-500">
+              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex items-center justify-between">
+                <div className="flex items-center gap-3 text-text-muted">
                   <FaUsers className="text-xl" />
                   <h3 className="font-medium text-sm uppercase tracking-wider">Followers</h3>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-gray-900">{stats.followers.toLocaleString()}</div>
+                <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.followers.toLocaleString()}</div>
               </div>
 
               {/* PRs */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex items-center justify-between">
-                <div className="flex items-center gap-3 text-gray-500">
+              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex items-center justify-between">
+                <div className="flex items-center gap-3 text-text-muted">
                   <FaCodeBranch className="text-xl" />
                   <h3 className="font-medium text-sm uppercase tracking-wider">Pull Requests</h3>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-gray-900">{stats.totalPRs.toLocaleString()}</div>
+                <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.totalPRs.toLocaleString()}</div>
               </div>
 
               {/* Repositories */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-2 text-gray-500">
+              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex flex-col justify-center">
+                <div className="flex items-center gap-3 mb-2 text-text-muted">
                   <FaGithub className="text-xl" />
                   <h3 className="font-medium text-sm uppercase tracking-wider">Repositories</h3>
                 </div>
                 <div className="flex items-baseline gap-3">
-                  <div className="text-3xl md:text-4xl font-bold text-gray-900">{stats.totalRepos.toLocaleString()}</div>
-                  <div className="text-xs font-medium text-gray-400 border border-gray-200 rounded-full px-2 py-0.5">
+                  <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.totalRepos.toLocaleString()}</div>
+                  <div className="text-xs font-medium text-text-muted border border-border-primary rounded-full px-2 py-0.5">
                     Contrib: {stats.contributedTo.toLocaleString()}
                   </div>
                 </div>
               </div>
 
               {/* Lines of Code */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-2 text-gray-500">
+              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex flex-col justify-center">
+                <div className="flex items-center gap-3 mb-2 text-text-muted">
                   <FaFileCode className="text-xl" />
                   <h3 className="font-medium text-sm uppercase tracking-wider">Lines of Code</h3>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 truncate">~{stats.linesOfCode.toLocaleString()}</div>
+                <div className="text-3xl md:text-4xl font-bold text-foreground truncate">~{stats.linesOfCode.toLocaleString()}</div>
               </div>
 
             </>

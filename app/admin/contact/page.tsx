@@ -104,7 +104,7 @@ export default function ContactAdminPage() {
   }
 
   if (loading) {
-    return <div className="p-10 text-gray-500">Loading messages...</div>;
+    return <div className="p-10 text-text-muted">Loading messages...</div>;
   }
 
   return (
@@ -114,41 +114,41 @@ export default function ContactAdminPage() {
           <h1 className="text-2xl font-semibold tracking-tight">Contact Messages</h1>
           <button
           onClick={markAllSeen}
-          className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
+          className="rounded-lg bg-hover-bg px-4 py-2 text-sm font-medium text-text-secondary hover:bg-gray-200 transition-colors"
         >
           Mark all as seen
         </button>
         </div>
         {messages.length === 0 ? (
-          <p className="text-gray-500 text-sm">No messages yet.</p>
+          <p className="text-text-muted text-sm">No messages yet.</p>
         ) : (
           <div className="flex flex-col gap-4">
             {messages.map((msg) => (
               <div
                 key={msg.id}
                 className={`flex flex-col p-5 rounded-xl border transition-colors ${
-                  msg.seen ? "bg-white border-gray-200" : "bg-gray-50 border-gray-300 shadow-sm"
+                  msg.seen ? "bg-background border-border-primary" : "bg-footer-bg border-border-primary shadow-sm"
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-3">
                   <div>
-                    <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                    <h3 className="font-medium text-foreground flex items-center gap-2">
                       {msg.name} 
                       {!msg.seen && (
                         <span className="w-2 h-2 rounded-full bg-blue-500" title="New Message"></span>
                       )}
                     </h3>
-                    <a href={`mailto:${msg.email}`} className="text-sm text-gray-500 hover:underline">
+                    <a href={`mailto:${msg.email}`} className="text-sm text-text-muted hover:underline">
                       {msg.email}
                     </a>
                   </div>
                   <div className="flex items-center gap-3 self-end sm:self-auto">
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-text-muted">
                       {new Date(msg.created_at).toLocaleString()}
                     </span>
                     <button
                       onClick={() => toggleSeen(msg.id, msg.seen)}
-                      className="p-1.5 text-gray-400 hover:text-gray-700 transition-colors"
+                      className="p-1.5 text-text-muted hover:text-text-secondary transition-colors"
                       title={msg.seen ? "Mark as unread" : "Mark as seen"}
                     >
                       {msg.seen ? (
@@ -163,15 +163,15 @@ export default function ContactAdminPage() {
                     </button>
                     <button
                       onClick={() => setReplyingTo(msg)}
-                      className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-3 py-1.5 rounded-md"
+                      className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-md"
                     >
                       Reply
                     </button>
                   </div>
                 </div>
-                <div className="border-t border-gray-100 pt-3">
-                  <p className="font-medium text-sm text-gray-800 mb-1">Subject: {msg.subject}</p>
-                  <p className="text-sm text-gray-600 whitespace-pre-wrap">{msg.message}</p>
+                <div className="border-t border-border-primary pt-3">
+                  <p className="font-medium text-sm text-foreground mb-1">Subject: {msg.subject}</p>
+                  <p className="text-sm text-text-muted whitespace-pre-wrap">{msg.message}</p>
                 </div>
               </div>
             ))}
@@ -182,12 +182,12 @@ export default function ContactAdminPage() {
       {/* Reply Modal */}
       {replyingTo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-2xl shadow-xl">
+          <div className="bg-background rounded-2xl p-6 w-full max-w-2xl shadow-xl">
             <h3 className="text-lg font-semibold mb-1">Reply to {replyingTo.name}</h3>
-            <p className="text-sm text-gray-500 mb-4">Re: {replyingTo.subject}</p>
+            <p className="text-sm text-text-muted mb-4">Re: {replyingTo.subject}</p>
             
             <textarea
-              className="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-gray-400 outline-none resize-y min-h-[200px] mb-4"
+              className="w-full rounded-lg border border-border-primary p-3 text-sm focus:border-border-primary outline-none resize-y min-h-[200px] mb-4"
               placeholder="Write your reply here..."
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
@@ -198,14 +198,14 @@ export default function ContactAdminPage() {
               <button
                 onClick={() => setReplyingTo(null)}
                 disabled={sendingReply}
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-medium text-text-muted hover:bg-hover-bg rounded-lg transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={sendReply}
                 disabled={sendingReply || !replyText.trim()}
-                className="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 rounded-lg transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-medium text-background bg-foreground hover:opacity-90 rounded-lg transition-colors disabled:opacity-50"
               >
                 {sendingReply ? "Sending..." : "Send Reply"}
               </button>

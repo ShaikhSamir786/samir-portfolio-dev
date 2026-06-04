@@ -55,11 +55,11 @@ export default function AdminDashboard() {
   return (
     <>
       {/* Top Bar */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Projects</h2>
+      <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-border-primary">
+        <h2 className="text-lg font-semibold text-foreground">Projects</h2>
         <Link
           href="/admin/projects/new"
-          className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
+          className="rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background hover:opacity-90 transition-colors"
         >
           Add Project
         </Link>
@@ -68,53 +68,53 @@ export default function AdminDashboard() {
       {/* Content */}
       <div className="flex-1 p-6 md:p-10 overflow-auto">
         {loading ? (
-          <p className="text-sm text-gray-400">Loading projects...</p>
+          <p className="text-sm text-text-muted">Loading projects...</p>
         ) : projects.length === 0 ? (
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-text-muted">
             No projects yet. Click &quot;Add Project&quot; to create one.
           </p>
         ) : (
-          <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <div className="border border-border-primary rounded-xl overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-footer-bg border-b border-border-primary">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700">
+                  <th className="text-left px-4 py-3 font-medium text-text-secondary">
                     Title
                   </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700 hidden md:table-cell">
+                  <th className="text-left px-4 py-3 font-medium text-text-secondary hidden md:table-cell">
                     Category
                   </th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-700 hidden sm:table-cell">
+                  <th className="text-left px-4 py-3 font-medium text-text-secondary hidden sm:table-cell">
                     Year
                   </th>
-                  <th className="text-right px-4 py-3 font-medium text-gray-700">
+                  <th className="text-right px-4 py-3 font-medium text-text-secondary">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-border-primary">
                 {projects.map((project) => (
-                  <tr key={project.id} className="hover:bg-gray-50/50">
-                    <td className="px-4 py-3 text-gray-900 font-medium truncate max-w-[200px]">
+                  <tr key={project.id} className="hover:bg-footer-bg">
+                    <td className="px-4 py-3 text-foreground font-medium truncate max-w-[200px]">
                       {project.title}
                     </td>
-                    <td className="px-4 py-3 text-gray-600 hidden md:table-cell">
+                    <td className="px-4 py-3 text-text-muted hidden md:table-cell">
                       {project.category}
                     </td>
-                    <td className="px-4 py-3 text-gray-600 hidden sm:table-cell">
+                    <td className="px-4 py-3 text-text-muted hidden sm:table-cell">
                       {project.year}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/projects/${project.id}/edit`}
-                          className="rounded-md px-3 py-1.5 text-xs font-medium text-gray-700 border border-gray-200 hover:bg-gray-50 transition-colors"
+                          className="rounded-md px-3 py-1.5 text-xs font-medium text-text-secondary border border-border-primary hover:bg-footer-bg transition-colors"
                         >
                           Edit
                         </Link>
                         <button
                           onClick={() => handleDelete(project.id)}
-                          className="rounded-md px-3 py-1.5 text-xs font-medium text-red-600 border border-red-200 hover:bg-red-50 transition-colors"
+                          className="rounded-md px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                         >
                           Delete
                         </button>

@@ -106,27 +106,27 @@ export default function MediaLibraryModal({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white border border-gray-200 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
+      <div className="bg-background border border-border-primary rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
         
         {/* Header */}
-        <div className="flex justify-between items-center p-5 border-b border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-900 tracking-tight">{title}</h2>
+        <div className="flex justify-between items-center p-5 border-b border-border-primary">
+          <h2 className="text-lg font-semibold text-foreground tracking-tight">{title}</h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 text-text-muted hover:text-foreground hover:bg-hover-bg rounded-lg transition-colors"
           >
             <FiX className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-100 bg-gray-50/50">
+        <div className="flex border-b border-border-primary bg-footer-bg">
           <button
             onClick={() => setActiveTab("library")}
             className={`flex-1 py-3.5 px-4 text-sm font-medium transition-colors ${
               activeTab === "library"
-                ? "text-gray-900 border-b-2 border-gray-900 bg-white"
-                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100/50"
+                ? "text-foreground border-b-2 border-border-primary bg-background"
+                : "text-text-muted hover:text-foreground hover:bg-hover-bg/50"
             }`}
           >
             Library
@@ -135,8 +135,8 @@ export default function MediaLibraryModal({
             onClick={() => setActiveTab("upload")}
             className={`flex-1 py-3.5 px-4 text-sm font-medium transition-colors ${
               activeTab === "upload"
-                ? "text-gray-900 border-b-2 border-gray-900 bg-white"
-                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100/50"
+                ? "text-foreground border-b-2 border-border-primary bg-background"
+                : "text-text-muted hover:text-foreground hover:bg-hover-bg/50"
             }`}
           >
             Upload New
@@ -148,15 +148,15 @@ export default function MediaLibraryModal({
           {activeTab === "library" ? (
             isLoading ? (
               <div className="flex items-center justify-center h-64">
-                <div className="w-8 h-8 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-4 border-border-primary border-t-gray-900 rounded-full animate-spin"></div>
               </div>
             ) : media.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+              <div className="flex flex-col items-center justify-center h-64 text-text-muted">
                 <FiSearch className="w-12 h-12 mb-4 text-gray-300" />
                 <p>No images found in library.</p>
                 <button
                   onClick={() => setActiveTab("upload")}
-                  className="mt-4 text-gray-900 font-medium hover:underline"
+                  className="mt-4 text-foreground font-medium hover:underline"
                 >
                   Upload one now
                 </button>
@@ -169,8 +169,8 @@ export default function MediaLibraryModal({
                     onClick={() => setSelectedMedia(item)}
                     className={`relative group cursor-pointer aspect-square rounded-xl overflow-hidden border-2 transition-all ${
                       selectedMedia?.id === item.id
-                        ? "border-gray-900 shadow-[0_0_0_2px_rgba(17,24,39,0.1)]"
-                        : "border-gray-100 hover:border-gray-300"
+                        ? "border-border-primary shadow-[0_0_0_2px_rgba(17,24,39,0.1)]"
+                        : "border-border-primary hover:border-border-primary"
                     }`}
                   >
                     <Image
@@ -186,13 +186,13 @@ export default function MediaLibraryModal({
                       selectedMedia?.id === item.id ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                     }`}>
                       {selectedMedia?.id === item.id && (
-                        <div className="absolute top-2 left-2 bg-gray-900 text-white p-1 rounded-md shadow-sm">
+                        <div className="absolute top-2 left-2 bg-foreground text-background p-1 rounded-md shadow-sm">
                           <FiCheck className="w-4 h-4" />
                         </div>
                       )}
                       <button
                         onClick={(e) => handleDelete(item.id, e)}
-                        className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-white text-red-600 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                        className="absolute top-2 right-2 p-1.5 bg-background/90 hover:bg-background text-red-600 dark:text-red-400 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                         title="Delete image"
                       >
                         <FiTrash2 className="w-4 h-4" />
@@ -215,19 +215,19 @@ export default function MediaLibraryModal({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="flex flex-col items-center justify-center w-full max-w-md p-12 border-2 border-dashed border-gray-300 rounded-2xl hover:border-gray-900 hover:bg-gray-50 transition-all group disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm"
+                className="flex flex-col items-center justify-center w-full max-w-md p-12 border-2 border-dashed border-border-primary rounded-2xl hover:border-border-primary hover:bg-footer-bg transition-all group disabled:opacity-50 disabled:cursor-not-allowed bg-background shadow-sm"
               >
                 {isUploading ? (
-                  <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin mb-4"></div>
+                  <div className="w-10 h-10 border-4 border-border-primary border-t-gray-900 rounded-full animate-spin mb-4"></div>
                 ) : (
-                  <div className="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mb-4 group-hover:bg-gray-100 transition-colors">
-                    <FiUpload className="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition-colors" />
+                  <div className="w-14 h-14 bg-footer-bg rounded-full flex items-center justify-center mb-4 group-hover:bg-hover-bg transition-colors">
+                    <FiUpload className="w-6 h-6 text-text-muted group-hover:text-foreground transition-colors" />
                   </div>
                 )}
-                <span className="text-lg font-medium text-gray-900">
+                <span className="text-lg font-medium text-foreground">
                   {isUploading ? "Uploading..." : "Click to select file"}
                 </span>
-                <span className="text-sm text-gray-500 mt-2 text-center">
+                <span className="text-sm text-text-muted mt-2 text-center">
                   Images will be optimized automatically before upload
                 </span>
               </button>
@@ -237,10 +237,10 @@ export default function MediaLibraryModal({
 
         {/* Footer */}
         {activeTab === "library" && (
-          <div className="p-4 border-t border-gray-100 bg-gray-50/80 flex justify-end gap-3 rounded-b-2xl">
+          <div className="p-4 border-t border-border-primary bg-footer-bg/80 flex justify-end gap-3 rounded-b-2xl">
             <button
               onClick={onClose}
-              className="px-5 py-2.5 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 rounded-xl transition-all shadow-sm"
+              className="px-5 py-2.5 text-sm font-medium text-text-secondary hover:text-foreground bg-background border border-border-primary hover:bg-footer-bg hover:border-border-primary rounded-xl transition-all shadow-sm"
             >
               Cancel
             </button>
@@ -252,7 +252,7 @@ export default function MediaLibraryModal({
                 }
               }}
               disabled={!selectedMedia}
-              className="px-5 py-2.5 text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all shadow-sm flex items-center gap-2"
+              className="px-5 py-2.5 text-sm font-medium text-background bg-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all shadow-sm flex items-center gap-2"
             >
               <FiCheck className="w-4 h-4" />
               Select Image

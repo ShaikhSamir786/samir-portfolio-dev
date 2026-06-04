@@ -104,36 +104,36 @@ export default function DatePicker({ value, onChange, disabled, placeholder = "S
         type="button"
         disabled={disabled}
         onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-gray-900 outline-none min-h-[38px] flex items-center justify-between transition-colors ${
+        className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-border-primary outline-none min-h-[38px] flex items-center justify-between transition-colors ${
           disabled 
-            ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed" 
-            : "bg-white border-gray-200 hover:border-gray-300 text-gray-900"
+            ? "bg-hover-bg text-text-muted border-border-primary cursor-not-allowed" 
+            : "bg-background border-border-primary hover:border-border-primary text-foreground"
         }`}
       >
-        <span className={displayValue ? "text-gray-900" : "text-gray-400"}>
+        <span className={displayValue ? "text-foreground" : "text-text-muted"}>
           {displayValue || placeholder}
         </span>
-        <FiCalendar className={`w-4 h-4 ${disabled ? "text-gray-300" : "text-gray-400"}`} />
+        <FiCalendar className={`w-4 h-4 ${disabled ? "text-gray-300" : "text-text-muted"}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 top-full mt-1 z-50 w-64 bg-white border border-gray-200 rounded-xl shadow-lg p-3">
+        <div className="absolute left-0 top-full mt-1 z-50 w-64 bg-background border border-border-primary rounded-xl shadow-lg p-3">
           <div className="flex items-center justify-between mb-3">
             <button
               type="button"
               onClick={handlePrevMonth}
-              className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+              className="p-1.5 text-text-muted hover:text-foreground hover:bg-hover-bg rounded-md transition-colors"
             >
               <FiChevronLeft className="w-4 h-4" />
             </button>
-            <div className="font-medium text-sm text-gray-900 flex items-center justify-center gap-1">
+            <div className="font-medium text-sm text-foreground flex items-center justify-center gap-1">
               {viewMode === "date" ? (
                 <>
                   <span>{MONTHS[viewMonth]}</span>
                   <button
                     type="button"
                     onClick={() => setViewMode("year")}
-                    className="hover:bg-gray-100 px-1.5 py-0.5 rounded transition-colors"
+                    className="hover:bg-hover-bg px-1.5 py-0.5 rounded transition-colors"
                   >
                     {viewYear}
                   </button>
@@ -147,7 +147,7 @@ export default function DatePicker({ value, onChange, disabled, placeholder = "S
             <button
               type="button"
               onClick={handleNextMonth}
-              className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+              className="p-1.5 text-text-muted hover:text-foreground hover:bg-hover-bg rounded-md transition-colors"
             >
               <FiChevronRight className="w-4 h-4" />
             </button>
@@ -157,7 +157,7 @@ export default function DatePicker({ value, onChange, disabled, placeholder = "S
             <>
               <div className="grid grid-cols-7 gap-1 mb-1">
                 {DAYS.map(d => (
-                  <div key={d} className="text-center text-[10px] font-semibold text-gray-400 uppercase tracking-wider py-1">
+                  <div key={d} className="text-center text-[10px] font-semibold text-text-muted uppercase tracking-wider py-1">
                     {d}
                   </div>
                 ))}
@@ -186,10 +186,10 @@ export default function DatePicker({ value, onChange, disabled, placeholder = "S
                       onClick={() => handleSelectDate(day)}
                       className={`w-7 h-7 mx-auto flex items-center justify-center rounded-full text-xs transition-colors ${
                         isSelected 
-                          ? "bg-gray-900 text-white font-medium shadow-sm" 
+                          ? "bg-foreground text-background font-medium shadow-sm" 
                           : isToday
-                            ? "bg-gray-100 text-gray-900 font-medium hover:bg-gray-200"
-                            : "text-gray-700 hover:bg-gray-100"
+                            ? "bg-hover-bg text-foreground font-medium hover:bg-gray-200"
+                            : "text-text-secondary hover:bg-hover-bg"
                       }`}
                     >
                       {day}
@@ -215,8 +215,8 @@ export default function DatePicker({ value, onChange, disabled, placeholder = "S
                     }}
                     className={`py-2 rounded-lg text-sm font-medium transition-colors ${
                       isSelected 
-                        ? "bg-gray-900 text-white shadow-sm" 
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-foreground text-background shadow-sm" 
+                        : "text-text-secondary hover:bg-hover-bg"
                     }`}
                   >
                     {year}

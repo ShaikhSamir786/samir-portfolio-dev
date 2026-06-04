@@ -189,7 +189,7 @@ export default function CloudTransition() {
     <div className="fixed inset-0 z-[9998] pointer-events-none overflow-hidden">
       {/* Solid backdrop */}
       <div
-        className="absolute inset-0 bg-white"
+        className="absolute inset-0 bg-background"
         style={{
           opacity: backdropOpaque ? 1 : 0,
           transition: `opacity ${FADE_DURATION}ms ease`,
@@ -200,27 +200,23 @@ export default function CloudTransition() {
         <>
           {/* Top Gate */}
           <div
-            className="absolute top-0 left-0 w-full h-[50vh] bg-gray-100"
+            className="absolute top-0 left-0 w-full h-[50vh] bg-footer-bg border-b border-border-primary shadow-xl"
             style={{
               transform: `translateY(${topOffset})`,
               transition: shouldAnimate
                 ? `transform ${isClosed ? CLOSE_DURATION : OPEN_DURATION}ms ${isClosed ? "cubic-bezier(0.7, 0, 0.84, 0)" : "cubic-bezier(0.16, 1, 0.3, 1)"}`
                 : "none",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.08)",
-              borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
             }}
           />
 
           {/* Bottom Gate */}
           <div
-            className="absolute bottom-0 left-0 w-full h-[50vh] bg-gray-100"
+            className="absolute bottom-0 left-0 w-full h-[50vh] bg-footer-bg border-t border-border-primary shadow-[0_-4px_30px_rgba(0,0,0,0.1)]"
             style={{
               transform: `translateY(${bottomOffset})`,
               transition: shouldAnimate
                 ? `transform ${isClosed ? CLOSE_DURATION : OPEN_DURATION}ms ${isClosed ? "cubic-bezier(0.7, 0, 0.84, 0)" : "cubic-bezier(0.16, 1, 0.3, 1)"}`
                 : "none",
-              boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.08)",
-              borderTop: "1px solid rgba(0, 0, 0, 0.12)",
             }}
           />
         </>

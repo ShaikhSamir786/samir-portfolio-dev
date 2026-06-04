@@ -42,7 +42,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: "underline underline-offset-4 decoration-gray-300 hover:decoration-gray-900 transition-colors cursor-pointer text-gray-900 font-medium",
+          class: "underline underline-offset-4 decoration-gray-300 hover:decoration-gray-900 transition-colors cursor-pointer text-foreground font-medium",
         },
       }),
       Image.configure({ inline: true }),
@@ -120,8 +120,8 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
       type="button"
       onClick={action}
       className={`rounded-md px-2.5 py-1.5 text-xs font-medium border transition-colors ${isActive
-        ? "bg-gray-900 text-white border-gray-900"
-        : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+        ? "bg-foreground text-background border-border-primary"
+        : "bg-background text-text-muted border-border-primary hover:bg-footer-bg"
         }`}
     >
       {label}
@@ -139,7 +139,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
   };
 
   return (
-    <div className="border border-gray-200 rounded-xl relative bg-white">
+    <div className="border border-border-primary rounded-xl relative bg-background">
       {/* Link Bubble Menu */}
       {editor && (
         <BubbleMenu
@@ -150,20 +150,20 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
           }}
           shouldShow={({ editor }) => editor.isActive("link") || isAddingLink}
         >
-          <div className="bg-white border border-gray-200 shadow-lg rounded-lg p-1.5 flex items-center gap-1 z-50">
+          <div className="bg-background border border-border-primary shadow-lg rounded-lg p-1.5 flex items-center gap-1 z-50">
             {isAddingLink ? (
               <form onSubmit={handleLinkSubmit} className="flex items-center gap-1">
                 <input
                   autoFocus
                   type="url"
-                  className="text-sm px-2 py-1 outline-none border border-gray-200 rounded min-w-[220px]"
+                  className="text-sm px-2 py-1 outline-none border border-border-primary rounded min-w-[220px]"
                   value={linkUrl}
                   onChange={(e) => setLinkUrl(e.target.value)}
                   placeholder="Paste a link... (https://)"
                 />
                 <button
                   type="submit"
-                  className="px-2.5 py-1 bg-gray-900 text-white rounded text-sm font-medium hover:bg-gray-800 transition-colors"
+                  className="px-2.5 py-1 bg-foreground text-background rounded text-sm font-medium hover:opacity-90 transition-colors"
                 >
                   Save
                 </button>
@@ -173,7 +173,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
                     setIsAddingLink(false);
                     editor.commands.focus();
                   }}
-                  className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded text-sm hover:bg-gray-200 transition-colors"
+                  className="px-2.5 py-1 bg-hover-bg text-text-muted rounded text-sm hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
@@ -184,7 +184,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
                   href={linkUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-blue-600 hover:underline px-2 py-1 max-w-[250px] truncate block font-medium"
+                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline px-2 py-1 max-w-[250px] truncate block font-medium"
                 >
                   {linkUrl}
                 </a>
@@ -192,7 +192,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
                 <button
                   type="button"
                   onClick={() => setIsAddingLink(true)}
-                  className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors"
+                  className="p-1.5 text-text-muted hover:text-foreground hover:bg-hover-bg rounded transition-colors"
                   title="Edit link"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -207,7 +207,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
                 <button
                   type="button"
                   onClick={() => editor.chain().focus().extendMarkRange("link").unsetLink().run()}
-                  className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-gray-100 rounded transition-colors"
+                  className="p-1.5 text-text-muted hover:text-red-600 dark:hover:text-red-400 hover:bg-hover-bg rounded transition-colors"
                   title="Remove link"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -226,7 +226,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
       )}
 
       {/* Toolbar */}
-      <div className={`${stickyToolbar ? "sticky top-[var(--navbar-h)] z-20" : "relative z-10"} flex flex-wrap items-center gap-1.5 px-3 py-2 border-b border-gray-200 bg-gray-50/95 backdrop-blur-sm rounded-t-xl`}>
+      <div className={`${stickyToolbar ? "sticky top-[var(--navbar-h)] z-20" : "relative z-10"} flex flex-wrap items-center gap-1.5 px-3 py-2 border-b border-border-primary bg-footer-bg/95 backdrop-blur-sm rounded-t-xl`}>
         {btn("B", () => editor.chain().focus().toggleBold().run(), editor.isActive("bold"))}
         {btn("I", () => editor.chain().focus().toggleItalic().run(), editor.isActive("italic"))}
         {btn("U", () => editor.chain().focus().toggleUnderline().run(), editor.isActive("underline"))}
@@ -252,7 +252,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
           type="button"
           onClick={() => setIsMediaModalOpen(true)}
           title="Insert Image"
-          className="rounded-md px-2.5 py-1.5 text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 transition-colors flex items-center justify-center"
+          className="rounded-md px-2.5 py-1.5 text-text-muted border border-border-primary bg-background hover:bg-footer-bg transition-colors flex items-center justify-center"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />

@@ -126,12 +126,12 @@ export default function SocialsAdminPage() {
             onClick={handleSave}
             title="Save"
             disabled={saving || loading}
-            className="rounded-lg bg-white border border-gray-900 p-2.5 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="rounded-lg bg-background border border-border-primary p-2.5 text-foreground shadow-sm hover:bg-footer-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {saving ? (
               <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
             ) : saved ? (
-              <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
             ) : (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
             )}
@@ -140,26 +140,26 @@ export default function SocialsAdminPage() {
         {loading ? (
           <div className="space-y-4 w-full">
             {[1, 2].map((i) => (
-              <div key={i} className="h-20 bg-gray-50 border border-gray-100 rounded-xl animate-pulse" />
+              <div key={i} className="h-20 bg-footer-bg border border-border-primary rounded-xl animate-pulse" />
             ))}
           </div>
         ) : (
           <div className="w-full space-y-4 pb-32">
             {socials.map((social, index) => (
-              <div key={index} className="flex items-center gap-4 bg-white p-4 border border-gray-200 rounded-xl shadow-sm transition-all hover:border-gray-300">
+              <div key={index} className="flex items-center gap-4 bg-background p-4 border border-border-primary rounded-xl shadow-sm transition-all hover:border-border-primary">
                 {/* Controls */}
                 <div className="flex flex-col gap-1">
                   <button
                     onClick={() => moveUp(index)}
                     disabled={index === 0}
-                    className="p-1 text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-400 rounded transition-colors"
+                    className="p-1 text-text-muted hover:text-foreground disabled:opacity-30 disabled:hover:text-text-muted rounded transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
                   </button>
                   <button
                     onClick={() => moveDown(index)}
                     disabled={index === socials.length - 1}
-                    className="p-1 text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-400 rounded transition-colors"
+                    className="p-1 text-text-muted hover:text-foreground disabled:opacity-30 disabled:hover:text-text-muted rounded transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                   </button>
@@ -167,10 +167,10 @@ export default function SocialsAdminPage() {
 
                 {/* Icon & Label */}
                 <div className="flex items-center gap-3 w-40 flex-shrink-0">
-                  <div className="flex items-center justify-center w-10 h-10 bg-gray-50 rounded-lg border border-gray-100">
-                    <SocialIcon name={social.name} className="w-5 h-5 text-gray-700" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-footer-bg rounded-lg border border-border-primary">
+                    <SocialIcon name={social.name} className="w-5 h-5 text-text-secondary" />
                   </div>
-                  <span className="font-medium text-gray-700 text-sm truncate">{social.name}</span>
+                  <span className="font-medium text-text-secondary text-sm truncate">{social.name}</span>
                 </div>
 
                 {/* Input */}
@@ -180,14 +180,14 @@ export default function SocialsAdminPage() {
                     placeholder="https://..."
                     value={social.url}
                     onChange={(e) => updateSocial(index, e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-sm focus:bg-white focus:ring-2 focus:ring-gray-900 focus:border-transparent placeholder:text-gray-400 transition-all"
+                    className="w-full px-4 py-3 rounded-lg border border-border-primary bg-footer-bg text-sm focus:bg-background focus:ring-2 focus:ring-border-primary focus:border-transparent placeholder:text-text-muted transition-all"
                   />
                 </div>
 
                 {/* Delete */}
                 <button
                   onClick={() => removeSocial(index)}
-                  className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-2 flex-shrink-0"
+                  className="p-2.5 text-text-muted hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors ml-2 flex-shrink-0"
                   title="Delete"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -200,37 +200,37 @@ export default function SocialsAdminPage() {
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className={`w-full py-5 border-2 border-dashed rounded-xl transition-all font-medium flex items-center justify-center gap-2 group ${isDropdownOpen
-                      ? "border-gray-400 bg-gray-50 text-gray-900"
-                      : "border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-400 hover:bg-gray-50"
+                      ? "border-border-primary bg-footer-bg text-foreground"
+                      : "border-border-primary text-text-muted hover:text-foreground hover:border-border-primary hover:bg-footer-bg"
                     }`}
                 >
-                  <svg className={`w-5 h-5 transition-transform ${isDropdownOpen ? "rotate-45 text-gray-900" : "text-gray-400 group-hover:text-gray-900"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                  <svg className={`w-5 h-5 transition-transform ${isDropdownOpen ? "rotate-45 text-foreground" : "text-text-muted group-hover:text-foreground"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                   Add Social Link
                 </button>
 
                 {isDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-10 overflow-hidden flex flex-col max-h-[500px]">
-                    <div className="p-3 border-b border-gray-100 bg-gray-50/50">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border-primary rounded-xl shadow-lg z-10 overflow-hidden flex flex-col max-h-[500px]">
+                    <div className="p-3 border-b border-border-primary bg-footer-bg">
                       <div className="relative">
-                        <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                         <input
                           ref={searchInputRef}
                           type="text"
                           placeholder="Search platforms..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all bg-white"
+                          className="w-full pl-9 pr-4 py-2 text-sm border border-border-primary rounded-lg focus:ring-2 focus:ring-border-primary focus:border-transparent outline-none transition-all bg-background"
                         />
                       </div>
                     </div>
 
                     <div className="overflow-y-auto p-2">
                       {filteredCategories.length === 0 ? (
-                        <div className="p-4 text-center text-sm text-gray-500">No platforms found.</div>
+                        <div className="p-4 text-center text-sm text-text-muted">No platforms found.</div>
                       ) : (
                         filteredCategories.map((cat, i) => (
                           <div key={cat.category} className={i !== 0 ? "mt-4" : ""}>
-                            <h3 className="px-3 mb-2 text-xs font-bold uppercase tracking-wider text-gray-400">
+                            <h3 className="px-3 mb-2 text-xs font-bold uppercase tracking-wider text-text-muted">
                               {cat.category}
                             </h3>
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-1">
@@ -238,10 +238,10 @@ export default function SocialsAdminPage() {
                                 <button
                                   key={platform}
                                   onClick={() => addSocial(platform)}
-                                  className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200"
+                                  className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-hover-bg transition-colors border border-transparent hover:border-border-primary"
                                 >
-                                  <SocialIcon name={platform} className="w-6 h-6 text-gray-700" />
-                                  <span className="text-xs font-medium text-gray-600 text-center">{platform}</span>
+                                  <SocialIcon name={platform} className="w-6 h-6 text-text-secondary" />
+                                  <span className="text-xs font-medium text-text-muted text-center">{platform}</span>
                                 </button>
                               ))}
                             </div>

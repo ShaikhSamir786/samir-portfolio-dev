@@ -61,24 +61,24 @@ export default function BlogInteractions({ slug, initialComments }: BlogInteract
   };
 
   return (
-    <div id="comments" className="mt-16 pt-10 border-t border-gray-200">
+    <div id="comments" className="mt-16 pt-10 border-t border-border-primary">
       <div className="mb-12">
-        <h3 className="text-2xl font-semibold text-gray-900 mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
+        <h3 className="text-2xl font-semibold text-foreground mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
           Comments ({comments.length})
         </h3>
         
-        <form onSubmit={handleCommentSubmit} className="mb-10 bg-gray-50/50 p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
-          <h4 className="text-lg font-medium text-gray-900 mb-5">Leave a comment</h4>
+        <form onSubmit={handleCommentSubmit} className="mb-10 bg-footer-bg p-6 sm:p-8 rounded-2xl border border-border-primary shadow-sm">
+          <h4 className="text-lg font-medium text-foreground mb-5">Leave a comment</h4>
           
           {error && (
-            <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg border border-red-100 dark:border-red-800">
               {error}
             </div>
           )}
           
           <div className="space-y-5">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">Name</label>
+              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">Name</label>
               <input
                 id="name"
                 type="text"
@@ -86,13 +86,13 @@ export default function BlogInteractions({ slug, initialComments }: BlogInteract
                 maxLength={50}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 bg-background border border-border-primary text-foreground placeholder-text-muted rounded-xl focus:ring-2 focus:ring-border-primary focus:border-text-muted outline-none transition-all"
                 placeholder="John Doe"
               />
             </div>
             
             <div>
-              <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1.5">Comment</label>
+              <label htmlFor="comment" className="block text-sm font-medium text-foreground mb-1.5">Comment</label>
               <textarea
                 id="comment"
                 required
@@ -100,7 +100,7 @@ export default function BlogInteractions({ slug, initialComments }: BlogInteract
                 rows={4}
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all resize-y"
+                className="w-full px-4 py-3 bg-background border border-border-primary text-foreground placeholder-text-muted rounded-xl focus:ring-2 focus:ring-border-primary focus:border-text-muted outline-none transition-all resize-y"
                 placeholder="What are your thoughts?"
               />
             </div>
@@ -108,7 +108,7 @@ export default function BlogInteractions({ slug, initialComments }: BlogInteract
             <button
               type="submit"
               disabled={isSubmitting || !name.trim() || !commentText.trim()}
-              className="px-8 py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-8 py-3 bg-foreground text-background font-medium rounded-xl hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
             >
               {isSubmitting ? 'Posting...' : 'Post Comment'}
             </button>
@@ -117,15 +117,15 @@ export default function BlogInteractions({ slug, initialComments }: BlogInteract
 
         <div className="space-y-6">
           {comments.length === 0 ? (
-            <p className="text-gray-500 italic">No comments yet. Be the first to share your thoughts!</p>
+            <p className="text-text-muted italic">No comments yet. Be the first to share your thoughts!</p>
           ) : (
             comments.map((comment, index) => (
-              <div key={index} className="pb-6 border-b border-gray-100 last:border-0">
+              <div key={index} className="pb-6 border-b border-border-primary last:border-0">
                 <div className="flex justify-between items-baseline mb-2">
-                  <h5 className="font-medium text-gray-900">{comment.name}</h5>
-                  <span className="text-xs text-gray-500 tabular-nums">{formatDate(comment.createdAt)}</span>
+                  <h5 className="font-medium text-foreground">{comment.name}</h5>
+                  <span className="text-xs text-text-muted tabular-nums">{formatDate(comment.createdAt)}</span>
                 </div>
-                <p className="text-gray-700 whitespace-pre-wrap">{comment.comment}</p>
+                <p className="text-text-secondary whitespace-pre-wrap">{comment.comment}</p>
               </div>
             ))
           )}

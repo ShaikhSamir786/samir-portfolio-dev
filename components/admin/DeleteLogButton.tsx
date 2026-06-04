@@ -29,7 +29,7 @@ export function DeleteLogButton({ id }: { id: string }) {
         onClick={handleDelete}
         disabled={isDeleting}
         title="Delete"
-        className="rounded-md bg-white border border-gray-200 p-2 text-gray-600 shadow-sm hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors flex items-center justify-center disabled:opacity-50"
+        className="rounded-md bg-background border border-border-primary p-2 text-text-muted shadow-sm hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:border-red-800 transition-colors flex items-center justify-center disabled:opacity-50"
       >
         {isDeleting ? (
           <span className="w-4 h-4 rounded-full border-2 border-current border-t-transparent animate-spin" />

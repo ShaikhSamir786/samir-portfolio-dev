@@ -53,12 +53,12 @@ export default function BlogStarInteraction({ slug, initialStars }: BlogStarInte
     <div className="relative flex items-center">
       {/* Tooltip */}
       <div 
-        className={`absolute right-0 top-full mt-2 w-max bg-gray-900 text-white text-[10px] font-medium px-2.5 py-1.5 rounded shadow-lg transition-all duration-500 z-10 ${
+        className={`absolute right-0 top-full mt-2 w-max bg-foreground text-background text-[10px] font-medium px-2.5 py-1.5 rounded shadow-lg transition-all duration-500 z-10 ${
           showTooltip && !hasStarred ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'
         }`}
       >
         If you like this blog, do leave a star
-        <div className="absolute bottom-full right-3 border-[4px] border-transparent border-b-gray-900"></div>
+        <div className="absolute bottom-full right-3 border-[4px] border-transparent border-b-foreground"></div>
       </div>
       
       <button 
@@ -66,8 +66,8 @@ export default function BlogStarInteraction({ slug, initialStars }: BlogStarInte
         disabled={hasStarred}
         className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full transition-all duration-300 ${
           hasStarred 
-            ? 'bg-yellow-50 text-yellow-600 cursor-default' 
-            : 'bg-gray-50 text-gray-500 hover:bg-yellow-50 hover:text-yellow-500 cursor-pointer shadow-sm border border-gray-100 hover:border-yellow-200'
+            ? 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400 cursor-default' 
+            : 'bg-footer-bg text-text-muted hover:bg-yellow-50 dark:hover:bg-yellow-900/20 hover:text-yellow-500 dark:hover:text-yellow-400 cursor-pointer shadow-sm border border-border-primary hover:border-yellow-200 dark:hover:border-yellow-800'
         }`}
         title={hasStarred ? "You starred this post" : "Star this post"}
       >

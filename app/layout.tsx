@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CloudTransition from "@/components/layout/CloudTransition";
 import { PushSettings } from "@/components/PushSettings";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -81,14 +82,21 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-black">
-        <Navbar />
-        <div className="flex-1 flex flex-col" style={{ minHeight: "calc(100svh - var(--navbar-h))" }}>
-          {children}
-        </div>
-        <Footer />
-        <CloudTransition />
-        <PushSettings />
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <div className="flex-1 flex flex-col" style={{ minHeight: "calc(100svh - var(--navbar-h))" }}>
+            {children}
+          </div>
+          <Footer />
+          <CloudTransition />
+          <PushSettings />
+
 
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_ID && (
@@ -107,6 +115,7 @@ export default function RootLayout({
             </Script>
           </>
         )}
+        </ThemeProvider>
       </body>
     </html>
   );

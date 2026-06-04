@@ -53,16 +53,16 @@ export default async function Home() {
     <main className="flex flex-col flex-1">
       <Hero />
       
-      <section className="px-6 md:px-10 py-16 bg-gray-50/50">
+      <section className="px-6 md:px-10 py-16 bg-footer-bg">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-end mb-10">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Featured Projects</h2>
-              <p className="text-gray-500">Some of the things I've been working on recently.</p>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">Featured Projects</h2>
+              <p className="text-text-muted">Some of the things I've been working on recently.</p>
             </div>
             <Link 
               href="/projects" 
-              className="hidden md:flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors"
             >
               View all projects
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,13 +74,13 @@ export default async function Home() {
           {projects.length > 0 ? (
             <ProjectList initialProjects={projects} hideSearch />
           ) : (
-            <p className="text-gray-400">No projects to show.</p>
+            <p className="text-text-muted">No projects to show.</p>
           )}
           
           <div className="mt-8 flex justify-center md:hidden">
             <Link 
               href="/projects" 
-              className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-4 py-2 border border-gray-200 rounded-full bg-white shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors px-4 py-2 border border-border-primary rounded-full bg-background shadow-sm"
             >
               View all projects
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -95,12 +95,12 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-end mb-10">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Recent Writings</h2>
-              <p className="text-gray-500">Thoughts on engineering, AI, and software development.</p>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">Recent Writings</h2>
+              <p className="text-text-muted">Thoughts on engineering, AI, and software development.</p>
             </div>
             <Link 
               href="/blogs" 
-              className="hidden md:flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors"
             >
               View all posts
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -112,13 +112,13 @@ export default async function Home() {
           {blogs.length > 0 ? (
             <BlogList initialBlogs={blogs} hideSearch />
           ) : (
-            <p className="text-gray-400">No posts to show.</p>
+            <p className="text-text-muted">No posts to show.</p>
           )}
           
           <div className="mt-8 flex justify-center md:hidden">
             <Link 
               href="/blogs" 
-              className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-4 py-2 border border-gray-200 rounded-full bg-white shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors px-4 py-2 border border-border-primary rounded-full bg-background shadow-sm"
             >
               View all posts
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

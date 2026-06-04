@@ -5,9 +5,9 @@ import dynamic from "next/dynamic";
 const DynamicPDFViewer = dynamic(() => import("./PDFViewer"), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center rounded-2xl border border-gray-100 bg-gray-50 py-32">
-      <span className="w-5 h-5 rounded-full border-2 border-gray-300 border-t-gray-900 animate-spin mr-3" />
-      <span className="text-sm text-gray-500">Loading viewer...</span>
+    <div className="flex items-center justify-center rounded-2xl border border-border-primary bg-footer-bg py-32">
+      <span className="w-5 h-5 rounded-full border-2 border-border-primary border-t-foreground animate-spin mr-3" />
+      <span className="text-sm text-text-muted">Loading viewer...</span>
     </div>
   ),
 });
@@ -60,8 +60,8 @@ function toDownloadUrl(url: string): string {
 export default function ResumeViewer({ url }: { url: string }) {
   if (!url) {
     return (
-      <div className="flex items-center justify-center rounded-2xl border border-gray-100 bg-gray-50 py-32">
-        <p className="text-sm text-gray-400">Resume not uploaded yet.</p>
+      <div className="flex items-center justify-center rounded-2xl border border-border-primary bg-footer-bg py-32">
+        <p className="text-sm text-text-muted">Resume not uploaded yet.</p>
       </div>
     );
   }
@@ -73,20 +73,20 @@ export default function ResumeViewer({ url }: { url: string }) {
     <div className="flex flex-col gap-4">
       {/* Fallback download button in case viewer is blocked */}
       <div className="flex items-center justify-between">
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-text-muted">
           If the viewer doesn&apos;t load, open it directly →
         </p>
         <a
           href={downloadUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-text-secondary hover:text-foreground transition-colors"
         >
           Open in Drive ↗
         </a>
       </div>
 
-      <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50 p-4 sm:p-8">
+      <div className="rounded-2xl overflow-hidden border border-border-primary shadow-sm bg-footer-bg p-4 sm:p-8">
         <DynamicPDFViewer downloadUrl={downloadUrl} />
       </div>
     </div>

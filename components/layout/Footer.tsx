@@ -75,7 +75,7 @@ export default async function Footer() {
   const hasMoreBlogs = blogs.length > MAX_ITEMS;
 
   return (
-    <footer className="w-full bg-gray-50 border-t border-gray-200">
+    <footer className="w-full bg-footer-bg border-t border-border-primary">
       <div className="mx-auto max-w-7xl px-6 md:px-10 py-12 md:py-16">
 
         {/* Top section: Logo + columns */}
@@ -86,16 +86,16 @@ export default async function Footer() {
             <Link href="/">
               <div className="relative h-16 w-16 md:h-20 md:w-20">
                 <Image
-                  src="/Logo.png"
+                  src="/Logo.svg"
                   alt="Logo"
                   fill
-                  className="rounded-full object-cover"
+                  className="rounded-full object-cover dark:invert transition-all duration-300"
                   priority
                   sizes="(max-width: 768px) 64px, 80px"
                 />
               </div>
             </Link>
-            <p className="text-sm text-gray-500 max-w-[200px] leading-relaxed">
+            <p className="text-sm text-text-muted max-w-[200px] leading-relaxed">
               Lost among the stars, I found myself.
             </p>
             {socials.length > 0 && (
@@ -106,7 +106,7 @@ export default async function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-gray-900 hover:border-gray-900 hover:shadow-sm transition-all duration-200 flex items-center justify-center"
+                    className="p-2.5 rounded-lg border border-border-primary bg-background text-text-muted hover:text-foreground hover:border-foreground hover:shadow-sm transition-all duration-200 flex items-center justify-center"
                     title={social.name}
                   >
                     <SocialIcon name={social.name} className="w-4 h-4" />
@@ -121,7 +121,7 @@ export default async function Footer() {
 
             {/* Pages */}
             <div className="min-w-[120px]">
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-5">
+              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-5">
                 Pages
               </p>
               <ul className="flex flex-col gap-2.5">
@@ -129,7 +129,7 @@ export default async function Footer() {
                   <li key={href}>
                     <Link
                       href={href}
-                      className="text-sm text-gray-600 hover:text-black transition-colors duration-200 flex items-center gap-0.5 group"
+                      className="text-sm text-text-secondary hover:text-foreground transition-colors duration-200 flex items-center gap-0.5 group"
                     >
                       {label}
                       <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-xs leading-none">
@@ -143,18 +143,18 @@ export default async function Footer() {
 
             {/* Projects */}
             <div className="min-w-[140px]">
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-5">
+              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-5">
                 Projects
               </p>
               {visibleProjects.length === 0 ? (
-                <p className="text-sm text-gray-400 italic">No projects yet</p>
+                <p className="text-sm text-text-muted italic">No projects yet</p>
               ) : (
                 <ul className="flex flex-col gap-2.5">
                   {visibleProjects.map((project) => (
                     <li key={project.slug}>
                       <Link
                         href={`/projects/${project.slug}`}
-                        className="text-sm text-gray-600 hover:text-black transition-colors duration-200 flex items-center gap-0.5 group"
+                        className="text-sm text-text-secondary hover:text-foreground transition-colors duration-200 flex items-center gap-0.5 group"
                       >
                         {project.title}
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-xs leading-none">
@@ -167,7 +167,7 @@ export default async function Footer() {
                     <li className="mt-1">
                       <Link
                         href="/projects"
-                        className="text-sm font-medium text-gray-400 hover:text-black transition-colors duration-200 flex items-center gap-1"
+                        className="text-sm font-medium text-text-muted hover:text-foreground transition-colors duration-200 flex items-center gap-1"
                       >
                         More <span className="text-xs">→</span>
                       </Link>
@@ -179,18 +179,18 @@ export default async function Footer() {
 
             {/* Blog */}
             <div className="min-w-[140px]">
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-5">
+              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-5">
                 Blog
               </p>
               {visibleBlogs.length === 0 ? (
-                <p className="text-sm text-gray-400 italic">No posts yet</p>
+                <p className="text-sm text-text-muted italic">No posts yet</p>
               ) : (
                 <ul className="flex flex-col gap-2.5">
                   {visibleBlogs.map((blog) => (
                     <li key={blog.slug}>
                       <Link
                         href={`/blogs/${blog.slug}`}
-                        className="text-sm text-gray-600 hover:text-black transition-colors duration-200 flex items-center gap-0.5 group"
+                        className="text-sm text-text-secondary hover:text-foreground transition-colors duration-200 flex items-center gap-0.5 group"
                       >
                         {blog.title}
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-xs leading-none">
@@ -203,7 +203,7 @@ export default async function Footer() {
                     <li className="mt-1">
                       <Link
                         href="/blogs"
-                        className="text-sm font-medium text-gray-400 hover:text-black transition-colors duration-200 flex items-center gap-1"
+                        className="text-sm font-medium text-text-muted hover:text-foreground transition-colors duration-200 flex items-center gap-1"
                       >
                         More <span className="text-xs">→</span>
                       </Link>
@@ -217,15 +217,15 @@ export default async function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="mt-12 border-t border-gray-200" />
+        <div className="mt-12 border-t border-border-primary" />
 
         {/* Bottom Section */}
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-gray-400">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-text-muted">
           <p>
             © {new Date().getFullYear()} All rights reserved.
           </p>
           <div className="mt-4 sm:mt-0">
-            <Link href="/sitemap" className="hover:text-gray-900 transition-colors">
+            <Link href="/sitemap" className="hover:text-foreground transition-colors">
               Sitemap
             </Link>
           </div>
