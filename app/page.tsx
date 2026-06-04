@@ -57,44 +57,6 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-end mb-10">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">Featured Projects</h2>
-              <p className="text-text-muted">Some of the things I've been working on recently.</p>
-            </div>
-            <Link 
-              href="/projects" 
-              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors"
-            >
-              View all projects
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
-          
-          {projects.length > 0 ? (
-            <ProjectList initialProjects={projects} hideSearch />
-          ) : (
-            <p className="text-text-muted">No projects to show.</p>
-          )}
-          
-          <div className="mt-8 flex justify-center md:hidden">
-            <Link 
-              href="/projects" 
-              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors px-4 py-2 border border-border-primary rounded-full bg-background shadow-sm"
-            >
-              View all projects
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 md:px-10 py-16">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-end mb-10">
-            <div>
               <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">Recent Writings</h2>
               <p className="text-text-muted">Thoughts on engineering, AI, and software development.</p>
             </div>
@@ -121,6 +83,44 @@ export default async function Home() {
               className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors px-4 py-2 border border-border-primary rounded-full bg-background shadow-sm"
             >
               View all posts
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 md:px-10 py-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex justify-between items-end mb-10">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">Featured Projects</h2>
+              <p className="text-text-muted">Some of the things I've been working on recently.</p>
+            </div>
+            <Link 
+              href="/projects" 
+              className="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors"
+            >
+              View all projects
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+          
+          {projects.length > 0 ? (
+            <ProjectList initialProjects={projects} hideSearch />
+          ) : (
+            <p className="text-text-muted">No projects to show.</p>
+          )}
+          
+          <div className="mt-8 flex justify-center md:hidden">
+            <Link 
+              href="/projects" 
+              className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-foreground transition-colors px-4 py-2 border border-border-primary rounded-full bg-background shadow-sm"
+            >
+              View all projects
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
