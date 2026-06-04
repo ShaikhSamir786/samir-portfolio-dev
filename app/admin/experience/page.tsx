@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import TipTapEditor from "@/components/admin/TipTapEditor";
 import DatePicker from "@/components/admin/DatePicker";
+import MediaLibraryModal from "@/components/admin/MediaLibraryModal";
 
 interface Experience {
   id?: string;
@@ -23,6 +24,7 @@ export default function ExperienceAdminPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [mediaModalState, setMediaModalState] = useState<{ isOpen: boolean; index: number | null }>({ isOpen: false, index: null });
 
   useEffect(() => {
     fetchExperiences();
@@ -142,24 +144,7 @@ export default function ExperienceAdminPage() {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  const handleLogoUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
 
-    try {
-      const data = new FormData();
-      data.append("file", file);
-
-      const res = await fetch("/api/upload", { method: "POST", body: data });
-      const json = await res.json();
-
-      if (!res.ok) throw new Error(json.error || "Upload failed");
-      
-      updateExperience(index, "logo_url", json.url);
-    } catch (err) {
-      alert("Failed to upload logo");
-    }
-  };
 
   return (
     <main className="flex flex-1">
@@ -298,15 +283,13 @@ export default function ExperienceAdminPage() {
                         <div className="space-y-1.5">
                           <label className="block text-xs font-medium text-gray-700">Company Logo</label>
                           <div className="flex items-center gap-3">
-                            <label className="inline-flex items-center justify-center px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer transition-colors shadow-sm">
-                              Upload Image
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleLogoUpload(index, e)}
-                                className="hidden"
-                              />
-                            </label>
+                            <button
+                              type="button"
+                              onClick={() => setMediaModalState({ isOpen: true, index })}
+                              className="inline-flex items-center justify-center px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer transition-colors shadow-sm"
+                            >
+                              Choose from Library
+                            </button>
                             {exp.logo_url && (
                               <button
                                 onClick={() => updateExperience(index, "logo_url", "")}
@@ -376,6 +359,16 @@ export default function ExperienceAdminPage() {
           </div>
         )}
       </div>
+
+      <MediaLibraryModal
+        isOpen={mediaModalState.isOpen}
+        onClose={() => setMediaModalState({ isOpen: false, index: null })}
+        onSelect={(url) => {
+          if (mediaModalState.index !== null) {
+            updateExperience(mediaModalState.index, "logo_url", url);
+          }
+        }}
+      />
     </main>
   );
 }

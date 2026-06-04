@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import MediaLibraryModal from "@/components/admin/MediaLibraryModal";
 
 export default function NewNotificationPage() {
   const router = useRouter();
@@ -12,35 +13,11 @@ export default function NewNotificationPage() {
   const [image, setImage] = useState("");
   const [targetTopic, setTargetTopic] = useState<"all" | "blogs">("all");
 
-  const [uploading, setUploading] = useState(false);
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
 
-  const handleFileUpload = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
 
-      setUploading(true);
-      setError("");
-
-      try {
-        const data = new FormData();
-        data.append("file", file);
-
-        const res = await fetch("/api/upload", { method: "POST", body: data });
-        const json = await res.json();
-
-        if (!res.ok) throw new Error(json.error || "Upload failed");
-        setImage(json.url);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Upload failed");
-      } finally {
-        setUploading(false);
-      }
-    },
-    []
-  );
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,10 +103,13 @@ export default function NewNotificationPage() {
             <label className={labelClass}>Notification Image</label>
             <div className="flex flex-col gap-4">
               <div>
-                <label className="inline-block cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
-                  {uploading ? "Uploading..." : "Choose File"}
-                  <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="hidden" />
-                </label>
+                <button
+                  type="button"
+                  onClick={() => setIsMediaModalOpen(true)}
+                  className="inline-block cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  Choose from Library
+                </button>
               </div>
               {image && (
                 <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-gray-200 bg-gray-50 aspect-video">
@@ -160,7 +140,7 @@ export default function NewNotificationPage() {
             <button
               type="submit"
               title="Dispatch Notification"
-              disabled={sending || uploading}
+              disabled={sending}
               className="rounded-xl bg-white border border-gray-900 p-3 text-gray-900 shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {sending ? (
@@ -175,6 +155,12 @@ export default function NewNotificationPage() {
           </div>
         </form>
       </div>
+
+      <MediaLibraryModal
+        isOpen={isMediaModalOpen}
+        onClose={() => setIsMediaModalOpen(false)}
+        onSelect={(url) => setImage(url)}
+      />
     </main>
   );
 }

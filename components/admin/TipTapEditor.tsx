@@ -7,6 +7,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
+import MediaLibraryModal from "./MediaLibraryModal";
 
 interface TipTapEditorProps {
   content: string;
@@ -31,6 +32,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
 
   const [linkUrl, setLinkUrl] = useState("");
   const [isAddingLink, setIsAddingLink] = useState(false);
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -248,7 +250,7 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
         {btn("__", () => editor.chain().focus().setHorizontalRule().run())}
         <button
           type="button"
-          onClick={() => fileInputRef.current?.click()}
+          onClick={() => setIsMediaModalOpen(true)}
           title="Insert Image"
           className="rounded-md px-2.5 py-1.5 text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 transition-colors flex items-center justify-center"
         >
@@ -256,13 +258,6 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={onFileSelect}
-          className="hidden"
-        />
         {btn(
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>,
           () => editor.chain().focus().undo().run()
@@ -279,6 +274,16 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
         onPaste={onPaste}
         onDrop={onDrop}
         className="prose prose-sm max-w-none px-4 py-3 min-h-[300px] focus:outline-none [&_.ProseMirror:focus]:outline-none [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:max-w-full"
+      />
+
+      <MediaLibraryModal
+        isOpen={isMediaModalOpen}
+        onClose={() => setIsMediaModalOpen(false)}
+        onSelect={(url) => {
+          if (editor) {
+            editor.chain().focus().setImage({ src: url }).run();
+          }
+        }}
       />
     </div>
   );

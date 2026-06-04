@@ -93,3 +93,10 @@ export const experiences = pgTable('experiences', {
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
+
+export const media = pgTable('media', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    url: text('url').notNull(),
+    publicId: text('public_id').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+});
