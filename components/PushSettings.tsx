@@ -80,25 +80,25 @@ export function PushSettings() {
   if (!isVisible && subscription) return null; 
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:right-6 md:translate-x-0 z-50 w-[92%] max-w-sm bg-white border border-gray-200 rounded-2xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.12)] animate-slide-up-fade">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:right-6 md:translate-x-0 z-50 w-[92%] max-w-sm bg-background border border-border-primary rounded-2xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-none animate-slide-up-fade">
       
       {!subscription ? (
         <>
           <button 
             onClick={dismiss}
-            className="absolute top-3 right-3 text-gray-400 hover:text-gray-900 transition-colors p-1"
+            className="absolute top-3 right-3 text-text-muted hover:text-foreground transition-colors p-1"
             aria-label="Close"
           >
             <FaTimes />
           </button>
           
           <div className="flex items-start gap-4 mb-5">
-            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 shadow-inner">
+            <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0 shadow-inner dark:shadow-none">
               <FaBell className="text-blue-500 text-lg" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 tracking-tight">Stay in the loop</h3>
-              <p className="text-sm text-gray-500 mt-1 leading-relaxed">
+              <h3 className="font-semibold text-foreground tracking-tight">Stay in the loop</h3>
+              <p className="text-sm text-text-muted mt-1 leading-relaxed">
                 Get notified when I publish a new blog or project update. Choose your preference.
               </p>
             </div>
@@ -108,33 +108,33 @@ export function PushSettings() {
             <button 
               onClick={() => subscribe("blogs")}
               disabled={loadingTopic !== null}
-              className="flex-1 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 px-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center"
+              className="flex-1 bg-background border border-border-primary hover:bg-hover-bg text-text-secondary text-sm font-medium py-2.5 px-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center"
             >
               {loadingTopic === "blogs" ? (
-                 <span className="w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></span>
+                 <span className="w-4 h-4 border-2 border-text-muted border-t-transparent rounded-full animate-spin"></span>
               ) : "Blogs Only"}
             </button>
             <button 
               onClick={() => subscribe("all")}
               disabled={loadingTopic !== null}
-              className="flex-1 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 px-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center"
+              className="flex-1 bg-background border border-border-primary hover:bg-hover-bg text-text-secondary text-sm font-medium py-2.5 px-3 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center"
             >
               {loadingTopic === "all" ? (
-                <span className="w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></span>
+                <span className="w-4 h-4 border-2 border-text-muted border-t-transparent rounded-full animate-spin"></span>
               ) : "Everything"}
             </button>
           </div>
         </>
       ) : (
         <div className="flex items-center gap-4 py-2">
-          <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0 shadow-inner text-green-600">
+          <div className="w-10 h-10 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0 shadow-inner dark:shadow-none text-green-600 dark:text-green-400">
             <FaCheck className="text-lg" />
           </div>
           <div>
-            <p className="text-base font-semibold text-gray-900">
+            <p className="text-base font-semibold text-foreground">
               Successfully subscribed!
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-text-muted">
               You're all set to receive updates.
             </p>
           </div>
