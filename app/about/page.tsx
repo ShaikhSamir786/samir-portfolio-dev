@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { about } from "@/lib/schema";
 import PageHeader from "@/components/layout/PageHeader";
 import ExperienceTimeline from "@/components/about/ExperienceTimeline";
+import HtmlParser from "@/components/HtmlParser";
 
 export const revalidate = 3600;
 
@@ -28,9 +29,9 @@ export default async function AboutPage() {
       <PageHeader title="About" subtitle="A little bit about me." />
       <div className="max-w-3xl mx-auto w-full">
         {description ? (
-          <article
+          <HtmlParser
+            html={description}
             className="prose prose-gray dark:prose-invert max-w-none text-text-muted prose-headings:text-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-text-secondary"
-            dangerouslySetInnerHTML={{ __html: description }}
           />
         ) : (
           <p className="text-text-muted text-sm text-center">Nothing here yet.</p>
@@ -41,4 +42,3 @@ export default async function AboutPage() {
     </main>
   );
 }
-

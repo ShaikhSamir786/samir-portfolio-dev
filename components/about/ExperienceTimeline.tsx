@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { experiences as experiencesSchema } from "@/lib/schema";
+import HtmlParser from "@/components/HtmlParser";
 
 function formatDate(dateStr: string | null) {
   if (!dateStr) return "";
@@ -53,9 +54,9 @@ export default async function ExperienceTimeline() {
               </div>
 
               {exp.description && (
-                <div
+                <HtmlParser
+                  html={exp.description}
                   className="prose prose-sm prose-gray dark:prose-invert max-w-none text-text-muted mt-4 [&_p]:leading-relaxed [&_ul]:my-2 [&_li]:my-0.5 [&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-text-secondary transition-colors"
-                  dangerouslySetInnerHTML={{ __html: exp.description }}
                 />
               )}
             </div>
