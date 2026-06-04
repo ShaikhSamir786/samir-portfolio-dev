@@ -53,7 +53,7 @@ export default async function Home() {
     <main className="flex flex-col flex-1">
       <Hero />
       
-      <section className="px-6 md:px-10 py-16 bg-footer-bg">
+      <section className="px-6 md:px-10 py-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-end mb-10">
             <div>
