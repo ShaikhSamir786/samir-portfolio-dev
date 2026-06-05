@@ -33,18 +33,18 @@ export default async function SitemapPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-20 min-h-screen">
-      <h1 className="text-4xl font-bold mb-6 tracking-tight">Sitemap</h1>
-      <p className="text-gray-500 mb-16 text-lg">A complete directory of all pages on this website.</p>
+      <h1 className="text-4xl font-bold mb-6 tracking-tight text-foreground">Sitemap</h1>
+      <p className="text-text-muted mb-16 text-lg">A complete directory of all pages on this website.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
         {/* Core Pages */}
         <div>
-          <h2 className="text-xl font-semibold mb-6 pb-3 border-b border-gray-200">Main Pages</h2>
+          <h2 className="text-xl font-semibold mb-6 pb-3 border-b border-border-primary text-foreground">Main Pages</h2>
           <ul className="flex flex-col gap-4">
             {staticPages.map((page) => (
               <li key={page.href}>
-                <Link href={page.href} className="text-gray-600 hover:text-black transition-colors flex items-center gap-2 group text-sm">
-                  <span className="text-gray-300 group-hover:text-black transition-colors text-xs font-mono">/</span>
+                <Link href={page.href} className="text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
+                  <span className="text-text-muted opacity-50 group-hover:text-foreground group-hover:opacity-100 transition-colors text-xs font-mono">/</span>
                   {page.label}
                 </Link>
               </li>
@@ -54,15 +54,15 @@ export default async function SitemapPage() {
 
         {/* Projects */}
         <div>
-          <h2 className="text-xl font-semibold mb-6 pb-3 border-b border-gray-200">Projects</h2>
+          <h2 className="text-xl font-semibold mb-6 pb-3 border-b border-border-primary text-foreground">Projects</h2>
           {projects.length === 0 ? (
-            <p className="text-gray-400 italic text-sm">No projects published yet.</p>
+            <p className="text-text-muted italic text-sm">No projects published yet.</p>
           ) : (
             <ul className="flex flex-col gap-4">
               {projects.map((project) => (
                 <li key={project.slug}>
-                  <Link href={`/projects/${project.slug}`} className="text-gray-600 hover:text-black transition-colors flex items-center gap-2 group text-sm">
-                    <span className="text-gray-300 group-hover:text-black transition-colors text-xs font-mono">/</span>
+                  <Link href={`/projects/${project.slug}`} className="text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
+                    <span className="text-text-muted opacity-50 group-hover:text-foreground group-hover:opacity-100 transition-colors text-xs font-mono">/</span>
                     {project.title}
                   </Link>
                 </li>
@@ -73,15 +73,15 @@ export default async function SitemapPage() {
 
         {/* Blogs */}
         <div>
-          <h2 className="text-xl font-semibold mb-6 pb-3 border-b border-gray-200">Blog Posts</h2>
+          <h2 className="text-xl font-semibold mb-6 pb-3 border-b border-border-primary text-foreground">Blog Posts</h2>
           {blogs.length === 0 ? (
-            <p className="text-gray-400 italic text-sm">No blog posts published yet.</p>
+            <p className="text-text-muted italic text-sm">No blog posts published yet.</p>
           ) : (
             <ul className="flex flex-col gap-4">
               {blogs.map((blog) => (
                 <li key={blog.slug}>
-                  <Link href={`/blogs/${blog.slug}`} className="text-gray-600 hover:text-black transition-colors flex items-center gap-2 group text-sm">
-                    <span className="text-gray-300 group-hover:text-black transition-colors text-xs font-mono">/</span>
+                  <Link href={`/blogs/${blog.slug}`} className="text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
+                    <span className="text-text-muted opacity-50 group-hover:text-foreground group-hover:opacity-100 transition-colors text-xs font-mono">/</span>
                     {blog.title}
                   </Link>
                 </li>
