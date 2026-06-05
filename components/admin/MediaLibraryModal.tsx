@@ -112,6 +112,7 @@ export default function MediaLibraryModal({
         <div className="flex justify-between items-center p-5 border-b border-border-primary">
           <h2 className="text-lg font-semibold text-foreground tracking-tight">{title}</h2>
           <button
+            type="button"
             onClick={onClose}
             className="p-2 text-text-muted hover:text-foreground hover:bg-hover-bg rounded-lg transition-colors"
           >
@@ -122,6 +123,7 @@ export default function MediaLibraryModal({
         {/* Tabs */}
         <div className="flex border-b border-border-primary bg-footer-bg">
           <button
+            type="button"
             onClick={() => setActiveTab("library")}
             className={`flex-1 py-3.5 px-4 text-sm font-medium transition-colors ${
               activeTab === "library"
@@ -132,6 +134,7 @@ export default function MediaLibraryModal({
             Library
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab("upload")}
             className={`flex-1 py-3.5 px-4 text-sm font-medium transition-colors ${
               activeTab === "upload"
@@ -155,6 +158,7 @@ export default function MediaLibraryModal({
                 <FiSearch className="w-12 h-12 mb-4 text-gray-300" />
                 <p>No images found in library.</p>
                 <button
+                  type="button"
                   onClick={() => setActiveTab("upload")}
                   className="mt-4 text-foreground font-medium hover:underline"
                 >
@@ -191,6 +195,7 @@ export default function MediaLibraryModal({
                         </div>
                       )}
                       <button
+                        type="button"
                         onClick={(e) => handleDelete(item.id, e)}
                         className="absolute top-2 right-2 p-1.5 bg-background/90 hover:bg-background text-red-600 dark:text-red-400 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                         title="Delete image"
@@ -213,6 +218,7 @@ export default function MediaLibraryModal({
                 disabled={isUploading}
               />
               <button
+                type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
                 className="flex flex-col items-center justify-center w-full max-w-md p-12 border-2 border-dashed border-border-primary rounded-2xl hover:border-border-primary hover:bg-footer-bg transition-all group disabled:opacity-50 disabled:cursor-not-allowed bg-background shadow-sm"
@@ -239,12 +245,14 @@ export default function MediaLibraryModal({
         {activeTab === "library" && (
           <div className="p-4 border-t border-border-primary bg-footer-bg/80 flex justify-end gap-3 rounded-b-2xl">
             <button
+              type="button"
               onClick={onClose}
               className="px-5 py-2.5 text-sm font-medium text-text-secondary hover:text-foreground bg-background border border-border-primary hover:bg-footer-bg hover:border-border-primary rounded-xl transition-all shadow-sm"
             >
               Cancel
             </button>
             <button
+              type="button"
               onClick={() => {
                 if (selectedMedia) {
                   onSelect(selectedMedia.url);
