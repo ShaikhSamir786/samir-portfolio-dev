@@ -153,13 +153,17 @@ export default function Chatbot() {
       <div className="p-4 border-t border-white/10 bg-background/50 pb-8 lg:pb-4">
         <form
           onSubmit={handleSubmit}
-          className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full p-1 pl-4 focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all"
+          className={`flex items-center gap-2 bg-white/5 border border-white/10 rounded-full p-1 pl-4 transition-all ${
+            isLoading 
+              ? 'opacity-50 cursor-not-allowed' 
+              : 'focus-within:ring-1 focus-within:ring-primary focus-within:border-primary'
+          }`}
         >
           <input
             value={input}
             onChange={handleInputChange}
-            placeholder="Ask anything..."
-            className="flex-1 bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground/50 py-2"
+            placeholder={isLoading ? "AI is typing..." : "Ask anything..."}
+            className="flex-1 bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground/50 py-2 disabled:cursor-not-allowed disabled:bg-transparent"
             disabled={isLoading}
           />
           <button
