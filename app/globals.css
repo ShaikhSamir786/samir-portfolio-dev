@@ -290,7 +290,7 @@ body::-webkit-scrollbar {
 .toc-mobile {
   position: fixed;
   bottom: 1.5rem;
-  right: 1.5rem;
+  left: 1.5rem;
   z-index: 40;
 }
 
@@ -324,7 +324,7 @@ body::-webkit-scrollbar {
 .toc-mobile-dropdown {
   position: absolute;
   bottom: calc(100% + 0.5rem);
-  right: 0;
+  left: 0;
   width: 15rem;
   max-width: calc(100vw - 3rem);
   max-height: 60vh;
