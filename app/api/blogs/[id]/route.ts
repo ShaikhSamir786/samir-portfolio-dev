@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { blogs as blogsSchema } from "@/lib/schema";
 import { eq } from "drizzle-orm";
+import { indexDocumentForRag, deleteDocumentFromRag } from "@/lib/rag";
 
 interface Params {
   params: Promise<{ id: string }>;
@@ -63,6 +64,15 @@ export async function PUT(req: NextRequest, { params }: Params) {
       .where(eq(blogsSchema.id, id))
       .returning();
 
+    // Update RAG indexing in the background
+    indexDocumentForRag({
+      id,
+      type: 'blog',
+      title,
+      excerpt: excerpt || '',
+      content,
+    }).catch(console.error);
+
     return NextResponse.json(result[0]);
   } catch (error) {
     console.error("PUT /api/blogs/[id] error:", error);
@@ -114,6 +124,9 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
     if (result.length === 0) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
+
+    // Delete RAG chunks
+    deleteDocumentFromRag(id).catch(console.error);
 
     return NextResponse.json({ success: true });
   } catch (error) {

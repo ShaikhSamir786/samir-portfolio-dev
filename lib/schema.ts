@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, timestamp, uuid, integer, jsonb, date } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, timestamp, uuid, integer, jsonb, date, vector, index } from "drizzle-orm/pg-core";
 
 export const adminUsers = pgTable('admin_users', {
     id: uuid('id').defaultRandom().primaryKey(),
@@ -100,5 +100,14 @@ export const media = pgTable('media', {
     id: uuid('id').defaultRandom().primaryKey(),
     url: text('url').notNull(),
     publicId: text('public_id').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+});
+
+export const contentChunks = pgTable('content_chunks', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    sourceId: uuid('source_id').notNull(),
+    sourceType: text('source_type').notNull(),
+    chunkText: text('chunk_text').notNull(),
+    embedding: vector('embedding', { dimensions: 3072 }).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 });

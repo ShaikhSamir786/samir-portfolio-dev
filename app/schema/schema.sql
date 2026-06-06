@@ -94,3 +94,16 @@ CREATE TABLE experiences (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
+
+-- For AI chatbot to store embeddings
+
+CREATE EXTENSION vector;
+
+CREATE TABLE content_chunks (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    source_id UUID NOT NULL,
+    source_type TEXT NOT NULL,
+    chunk_text TEXT NOT NULL,
+    embedding VECTOR(3072) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

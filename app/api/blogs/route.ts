@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { blogs as blogsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
+import { indexDocumentForRag } from "@/lib/rag";
 
 export async function GET() {
   try {
@@ -45,6 +46,15 @@ export async function POST(req: NextRequest) {
       isPublished: is_published ?? false,
       publishedAt: is_published ? new Date() : null,
     }).returning();
+
+    // Fire and forget RAG indexing in the background
+    indexDocumentForRag({
+      id: result[0].id,
+      type: 'blog',
+      title,
+      excerpt: excerpt || '',
+      content,
+    }).catch(console.error);
 
     return NextResponse.json(result[0], { status: 201 });
   } catch (error) {

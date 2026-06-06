@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { projects as projectsSchema } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { indexDocumentForRag, deleteDocumentFromRag } from "@/lib/rag";
 
 export async function GET(
   req: NextRequest,
@@ -64,6 +65,16 @@ export async function PATCH(
       })
       .where(eq(projectsSchema.id, id));
 
+    // Update RAG indexing
+    indexDocumentForRag({
+      id,
+      type: 'project',
+      title,
+      excerpt: excerpt || '',
+      content,
+      technologies: technologies || [],
+    }).catch(console.error);
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("PATCH /api/projects/[id] error:", error);
@@ -84,6 +95,10 @@ export async function DELETE(
 
   try {
     await db.delete(projectsSchema).where(eq(projectsSchema.id, id));
+    
+    // Delete RAG chunks
+    deleteDocumentFromRag(id).catch(console.error);
+    
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE /api/projects/[id] error:", error);

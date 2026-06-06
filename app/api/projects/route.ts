@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { projects as projectsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { indexDocumentForRag } from "@/lib/rag";
 
 export async function GET() {
   const session = await auth();
@@ -52,6 +53,16 @@ export async function POST(req: NextRequest) {
       githubLink: github_link || null,
       demoLink: demo_link || null,
     }).returning();
+
+    // Fire and forget RAG indexing
+    indexDocumentForRag({
+      id: result[0].id,
+      type: 'project',
+      title,
+      excerpt: excerpt || '',
+      content,
+      technologies: technologies || [],
+    }).catch(console.error);
 
     return NextResponse.json(result[0], { status: 201 });
   } catch (error: any) {

@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import CloudTransition from "@/components/layout/CloudTransition";
 import { PushSettings } from "@/components/PushSettings";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Chatbot from "@/components/Chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -96,8 +97,7 @@ export default function RootLayout({
           <Footer />
           <CloudTransition />
           <PushSettings />
-
-
+          <Chatbot />
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
