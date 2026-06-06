@@ -7,11 +7,14 @@ import { cosineDistance, inArray } from 'drizzle-orm';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
+const isSecurityEnabled = process.env.AI_SECURITY === 'true';
+const aiLimit = parseInt(process.env.AI_LIMIT || '5', 10);
+
 const redis = Redis.fromEnv();
-const ratelimit = new Ratelimit({
+const ratelimit = isSecurityEnabled ? new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.fixedWindow(5, "1 d"),
-});
+  limiter: Ratelimit.fixedWindow(aiLimit, "1 d"),
+}) : null;
 
 // Allow responses up to 30 seconds
 export const maxDuration = 30;
@@ -37,7 +40,7 @@ export async function POST(req: Request) {
     }
 
     // 1. IPinfo VPN/Proxy Check
-    if (ip && ip !== '127.0.0.1' && ip !== '::1') {
+    if (isSecurityEnabled && ip && ip !== '127.0.0.1' && ip !== '::1') {
       try {
         const ipinfoRes = await fetch(`https://ipinfo.io/${ip}?token=${process.env.IPINFO_API}`);
         if (ipinfoRes.ok) {
@@ -51,16 +54,18 @@ export async function POST(req: Request) {
       }
     }
 
-    // 2. Rate limiting by IP
-    const ipLimit = await ratelimit.limit(`chat_ip_${ip}`);
-    if (!ipLimit.success) {
-      return staticChatResponse("Whoa, slow down there! You've reached your limit of 5 questions for today. I'm taking a little nap. Come back tomorrow and we can chat some more!");
-    }
+    if (isSecurityEnabled && ratelimit) {
+      // 2. Rate limiting by IP
+      const ipLimit = await ratelimit.limit(`chat_ip_${ip}`);
+      if (!ipLimit.success) {
+        return staticChatResponse(`Whoa, slow down there! You've reached your limit of ${aiLimit} questions for today. I'm taking a little nap. Come back tomorrow and we can chat some more!`);
+      }
 
-    // 3. Rate limiting by Visitor ID
-    const visitorLimit = await ratelimit.limit(`chat_visitor_${visitorId}`);
-    if (!visitorLimit.success) {
-      return staticChatResponse("Whoa, slow down there! You've reached your limit of 5 questions for today. I'm taking a little nap. Come back tomorrow and we can chat some more!");
+      // 3. Rate limiting by Visitor ID
+      const visitorLimit = await ratelimit.limit(`chat_visitor_${visitorId}`);
+      if (!visitorLimit.success) {
+        return staticChatResponse(`Whoa, slow down there! You've reached your limit of ${aiLimit} questions for today. I'm taking a little nap. Come back tomorrow and we can chat some more!`);
+      }
     }
 
     const { messages } = await req.json();
