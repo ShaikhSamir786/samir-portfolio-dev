@@ -171,13 +171,12 @@ export default function TableOfContents({
       <div className="toc-mobile" ref={tocRef}>
         <button
           onClick={() => setMobileOpen((v) => !v)}
-          className="toc-mobile-btn"
+          className="p-4 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-300 hover:scale-110 active:scale-95"
           aria-expanded={mobileOpen}
           aria-label="Toggle table of contents"
         >
           <svg
-            width="18"
-            height="18"
+            className="w-6 h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
