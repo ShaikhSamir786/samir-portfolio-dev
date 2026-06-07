@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shreyash's Portfolio
+
+**Live at:** [shreyashswami.is-a.dev](https://shreyashswami.is-a.dev)
+
+An elegant, high-performance personal portfolio and blog built with modern web technologies. This project showcases my work, skills, and articles, integrated with an AI-powered assistant.
+
+## Features
+
+- **Core Framework**: Built with [Next.js 16](https://nextjs.org/) and [Tailwind CSS v4](https://tailwindcss.com/) for a highly performant, globally distributed, and responsive UI.
+- **AI Integration**: A smart chatbot powered by the [Vercel AI SDK](https://sdk.vercel.ai/docs) using Google/Groq models to answer contextual queries about my experience.
+- **Data Persistence & Media**: Utilizes [Neon Postgres](https://neon.tech/) and [Drizzle ORM](https://orm.drizzle.team/) for a fast, serverless database, alongside [Cloudinary](https://cloudinary.com/) for optimized image and media storage.
+- **Authentication**: Secure user sessions are handled by [NextAuth.js v5](https://next-auth.js.org/) to protect admin routes and management interfaces.
+- **Email & Communications**: Uses [Nodemailer](https://nodemailer.com/) to seamlessly handle incoming messages from the contact form.
+- **Analytics**: Tracks visitors using Google Analytics and fetches live GitHub stats (ensure your GitHub PAT has `read:org`, `read:user`, and `repo` permissions to use this).
+- **Rich Text Editing**: Uses the [Tiptap](https://tiptap.dev/) headless editor to provide a seamless, notion-like content creation experience for the blog.
+- **PWA Capabilities**: Integrated with [Serwist](https://serwist.build/) to support offline caching, app installability, and custom web push notifications.
+- **Custom Subdomain**: Uses a free `.is-a.dev` domain, which anyone can obtain by submitting a pull request to the [is-a-dev/register](https://github.com/is-a-dev/register) repository.
+- **Security & Rate Limiting**: Employs [Upstash Redis](https://upstash.com/) to enforce strict API rate limits and [IPinfo](https://ipinfo.io/) to identify and block malicious traffic or VPNs. (Optional - can be turned off by env variables)
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+```
+
+Then, set up your environment variables by copying the example file:
+
+```bash
+cp .env.example .env
+```
+
+Finally, run the development server:
+
+```bash
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Infrastructure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Framework**: Next.js (React)
+- **Styling**: Tailwind CSS
+- **Database**: Neon (PostgreSQL) + Drizzle ORM
+- **Authentication**: NextAuth.js
+- **AI**: Vercel AI SDK (@ai-sdk/google, @ai-sdk/groq)
+- **Rate Limiting**: Upstash Redis
+- **Deployment**: Vercel (Recommended)
