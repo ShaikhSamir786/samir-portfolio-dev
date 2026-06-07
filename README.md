@@ -38,13 +38,3 @@ pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## 🛠️ Infrastructure
-
-- **Framework**: Next.js (React)
-- **Styling**: Tailwind CSS
-- **Database**: Neon (PostgreSQL) + Drizzle ORM
-- **Authentication**: NextAuth.js
-- **AI**: Vercel AI SDK (@ai-sdk/google, @ai-sdk/groq)
-- **Rate Limiting**: Upstash Redis
-- **Deployment**: Vercel (Recommended)
