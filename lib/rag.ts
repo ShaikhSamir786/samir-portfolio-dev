@@ -1,9 +1,11 @@
 import { db } from '@/lib/db';
-import { contentChunks } from '@/lib/schema';
+import { contentChunks, about, experiences as experiencesSchema } from '@/lib/schema';
 import { embedMany } from 'ai';
 import { google } from '@ai-sdk/google';
 import * as cheerio from 'cheerio';
 import { eq } from 'drizzle-orm';
+
+export const ABOUT_UUID = '00000000-0000-0000-0000-000000000001';
 
 function chunkText(text: string, maxTokens = 500) {
   const maxChars = maxTokens * 4;
@@ -80,5 +82,65 @@ export async function deleteDocumentFromRag(id: string) {
     console.log(`[RAG] Successfully deleted chunks for document ${id}`);
   } catch (error) {
     console.error(`[RAG] Failed to delete chunks for document ${id}:`, error);
+  }
+}
+
+export async function reindexAboutForRag() {
+  try {
+    const aboutData = await db.select().from(about);
+    await db.delete(contentChunks).where(eq(contentChunks.sourceId, ABOUT_UUID));
+
+    if (aboutData.length > 0 && aboutData[0].description) {
+      const fullText = `About Shreyash:\n${aboutData[0].description}`;
+      const chunks = chunkText(fullText);
+      if (chunks.length > 0) {
+        const { embeddings } = await embedMany({
+          model: google.embedding('gemini-embedding-2'),
+          values: chunks,
+        });
+
+        for (let i = 0; i < chunks.length; i++) {
+          await db.insert(contentChunks).values({
+            sourceId: ABOUT_UUID,
+            sourceType: 'about',
+            chunkText: chunks[i],
+            embedding: embeddings[i],
+          });
+        }
+      }
+    }
+    console.log(`[RAG] Successfully reindexed about section`);
+  } catch (error) {
+    console.error(`[RAG] Failed to reindex about section:`, error);
+  }
+}
+
+export async function reindexExperiencesForRag() {
+  try {
+    const allExperiences = await db.select().from(experiencesSchema);
+    await db.delete(contentChunks).where(eq(contentChunks.sourceType, 'experience'));
+
+    for (const exp of allExperiences) {
+      const fullText = `Work Experience:\nPosition: ${exp.position}\nCompany: ${exp.companyName}\nDuration: ${exp.startDate} to ${exp.isCurrent ? 'Present' : (exp.endDate || 'Unknown')}\nDescription: ${exp.description || ''}`;
+      const chunks = chunkText(fullText);
+      if (chunks.length === 0) continue;
+
+      const { embeddings } = await embedMany({
+        model: google.embedding('gemini-embedding-2'),
+        values: chunks,
+      });
+
+      for (let i = 0; i < chunks.length; i++) {
+        await db.insert(contentChunks).values({
+          sourceId: exp.id,
+          sourceType: 'experience',
+          chunkText: chunks[i],
+          embedding: embeddings[i],
+        });
+      }
+    }
+    console.log(`[RAG] Successfully reindexed ${allExperiences.length} experiences`);
+  } catch (error) {
+    console.error(`[RAG] Failed to reindex experiences:`, error);
   }
 }

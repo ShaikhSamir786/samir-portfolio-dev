@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { experiences as experiencesSchema } from "@/lib/schema";
 import { auth } from "@/lib/auth";
+import { reindexExperiencesForRag } from "@/lib/rag";
 
 export async function GET() {
   try {
@@ -68,6 +69,8 @@ export async function PUT(req: NextRequest) {
     revalidatePath("/about");
     revalidatePath("/admin/experience");
     revalidatePath("/");
+
+    await reindexExperiencesForRag();
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -86,3 +86,51 @@ export async function getGithubStats(token: string, username: string) {
     calendar: user.contributionsCollection.contributionCalendar.weeks,
   };
 }
+
+export async function getRecentGithubEvents(token: string, username: string) {
+  if (!token) return "GitHub token missing.";
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}/events/public`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github.v3+json",
+      },
+      next: { revalidate: 3600 },
+    });
+
+    if (!response.ok) return "No recent GitHub activity available.";
+
+    const events = await response.json();
+    if (!Array.isArray(events) || events.length === 0) return "No recent GitHub activity available.";
+
+    const recentActivities = events
+      .filter((e: any) => ["PushEvent", "PullRequestEvent", "IssuesEvent", "CreateEvent"].includes(e.type))
+      .slice(0, 5)
+      .map((e: any) => {
+        const repoName = e.repo.name;
+        const date = new Date(e.created_at).toLocaleDateString();
+        
+        if (e.type === "PushEvent") {
+          const commits = (e.payload.commits && Array.isArray(e.payload.commits)) 
+            ? e.payload.commits.map((c: any) => c.message).join(', ') 
+            : "updates";
+          return `- On ${date}, pushed to [${repoName}](https://github.com/${repoName}): ${commits}`;
+        } else if (e.type === "PullRequestEvent") {
+          return `- On ${date}, ${e.payload.action} a pull request in [${repoName}](https://github.com/${repoName}): "${e.payload.pull_request?.title || 'Unknown'}"`;
+        } else if (e.type === "IssuesEvent") {
+          return `- On ${date}, ${e.payload.action} an issue in [${repoName}](https://github.com/${repoName}): "${e.payload.issue?.title || 'Unknown'}"`;
+        } else if (e.type === "CreateEvent") {
+          return `- On ${date}, created a ${e.payload.ref_type} in [${repoName}](https://github.com/${repoName})`;
+        }
+        return '';
+      })
+      .filter((s: string) => s !== '')
+      .join('\n');
+
+    return `Recent Public GitHub Activity:\n${recentActivities || "No notable public events in the last 90 days."}`;
+  } catch (error) {
+    console.error("Failed to fetch Github Events", error);
+    return "Failed to fetch GitHub activity.";
+  }
+}
+

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { about } from "@/lib/schema";
+import { reindexAboutForRag } from "@/lib/rag";
 
 export async function GET() {
   try {
@@ -29,6 +30,8 @@ export async function PUT(req: NextRequest) {
     } else {
       await db.insert(about).values({ description: description ?? "" });
     }
+
+    await reindexAboutForRag();
 
     return NextResponse.json({ success: true });
   } catch (error) {
