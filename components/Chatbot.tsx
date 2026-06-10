@@ -73,7 +73,7 @@ export default function Chatbot() {
 
       {/* Off-canvas Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-screen w-full sm:w-[400px] bg-background border-l border-white/10 z-50 shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed top-0 right-0 h-[100dvh] w-full sm:w-[400px] bg-background border-l border-white/10 z-50 shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
       >
         {/* Header */}
