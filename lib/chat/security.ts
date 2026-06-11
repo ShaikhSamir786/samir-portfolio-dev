@@ -1,14 +1,26 @@
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
-
 const isSecurityEnabled = process.env.AI_SECURITY === 'true';
 const aiLimit = parseInt(process.env.AI_LIMIT || '5', 10);
 
-const redis = Redis.fromEnv();
-const ratelimit = isSecurityEnabled ? new Ratelimit({
-  redis: redis,
-  limiter: Ratelimit.fixedWindow(aiLimit, "1 d"),
-}) : null;
+// Simple in-memory rate limiter
+interface RateLimitInfo {
+  count: number;
+  resetAt: number;
+}
+const rateLimits = new Map<string, RateLimitInfo>();
+
+const checkRateLimit = (key: string, limit: number, windowMs: number) => {
+  const now = Date.now();
+  const info = rateLimits.get(key);
+  if (!info || now > info.resetAt) {
+    rateLimits.set(key, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+  if (info.count >= limit) {
+    return false;
+  }
+  info.count += 1;
+  return true;
+};
 
 export const staticChatResponse = (message: string) => {
   return new Response(JSON.stringify({ error: message }), {
@@ -43,16 +55,18 @@ export async function runSecurityChecks(req: Request) {
     }
   }
 
-  if (isSecurityEnabled && ratelimit) {
+  if (isSecurityEnabled) {
+    const windowMs = 24 * 60 * 60 * 1000; // 1 day
+
     // 2. Rate limiting by IP
-    const ipLimit = await ratelimit.limit(`chat_ip_${ip}`);
-    if (!ipLimit.success) {
+    const ipSuccess = checkRateLimit(`chat_ip_${ip}`, aiLimit, windowMs);
+    if (!ipSuccess) {
       return { errorResponse: staticChatResponse(`Whoa, slow down there! You've reached your limit of ${aiLimit} questions for today. I'm taking a little nap. Come back tomorrow and we can chat some more!`) };
     }
 
     // 3. Rate limiting by Visitor ID
-    const visitorLimit = await ratelimit.limit(`chat_visitor_${visitorId}`);
-    if (!visitorLimit.success) {
+    const visitorSuccess = checkRateLimit(`chat_visitor_${visitorId}`, aiLimit, windowMs);
+    if (!visitorSuccess) {
       return { errorResponse: staticChatResponse(`Whoa, slow down there! You've reached your limit of ${aiLimit} questions for today. I'm taking a little nap. Come back tomorrow and we can chat some more!`) };
     }
   }
