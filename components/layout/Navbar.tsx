@@ -76,7 +76,7 @@ export default function Navbar() {
           
           <div className="relative ml-2 flex items-center">
             <Link
-              href="https://github.com/sponsors/Shreyash0712"
+              href="https://github.com/sponsors/ShaikhSamir786"
               target="_blank"
               className="group relative overflow-hidden flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-pink-600 dark:text-pink-400 hover:text-white dark:hover:text-white border border-pink-200 dark:border-pink-900 rounded-full bg-background hover:border-pink-500 dark:hover:border-pink-500 transition-colors duration-300 z-10"
             >
@@ -145,7 +145,7 @@ export default function Navbar() {
         })}
 
         <Link
-          href="https://github.com/sponsors/Shreyash0712"
+          href="https://github.com/sponsors/ShaikhSamir786"
           target="_blank"
           onClick={() => setMenuOpen(false)}
           style={{ transitionDelay: menuOpen ? `${links.length * 50}ms` : "0ms" }}

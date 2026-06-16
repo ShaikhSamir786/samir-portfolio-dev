@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "Shreyash Swami - Full Stack Developer",
     description: "Portfolio of Shreyash Swami, a passionate Full Stack Developer. Explore my projects and read my blogs.",
     images: ["/Filled_Logo.png"],
-    creator: "@Shreyash0712",
+    creator: "@ShaikhSamir786",
   },
   verification: {
     google: "wG30YPnRWXKntcKGL7eYVh-CMNHF9l_2Dyr0T18ARl4",

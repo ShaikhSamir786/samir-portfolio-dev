@@ -1,10 +1,6 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { db } from "./db";
-import { adminUsers } from "./schema";
-import { eq } from "drizzle-orm";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -23,30 +19,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        try {
-          const result = await db.select().from(adminUsers).where(eq(adminUsers.email, credentials.email as string));
+        const adminEmail = process.env.ADMIN_USERNAME;
+        const adminPassword = process.env.ADMIN_PASSWORD;
 
-          if (result.length === 0) {
-            return null;
-          }
-
-          const user = result[0];
-
-          const isValid = await bcrypt.compare(credentials.password as string, user.password);
-
-          if (!isValid) {
-            return null;
-          }
-
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.email.split("@")[0],
-          };
-        } catch (error) {
-          console.error("Auth error:", error);
+        if (!adminEmail || !adminPassword) {
           return null;
         }
+
+        const isValid = 
+          adminEmail === (credentials.email as string) && 
+          (credentials.password as string) === adminPassword;
+
+        if (!isValid) {
+          return null;
+        }
+
+        return {
+          id: "1",
+          email: adminEmail,
+          name: adminEmail.split("@")[0],
+        };
       },
     }),
   ],

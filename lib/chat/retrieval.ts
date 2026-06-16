@@ -31,7 +31,7 @@ export async function getRelevantContext(latestMessageText: string) {
   const [blogsData, projectsData, githubEvents] = await Promise.all([
     blogIds.length ? db.select({ id: blogs.id, slug: blogs.slug, title: blogs.title }).from(blogs).where(inArray(blogs.id, blogIds)) : Promise.resolve([]),
     projectIds.length ? db.select({ id: projects.id, slug: projects.slug, title: projects.title }).from(projects).where(inArray(projects.id, projectIds)) : Promise.resolve([]),
-    getRecentGithubEvents(process.env.GITHUB_TOKEN || '', 'Shreyash0712')
+    getRecentGithubEvents(process.env.GITHUB_TOKEN || '', 'ShaikhSamir786')
   ]);
 
   const urlMap = new Map();
