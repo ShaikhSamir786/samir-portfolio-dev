@@ -26,7 +26,7 @@ export default async function Hero() {
             className="text-4xl sm:text-5xl font-medium text-foreground tracking-tight mb-3"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            Hey, I'm Shreyash.
+            Hey, I'm Samir.
           </h1>
           <p className="text-base md:text-lg text-text-muted max-w-2xl">
             Welcome to my abode.
@@ -67,16 +67,16 @@ export default async function Hero() {
 
                       return last28Days.map((day: any, i: number) => {
                         const total = day.contributionCount;
-                        
+
                         // 0 commits: tiny subtle bar. Active days: scale up to 6 commits max for clear variation
                         const height = total === 0 ? 4 : Math.max(15, Math.min(100, (total / 6) * 100));
-                        
+
                         const dateObj = new Date(day.date);
                         const dayDate = dateObj.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 
                         // distinct colors for active vs inactive days
-                        const barColor = total === 0 
-                          ? "bg-hover-bg group-hover/bar:bg-border-primary" 
+                        const barColor = total === 0
+                          ? "bg-hover-bg group-hover/bar:bg-border-primary"
                           : "bg-border-primary group-hover/bar:bg-green-500 dark:group-hover/bar:bg-[var(--accent-green)]";
 
                         return (

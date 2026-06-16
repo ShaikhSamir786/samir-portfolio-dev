@@ -7,7 +7,7 @@ import PageHeader from "@/components/layout/PageHeader";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Resume | Shreyash Swami",
+  title: "Resume | Shaikh Samir",
   description: "View and download my resume.",
 };
 

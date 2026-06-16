@@ -10,7 +10,7 @@ import ProjectList from "@/components/projects/ProjectList";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Projects | Shreyash Swami",
+  title: "Projects | Shaikh Samir",
   description: "A collection of things I've built.",
 };
 

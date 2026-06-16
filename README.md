@@ -1,4 +1,4 @@
-# Shreyash's Portfolio
+# Samir's Portfolio
 
 **Live at:** [shreyashswami.is-a.dev](https://shreyashswami.is-a.dev)
 

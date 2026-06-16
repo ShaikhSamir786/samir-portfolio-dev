@@ -3,7 +3,7 @@ import ContactForm from "./ContactForm";
 import PageHeader from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Contact | Shreyash Swami",
+  title: "Contact | Shaikh Samir",
   description: "Get in touch with me.",
 };
 

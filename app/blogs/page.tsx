@@ -10,7 +10,7 @@ import BlogList from "@/components/blogs/BlogList";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Blogs | Shreyash Swami",
+  title: "Blogs | Shaikh Samir",
   description: "Articles and thoughts on backend engineering, AI, and software development.",
 };
 

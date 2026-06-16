@@ -30,28 +30,28 @@ const APP_URL = process.env.NEXTAUTH_URL || 'https://shreyashswami.is-a.dev';
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "Shreyash Swami - Full Stack Developer",
-    template: "%s | Shreyash Swami",
+    default: "Samir Shaikh - Full Stack Developer",
+    template: "%s | Samir Shaikh",
   },
-  description: "Portfolio of Shreyash Swami, a passionate Full Stack Developer specializing in React, Next.js, Node.js, and modern web technologies. Explore my projects, read my blogs, and let's build something amazing.",
-  keywords: ["Shreyash Swami", "Shreyash Swami Portfolio", "Full Stack Developer", "Next.js", "React", "Node.js", "Web Developer"],
-  authors: [{ name: "Shreyash Swami", url: APP_URL }],
-  creator: "Shreyash Swami",
+  description: "Portfolio of Samir Shaikh, a passionate Full Stack Developer specializing in React, Next.js, Node.js, and modern web technologies. Explore my projects, read my blogs, and let's build something amazing.",
+  keywords: ["Samir Shaikh", "Samir Shaikh Portfolio", "Full Stack Developer", "Next.js", "React", "Node.js", "Web Developer"],
+  authors: [{ name: "Samir Shaikh", url: APP_URL }],
+  creator: "Samir Shaikh",
   openGraph: {
-    title: "Shreyash Swami - Full Stack Developer",
-    description: "Portfolio of Shreyash Swami, a passionate Full Stack Developer. Explore my projects and read my blogs.",
+    title: "Samir Shaikh - Full Stack Developer",
+    description: "Portfolio of Samir Shaikh, a passionate Full Stack Developer. Explore my projects and read my blogs.",
     url: APP_URL,
-    siteName: "Shreyash Swami Portfolio",
+    siteName: "Samir Shaikh Portfolio",
     images: ["/Filled_Logo.png"],
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shreyash Swami - Full Stack Developer",
-    description: "Portfolio of Shreyash Swami, a passionate Full Stack Developer. Explore my projects and read my blogs.",
+    title: "Samir Shaikh - Full Stack Developer",
+    description: "Portfolio of Samir Shaikh, a passionate Full Stack Developer. Explore my projects and read my blogs.",
     images: ["/Filled_Logo.png"],
-    creator: "@ShaikhSamir786",
+    creator: "@ShaikhSamir Shaikh786",
   },
   verification: {
     google: "wG30YPnRWXKntcKGL7eYVh-CMNHF9l_2Dyr0T18ARl4",
@@ -98,23 +98,23 @@ export default function RootLayout({
           <CloudTransition />
           <PushSettings />
           <Chatbot />
-        {/* Google Analytics */}
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
+          {/* Google Analytics */}
+          {process.env.NEXT_PUBLIC_GA_ID && (
+            <>
+              <Script
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+                strategy="afterInteractive"
+              />
+              <Script id="google-analytics" strategy="afterInteractive">
+                {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
               `}
-            </Script>
-          </>
-        )}
+              </Script>
+            </>
+          )}
         </ThemeProvider>
       </body>
     </html>

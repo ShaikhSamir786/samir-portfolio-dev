@@ -130,8 +130,8 @@ export async function GET() {
         if (aboutData.length > 0 && aboutData[0].description) {
             await db.delete(contentChunks).where(eq(contentChunks.sourceId, ABOUT_UUID));
 
-            const fullText = `About Shreyash:\n${aboutData[0].description}`;
-            
+            const fullText = `About Samir:\n${aboutData[0].description}`;
+
             const chunks = chunkText(fullText);
             if (chunks.length > 0) {
                 const { embeddings } = await embedMany({

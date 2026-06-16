@@ -59,7 +59,7 @@ export async function generateMetadata(
   if (!project) return { title: "Project Not Found" };
 
   return {
-    title: `${project.title} | Shreyash Swami`,
+    title: `${project.title} | Shaikh Samir`,
     description: project.excerpt || `Read about my project ${project.title}`,
     openGraph: {
       title: project.title,
@@ -193,7 +193,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               datePublished: project.published_at,
               author: {
                 "@type": "Person",
-                name: "Shreyash Swami",
+                name: "Shaikh Samir",
                 url: process.env.NEXTAUTH_URL,
               }
             })

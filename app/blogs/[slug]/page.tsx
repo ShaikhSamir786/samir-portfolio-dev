@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const blog = await getBlog(slug);
   if (!blog) return { title: "Not Found" };
   return {
-    title: `${blog.title} | Shreyash Swami`,
+    title: `${blog.title} | Shaikh Samir`,
     description: blog.excerpt ?? undefined,
     openGraph: {
       title: blog.title,
@@ -145,13 +145,13 @@ export default async function BlogPostPage({ params }: Props) {
           html={blog.content}
           className="prose prose-gray dark:prose-invert max-w-none text-text-muted prose-headings:text-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-text-secondary"
         />
-        
+
         {/* Blog Interactions (Comments) */}
-        <BlogInteractions 
-          slug={blog.slug} 
-          initialComments={blog.comments ?? []} 
+        <BlogInteractions
+          slug={blog.slug}
+          initialComments={blog.comments ?? []}
         />
-        
+
         {/* Schema Markup for SEO */}
         <script
           type="application/ld+json"
@@ -166,7 +166,7 @@ export default async function BlogPostPage({ params }: Props) {
               author: [
                 {
                   "@type": "Person",
-                  name: "Shreyash Swami",
+                  name: "Samir",
                   url: process.env.NEXTAUTH_URL,
                 }
               ]

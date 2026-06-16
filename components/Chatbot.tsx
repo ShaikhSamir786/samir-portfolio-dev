@@ -107,7 +107,7 @@ export default function Chatbot() {
             <div className="h-full flex flex-col items-center justify-center text-center space-y-3 text-muted-foreground opacity-70">
               <FiMessageSquare className="w-10 h-10 mb-2" />
               <p className="text-sm px-4">
-                Hi! I'm an AI trained on Shreyash's portfolio. <br /> Ask me anything!
+                Hi! I'm an AI trained on Samir's portfolio. <br /> Ask me anything!
               </p>
             </div>
           )}

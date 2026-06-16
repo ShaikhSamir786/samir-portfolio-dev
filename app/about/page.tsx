@@ -8,7 +8,7 @@ import HtmlParser from "@/components/HtmlParser";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "About | Shreyash Swami",
+  title: "About | Shaikh Samir",
   description: "A little bit about me.",
 };
 
@@ -36,7 +36,7 @@ export default async function AboutPage() {
         ) : (
           <p className="text-text-muted text-sm text-center">Nothing here yet.</p>
         )}
-        
+
         <ExperienceTimeline />
       </div>
     </main>
