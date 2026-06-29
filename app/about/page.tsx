@@ -4,6 +4,7 @@ import { about } from "@/lib/schema";
 import PageHeader from "@/components/layout/PageHeader";
 import ExperienceTimeline from "@/components/about/ExperienceTimeline";
 import HtmlParser from "@/components/HtmlParser";
+import FAQ from "@/components/about/FAQ";
 
 export const revalidate = 3600;
 
@@ -39,6 +40,7 @@ export default async function AboutPage() {
         )}
 
         <ExperienceTimeline />
+        <FAQ />
       </div>
     </main>
   );
