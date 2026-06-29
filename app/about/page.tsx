@@ -9,8 +9,9 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "About | Shaikh Samir",
-  description: "A little bit about me.",
+  description: "Learn more about Samir Shaikh — a Node.js Backend Developer from Gujarat, India, with experience building scalable microservices, REST & GraphQL APIs, and event-driven systems. Interned at Logicwind. B.Tech in IT from Uka Tarsadia University.",
 };
+
 
 async function getAbout(): Promise<string> {
   try {

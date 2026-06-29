@@ -11,8 +11,9 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Projects | Shaikh Samir",
-  description: "A collection of things I've built.",
+  description: "Explore Samir Shaikh's backend engineering projects — including a WhatsApp campaign platform, microservice-based AI ticket triage system, and a full-stack event management platform built with Node.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, and Apache Kafka.",
 };
+
 
 interface Project {
   id: string;

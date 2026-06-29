@@ -4,8 +4,9 @@ import PageHeader from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
   title: "Contact | Shaikh Samir",
-  description: "Get in touch with me.",
+  description: "Get in touch with Samir Shaikh — a Node.js Backend Developer open to remote opportunities, freelance projects, and collaborations. Reach out via email or the contact form.",
 };
+
 
 export default function ContactPage() {
   return (

@@ -10,9 +10,10 @@ import BlogList from "@/components/blogs/BlogList";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Blogs | Shaikh Samir",
-  description: "Articles and thoughts on backend engineering, AI, and software development.",
+  title: "Blog | Shaikh Samir",
+  description: "Technical articles by Samir Shaikh on Node.js backend engineering, microservices, GraphQL, PostgreSQL, Redis, system design, DevOps, and software development best practices.",
 };
+
 
 interface Blog {
   id: string;
