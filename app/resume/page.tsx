@@ -8,7 +8,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Resume | Shaikh Samir",
-  description: "View and download Samir Shaikh's resume. Node.js Backend Developer with experience in Express.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, Apache Kafka, and CI/CD pipelines. Open to remote roles.",
+  description: "View and download Samir Shaikh's resume. AI Backend Engineer with experience in RAG systems, LLM integration, Express.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, Apache Kafka, and CI/CD pipelines. Open to remote roles.",
 };
 
 

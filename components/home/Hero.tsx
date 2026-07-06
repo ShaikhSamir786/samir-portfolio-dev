@@ -29,7 +29,7 @@ export default async function Hero() {
             Hey, I'm Samir.
           </h1>
           <p className="text-base md:text-lg text-text-muted max-w-2xl">
-            Welcome to my abode.
+            AI Backend Engineer building RAG pipelines, LLM-powered chatbots, and scalable Node.js systems. Welcome to my abode.
           </p>
         </div>
 

@@ -10,7 +10,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "About | Shaikh Samir",
-  description: "Learn more about Samir Shaikh — a Node.js Backend Developer from Gujarat, India, with experience building scalable microservices, REST & GraphQL APIs, and event-driven systems. Interned at Logicwind. B.Tech in IT from Uka Tarsadia University.",
+  description: "Learn more about Samir Shaikh — an AI Backend Engineer from Gujarat, India, with experience building RAG pipelines, LLM-powered chatbots, scalable microservices, and event-driven systems. Interned at Logicwind. B.Tech in IT from Uka Tarsadia University.",
 };
 
 

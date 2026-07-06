@@ -11,7 +11,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Projects | Shaikh Samir",
-  description: "Explore Samir Shaikh's backend engineering projects — including a WhatsApp campaign platform, microservice-based AI ticket triage system, and a full-stack event management platform built with Node.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, and Apache Kafka.",
+  description: "Explore Samir Shaikh's AI and backend engineering projects — including a RAG-powered portfolio chatbot with pgvector semantic search, a microservice-based AI ticket triage system, a WhatsApp campaign platform, and a full-stack event management platform built with Node.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, and Apache Kafka.",
 };
 
 
