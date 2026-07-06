@@ -4,12 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db";
 import { blogs as blogsSchema } from "@/lib/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, ne, desc } from "drizzle-orm";
 import ContentWithToc from "@/components/ContentWithToc";
 import BlogInteractions from "@/components/blogs/BlogInteractions";
 import BlogStarInteraction from "@/components/blogs/BlogStarInteraction";
 
 export const revalidate = 3600;
+
+const APP_URL = (process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '');
 
 interface Comment {
   name: string;
@@ -27,6 +29,15 @@ interface Blog {
   published_at: string;
   stars: number;
   comments: Comment[];
+}
+
+interface RelatedBlog {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  cover_image_url: string | null;
+  published_at: string;
 }
 
 interface Props {
@@ -53,6 +64,38 @@ async function getBlog(slug: string): Promise<Blog | null> {
   }
 }
 
+async function getRelatedBlogs(currentSlug: string): Promise<RelatedBlog[]> {
+  try {
+    const result = await db.select({
+      id: blogsSchema.id,
+      title: blogsSchema.title,
+      slug: blogsSchema.slug,
+      excerpt: blogsSchema.excerpt,
+      cover_image_url: blogsSchema.coverImageUrl,
+      published_at: blogsSchema.publishedAt,
+    })
+      .from(blogsSchema)
+      .where(and(eq(blogsSchema.isPublished, true), ne(blogsSchema.slug, currentSlug)))
+      .orderBy(desc(blogsSchema.publishedAt))
+      .limit(3);
+    return result as unknown as RelatedBlog[];
+  } catch {
+    return [];
+  }
+}
+
+export async function generateStaticParams() {
+  try {
+    const allBlogs = await db
+      .select({ slug: blogsSchema.slug })
+      .from(blogsSchema)
+      .where(eq(blogsSchema.isPublished, true));
+    return allBlogs.map((b) => ({ slug: b.slug }));
+  } catch {
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlog(slug);
@@ -60,11 +103,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${blog.title} | Shaikh Samir`,
     description: blog.excerpt ?? undefined,
+    alternates: {
+      canonical: `${APP_URL}/blogs/${blog.slug}`,
+    },
     openGraph: {
       title: blog.title,
       description: blog.excerpt || undefined,
-      images: blog.cover_image_url ? [blog.cover_image_url] : [],
+      url: `${APP_URL}/blogs/${blog.slug}`,
+      images: blog.cover_image_url ? [{ url: blog.cover_image_url, width: 1200, height: 630, alt: blog.title }] : [],
       type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.excerpt || undefined,
+      images: blog.cover_image_url ? [blog.cover_image_url] : [],
     },
   };
 }
@@ -79,7 +132,7 @@ function formatDate(dateStr: string) {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const blog = await getBlog(slug);
+  const [blog, relatedBlogs] = await Promise.all([getBlog(slug), getRelatedBlogs(slug)]);
 
   if (!blog) notFound();
 
@@ -131,7 +184,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="relative w-full aspect-[16/7] rounded-2xl overflow-hidden mb-12 bg-footer-bg">
             <Image
               src={blog.cover_image_url}
-              alt={blog.title}
+              alt={`Cover image for ${blog.title} — blog post by Samir Shaikh`}
               fill
               className="object-cover"
               priority
@@ -152,25 +205,74 @@ export default async function BlogPostPage({ params }: Props) {
           initialComments={blog.comments ?? []}
         />
 
+        {/* Related Posts */}
+        {relatedBlogs.length > 0 && (
+          <section className="mt-16 pt-12 border-t border-border-primary">
+            <h2 className="text-xl font-semibold text-foreground mb-6 tracking-tight">Related Posts</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedBlogs.map((related) => (
+                <Link
+                  key={related.id}
+                  href={`/blogs/${related.slug}`}
+                  className="group flex flex-col bg-background border border-border-primary rounded-xl overflow-hidden hover:border-text-muted transition-colors"
+                >
+                  {related.cover_image_url && (
+                    <div className="relative w-full aspect-[16/9] bg-hover-bg overflow-hidden">
+                      <Image
+                        src={related.cover_image_url}
+                        alt={`Cover image for ${related.title}`}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <p className="text-xs text-text-muted mb-2 tabular-nums">{formatDate(related.published_at)}</p>
+                    <h3 className="text-sm font-medium text-foreground leading-snug group-hover:text-text-secondary transition-colors line-clamp-2">
+                      {related.title}
+                    </h3>
+                    {related.excerpt && (
+                      <p className="text-xs text-text-muted mt-1 line-clamp-2">{related.excerpt}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Schema Markup for SEO */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BlogPosting",
-              headline: blog.title,
-              description: blog.excerpt || undefined,
-              image: blog.cover_image_url ? [blog.cover_image_url] : undefined,
-              datePublished: blog.published_at,
-              author: [
-                {
-                  "@type": "Person",
-                  name: "Samir",
-                  url: process.env.NEXTAUTH_URL,
-                }
-              ]
-            })
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                headline: blog.title,
+                description: blog.excerpt || undefined,
+                image: blog.cover_image_url ? [blog.cover_image_url] : undefined,
+                url: `${APP_URL}/blogs/${blog.slug}`,
+                datePublished: blog.published_at,
+                author: [
+                  {
+                    "@type": "Person",
+                    name: "Samir Shaikh",
+                    url: APP_URL,
+                  }
+                ]
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: APP_URL },
+                  { "@type": "ListItem", position: 2, name: "Blog", item: `${APP_URL}/blogs` },
+                  { "@type": "ListItem", position: 3, name: blog.title, item: `${APP_URL}/blogs/${blog.slug}` },
+                ],
+              },
+            ])
           }}
         />
       </div>

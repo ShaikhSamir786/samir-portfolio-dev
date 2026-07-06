@@ -71,7 +71,7 @@ export default function BlogList({ initialBlogs, hideSearch = false }: BlogListP
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredBlogs.map((blog) => (
+          {filteredBlogs.map((blog, index) => (
             <div
               key={blog.id}
               className="group flex flex-col bg-background border border-border-primary rounded-2xl overflow-hidden hover:border-text-muted transition-colors"
@@ -80,8 +80,9 @@ export default function BlogList({ initialBlogs, hideSearch = false }: BlogListP
                 {blog.cover_image_url ? (
                   <Image
                     src={blog.cover_image_url}
-                    alt={blog.title}
+                    alt={`Cover image for ${blog.title} blog post`}
                     fill
+                    priority={index === 0}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />

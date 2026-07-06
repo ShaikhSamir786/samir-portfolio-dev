@@ -65,7 +65,7 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+          {filteredProjects.map((project, index) => (
             <div
               key={project.id}
               className="group flex flex-col bg-background border border-border-primary rounded-2xl overflow-hidden hover:border-text-muted transition-colors"
@@ -74,8 +74,9 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
                 {project.cover_image_url ? (
                   <Image
                     src={project.cover_image_url}
-                    alt={project.title}
+                    alt={`Screenshot of ${project.title} project`}
                     fill
+                    priority={index === 0}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />

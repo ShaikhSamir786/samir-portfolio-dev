@@ -4,10 +4,8 @@ import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import CloudTransition from "@/components/layout/CloudTransition";
-import { PushSettings } from "@/components/PushSettings";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import Chatbot from "@/components/Chatbot";
+import LazyClientComponents from "@/components/LazyClientComponents";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +23,7 @@ const playfair = Playfair_Display({
   weight: ["400", "500", "600", "700"],
 });
 
-const APP_URL = process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app';
+const APP_URL = (process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '');
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
@@ -140,45 +138,58 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Samir Shaikh",
-    "url": APP_URL,
-    "email": "22amtics312@gmail.com",
-    "telephone": "+91 8320927182",
-    "jobTitle": "AI Backend Engineer",
-    "description": "AI Backend Engineer with 9 months of production experience architecting scalable, event-driven backend solutions and Retrieval-Augmented Generation (RAG) systems using Node.js, Express.js, NestJS, PostgreSQL (pgvector), Redis, BullMQ, Docker, Apache Kafka, and the Vercel AI SDK.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vapi / Surat",
-      "addressRegion": "Gujarat",
-      "addressCountry": "IN"
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Samir Shaikh",
+      "url": APP_URL,
+      "email": "22amtics312@gmail.com",
+      "telephone": "+91 8320927182",
+      "jobTitle": "AI Backend Engineer",
+      "description": "AI Backend Engineer with 9 months of production experience architecting scalable, event-driven backend solutions and Retrieval-Augmented Generation (RAG) systems using Node.js, Express.js, NestJS, PostgreSQL (pgvector), Redis, BullMQ, Docker, Apache Kafka, and the Vercel AI SDK.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Vapi / Surat",
+        "addressRegion": "Gujarat",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://linkedin.com/in/samir-shaikh-760b932a8",
+        "https://github.com/ShaikhSamir786",
+      ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Uka Tarsadia University",
+        "sameAs": "https://utu.ac.in"
+      },
+      "knowsAbout": [
+        "AI Backend Engineering", "Retrieval Augmented Generation (RAG)", "LLM Integration",
+        "Vector Search", "pgvector", "Semantic Search", "Embeddings", "Vercel AI SDK",
+        "Google Gemini API", "Prompt Engineering", "AI Chatbot Development",
+        "Node.js", "Express.js", "NestJS", "GraphQL", "REST APIs",
+        "PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase",
+        "BullMQ", "Apache Kafka", "Docker", "TypeScript", "JavaScript",
+        "JWT", "Socket.io", "Sequelize", "OpenTelemetry", "Prometheus",
+        "Grafana", "GitHub Actions", "CI/CD", "Microservices", "Next.js", "React"
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Logicwind"
+      }
     },
-    "sameAs": [
-      "https://linkedin.com/in/samir-shaikh-760b932a8",
-      "https://github.com/ShaikhSamir786",
-    ],
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "Uka Tarsadia University",
-      "sameAs": "https://utu.ac.in"
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Samir Shaikh Portfolio",
+      "url": APP_URL,
+      "description": "Portfolio of Samir Shaikh, AI Backend Engineer specializing in RAG pipelines, LLM-powered chatbots, and event-driven microservices.",
+      "author": {
+        "@type": "Person",
+        "name": "Samir Shaikh"
+      }
     },
-    "knowsAbout": [
-      "AI Backend Engineering", "Retrieval Augmented Generation (RAG)", "LLM Integration",
-      "Vector Search", "pgvector", "Semantic Search", "Embeddings", "Vercel AI SDK",
-      "Google Gemini API", "Prompt Engineering", "AI Chatbot Development",
-      "Node.js", "Express.js", "NestJS", "GraphQL", "REST APIs",
-      "PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase",
-      "BullMQ", "Apache Kafka", "Docker", "TypeScript", "JavaScript",
-      "JWT", "Socket.io", "Sequelize", "OpenTelemetry", "Prometheus",
-      "Grafana", "GitHub Actions", "CI/CD", "Microservices", "Next.js", "React"
-    ],
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Logicwind"
-    }
-  };
+  ];
 
   return (
     <html
@@ -204,9 +215,7 @@ export default function RootLayout({
             {children}
           </div>
           <Footer />
-          <CloudTransition />
-          <PushSettings />
-          <Chatbot />
+          <LazyClientComponents />
           {/* Google Analytics */}
           {process.env.NEXT_PUBLIC_GA_ID && (
             <>

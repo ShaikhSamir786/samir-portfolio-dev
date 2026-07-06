@@ -3,11 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { projects as projectsSchema } from "@/lib/schema";
-import { eq, and } from "drizzle-orm";
-import type { Metadata, ResolvingMetadata } from "next";
+import { eq, and, ne, desc } from "drizzle-orm";
+import type { Metadata } from "next";
 import ContentWithToc from "@/components/ContentWithToc";
 
 export const revalidate = 3600;
+
+const APP_URL = (process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '');
 
 interface Project {
   id: string;
@@ -20,6 +22,15 @@ interface Project {
   github_link: string | null;
   demo_link: string | null;
   published_at: string;
+}
+
+interface RelatedProject {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  cover_image_url: string | null;
+  technologies: string[] | null;
 }
 
 interface PageProps {
@@ -49,9 +60,40 @@ async function getProject(slug: string): Promise<Project | null> {
   }
 }
 
+async function getSimilarProjects(currentSlug: string): Promise<RelatedProject[]> {
+  try {
+    const result = await db.select({
+      id: projectsSchema.id,
+      title: projectsSchema.title,
+      slug: projectsSchema.slug,
+      excerpt: projectsSchema.excerpt,
+      cover_image_url: projectsSchema.coverImageUrl,
+      technologies: projectsSchema.technologies,
+    })
+      .from(projectsSchema)
+      .where(and(eq(projectsSchema.isPublished, true), ne(projectsSchema.slug, currentSlug)))
+      .orderBy(desc(projectsSchema.publishedAt))
+      .limit(3);
+    return result as unknown as RelatedProject[];
+  } catch {
+    return [];
+  }
+}
+
+export async function generateStaticParams() {
+  try {
+    const allProjects = await db
+      .select({ slug: projectsSchema.slug })
+      .from(projectsSchema)
+      .where(eq(projectsSchema.isPublished, true));
+    return allProjects.map((p) => ({ slug: p.slug }));
+  } catch {
+    return [];
+  }
+}
+
 export async function generateMetadata(
-  { params }: PageProps,
-  parent: ResolvingMetadata
+  { params }: PageProps
 ): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProject(slug);
@@ -61,7 +103,18 @@ export async function generateMetadata(
   return {
     title: `${project.title} | Shaikh Samir`,
     description: project.excerpt || `Read about my project ${project.title}`,
+    alternates: {
+      canonical: `${APP_URL}/projects/${project.slug}`,
+    },
     openGraph: {
+      title: project.title,
+      description: project.excerpt || undefined,
+      url: `${APP_URL}/projects/${project.slug}`,
+      images: project.cover_image_url ? [{ url: project.cover_image_url, width: 1200, height: 630, alt: project.title }] : [],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
       title: project.title,
       description: project.excerpt || undefined,
       images: project.cover_image_url ? [project.cover_image_url] : [],
@@ -71,7 +124,7 @@ export async function generateMetadata(
 
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const [project, similarProjects] = await Promise.all([getProject(slug), getSimilarProjects(slug)]);
 
   if (!project) {
     notFound();
@@ -162,7 +215,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <div className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden bg-footer-bg mb-12 md:mb-20 shadow-sm border border-border-primary">
             <Image
               src={project.cover_image_url}
-              alt={project.title}
+              alt={`Screenshot of ${project.title} project`}
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 1024px"
@@ -184,21 +237,78 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: project.title,
-              description: project.excerpt || undefined,
-              image: project.cover_image_url ? [project.cover_image_url] : undefined,
-              datePublished: project.published_at,
-              author: {
-                "@type": "Person",
-                name: "Shaikh Samir",
-                url: process.env.NEXTAUTH_URL,
-              }
-            })
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                name: project.title,
+                description: project.excerpt || undefined,
+                image: project.cover_image_url ? [project.cover_image_url] : undefined,
+                url: `${APP_URL}/projects/${project.slug}`,
+                datePublished: project.published_at,
+                author: {
+                  "@type": "Person",
+                  name: "Shaikh Samir",
+                  url: APP_URL,
+                }
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: APP_URL },
+                  { "@type": "ListItem", position: 2, name: "Projects", item: `${APP_URL}/projects` },
+                  { "@type": "ListItem", position: 3, name: project.title, item: `${APP_URL}/projects/${project.slug}` },
+                ],
+              },
+            ])
           }}
         />
+
+        {/* Similar Projects */}
+        {similarProjects.length > 0 && (
+          <section className="mt-16 pt-12 border-t border-border-primary">
+            <h2 className="text-xl font-semibold text-foreground mb-6 tracking-tight">Similar Projects</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {similarProjects.map((related) => (
+                <Link
+                  key={related.id}
+                  href={`/projects/${related.slug}`}
+                  className="group flex flex-col bg-background border border-border-primary rounded-xl overflow-hidden hover:border-text-muted transition-colors"
+                >
+                  {related.cover_image_url && (
+                    <div className="relative w-full aspect-[16/9] bg-hover-bg overflow-hidden">
+                      <Image
+                        src={related.cover_image_url}
+                        alt={`Screenshot of ${related.title} project`}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    {related.technologies && related.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-2">
+                        {related.technologies.slice(0, 3).map((tech) => (
+                          <span key={tech} className="text-[10px] font-semibold uppercase tracking-wide text-text-secondary bg-hover-bg px-2 py-0.5 rounded-sm">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <h3 className="text-sm font-medium text-foreground leading-snug group-hover:text-text-secondary transition-colors line-clamp-2">
+                      {related.title}
+                    </h3>
+                    {related.excerpt && (
+                      <p className="text-xs text-text-muted mt-1 line-clamp-2">{related.excerpt}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </article>
     </main>
   );
