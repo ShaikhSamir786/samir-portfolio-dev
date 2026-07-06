@@ -1,0 +1,7 @@
+# security.txt – Samir Shaikh Portfolio
+# https://samir-portfolio-dev.vercel.app/.well-known/security.txt
+
+Contact: mailto:22amtics312@gmail.com
+Expires: 2027-07-06T00:00:00.000Z
+Preferred-Languages: en, hi, gu
+Canonical: https://samir-portfolio-dev.vercel.app/.well-known/security.txt

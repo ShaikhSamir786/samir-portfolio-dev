@@ -1,0 +1,96 @@
+Name: Samir Shaikh
+Title: AI Backend Engineer
+Location: Gujarat, India
+
+Website: https://samir-portfolio-dev.vercel.app
+GitHub: https://github.com/ShaikhSamir786
+LinkedIn: https://www.linkedin.com/in/samir-shaikh-760b932a8/
+Email: shaikh.samir.dev@gmail.com
+
+## Summary
+AI Backend Engineer specializing in backend systems, distributed architectures, and Retrieval-Augmented Generation (RAG) applications. Experience building production-grade APIs and AI-powered systems using Node.js, TypeScript, and modern LLM tooling.
+
+## Skills
+
+Expert:
+- Node.js
+- TypeScript
+- Backend System Design
+
+Advanced:
+- Express.js
+- PostgreSQL
+- MongoDB
+- Docker
+- REST APIs
+- System Design
+
+Intermediate:
+- NestJS
+- Kafka
+- BullMQ
+- Redis
+- GraphQL
+- React
+- Next.js
+
+## AI / LLM Stack
+- Retrieval-Augmented Generation (RAG)
+- Google Gemini API
+- Embeddings
+- pgvector (vector similarity search)
+- Vercel AI SDK
+- Prompt Engineering
+- Context grounding / hallucination control
+
+## Backend Engineering
+- Microservices architecture
+- Event-driven systems
+- Authentication (JWT, OAuth, RBAC)
+- Rate limiting & security hardening
+- Background job processing
+- WebSockets / real-time systems
+- API design (REST & GraphQL)
+
+## Infrastructure & Observability
+- Docker
+- CI/CD (GitHub Actions)
+- OpenTelemetry
+- Prometheus
+- Grafana
+
+## Databases
+- PostgreSQL (including pgvector)
+- MongoDB
+- Redis
+
+## Projects
+
+AI Portfolio RAG Chatbot
+- Production RAG system powering portfolio assistant
+- Uses Gemini embeddings + pgvector semantic search
+- Designed to reduce hallucinations via grounded retrieval
+
+AI Ticket Triage System
+- Microservices-based architecture
+- Kafka + BullMQ event processing
+- Observability with OpenTelemetry + Prometheus + Grafana
+
+WhatsApp Campaign Platform
+- Node.js + automation system for business messaging workflows
+- Built for real-world SME use case
+
+Eventifyy Platform
+- Full-stack event management system
+- GraphQL API with PostgreSQL + React frontend
+
+## Career Goals
+Seeking opportunities as:
+- AI Backend Engineer
+- Backend Engineer
+- Full-Stack Engineer
+
+Open to remote and India-based roles.
+
+## Keywords
+Node.js, TypeScript, Backend, AI, RAG, LLM, Gemini, pgvector, Vector Database, Embeddings, Express, NestJS, Kafka, Microservices, Event-driven Architecture, PostgreSQL, MongoDB, Redis, Docker, GraphQL, REST APIs, System Design, OpenTelemetry, CI/CD
