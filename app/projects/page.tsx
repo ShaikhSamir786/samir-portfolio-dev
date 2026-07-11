@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
 import { db } from "@/lib/db";
 import { projects as projectsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
@@ -10,19 +8,19 @@ import ProjectList from "@/components/projects/ProjectList";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Projects | Shaikh Samir",
+  title: "Projects | Samir Shaikh",
   description: "Explore Samir Shaikh's AI and backend engineering projects — including a RAG-powered portfolio chatbot with pgvector semantic search, a microservice-based AI ticket triage system, a WhatsApp campaign platform, and a full-stack event management platform built with Node.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, and Apache Kafka.",
   alternates: {
     canonical: `${(process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '')}/projects`,
   },
   openGraph: {
-    title: "Projects | Shaikh Samir",
+    title: "Projects | Samir Shaikh",
     description: "AI and backend engineering projects by Samir Shaikh: RAG chatbot, microservice AI ticket triage, WhatsApp campaign platform, and more.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Projects | Shaikh Samir",
+    title: "Projects | Samir Shaikh",
     description: "AI and backend engineering projects by Samir Shaikh: RAG chatbot, microservice AI ticket triage, WhatsApp campaigns, and more.",
   },
 };

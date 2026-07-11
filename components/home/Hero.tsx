@@ -2,10 +2,14 @@ import { getGithubStats } from "@/lib/github";
 import { FaGithub, FaStar, FaCodeBranch, FaUsers, FaFileCode } from "react-icons/fa6";
 import { FiGitCommit } from "react-icons/fi";
 
+type GithubStats = Awaited<ReturnType<typeof getGithubStats>>;
+type ContributionWeek = GithubStats["calendar"][number];
+type ContributionDay = ContributionWeek["contributionDays"][number];
+
 export default async function Hero() {
   const token = process.env.GITHUB_TOKEN;
-  let stats = null;
-  let error = null;
+  let stats: GithubStats | null = null;
+  let error: string | null = null;
 
   try {
     if (token) {
@@ -13,8 +17,8 @@ export default async function Hero() {
     } else {
       error = "GitHub token not configured";
     }
-  } catch (e: any) {
-    error = e.message || "Failed to load GitHub stats";
+  } catch (e: unknown) {
+    error = e instanceof Error ? e.message : "Failed to load GitHub stats";
   }
 
   return (
@@ -26,10 +30,10 @@ export default async function Hero() {
             className="text-4xl sm:text-5xl font-medium text-foreground tracking-tight mb-3"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            Hey, I'm Samir.
+            Hey, I&apos;m Samir.
           </h1>
           <p className="text-base md:text-lg text-text-muted max-w-2xl">
-            AI Backend Engineer building RAG pipelines, LLM-powered chatbots, and scalable Node.js systems. Welcome to my abode.
+            I build RAG pipelines, LLM-powered chatbots, and scalable Node.js systems, and I am exploring Forward Deployed Engineer roles that combine backend depth with direct customer ownership.
           </p>
         </div>
 
@@ -62,10 +66,10 @@ export default async function Hero() {
                   {/* The Graph */}
                   <div className="flex-1 flex items-end gap-[3px] h-full pt-4">
                     {(() => {
-                      const allDays = stats.calendar.flatMap((week: any) => week.contributionDays);
+                      const allDays = stats.calendar.flatMap((week: ContributionWeek) => week.contributionDays);
                       const last28Days = allDays.slice(-28);
 
-                      return last28Days.map((day: any, i: number) => {
+                      return last28Days.map((day: ContributionDay, i: number) => {
                         const total = day.contributionCount;
 
                         // 0 commits: tiny subtle bar. Active days: scale up to 6 commits max for clear variation

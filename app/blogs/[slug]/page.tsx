@@ -11,7 +11,7 @@ import BlogStarInteraction from "@/components/blogs/BlogStarInteraction";
 
 export const revalidate = 3600;
 
-const APP_URL = (process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '');
+import { APP_URL } from "@/lib/site-config";
 
 interface Comment {
   name: string;
@@ -101,7 +101,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const blog = await getBlog(slug);
   if (!blog) return { title: "Not Found" };
   return {
-    title: `${blog.title} | Shaikh Samir`,
+    title: `${blog.title} | Samir Shaikh`,
     description: blog.excerpt ?? undefined,
     alternates: {
       canonical: `${APP_URL}/blogs/${blog.slug}`,

@@ -1,7 +1,7 @@
 # Samir's Portfolio — AI Context
 
 ## Project Overview
-Personal portfolio & blog for Samir (Node.js Backend Developer). Live at [shreyashswami.is-a.dev](https://shreyashswami.is-a.dev). Full-featured site with admin panel, AI chatbot, PWA, push notifications, and blog with comments/stars.
+Personal portfolio & blog for Samir Shaikh (AI Backend Engineer / Node.js Developer). Fallback deploy URL is `samir-portfolio-dev.vercel.app` (via `NEXTAUTH_URL`, see `app/layout.tsx`); custom domain not yet finalized. Full-featured site with admin panel, AI chatbot, PWA, push notifications, and blog with comments/stars.
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router), React 19, TypeScript 5
@@ -17,7 +17,7 @@ Personal portfolio & blog for Samir (Node.js Backend Developer). Live at [shreya
 ## Project Structure
 ```
 app/                    # Next.js App Router
-├── api/                # 14 API route groups (30 files)
+├── api/                # 14 API route groups (25 route.ts files)
 │   ├── about/         GET, PUT
 │   ├── auth/          [...nextauth]
 │   ├── blogs/         CRUD + star + comment + slug lookup
@@ -89,7 +89,7 @@ drizzle/               SQL migrations
 
 | Table | Key Details |
 |---|---|
-| `admin_users` | email (unique), password |
+| `admin_users` | email (unique), password — **defined but unused**; the Credentials provider in `lib/auth.ts` checks `ADMIN_USERNAME`/`ADMIN_PASSWORD` env vars directly, not this table |
 | `projects` | slug (unique), technologies[], is_published, stars: no, comments: no |
 | `blogs` | slug (unique), stars (int), comments (jsonb[]: `{name, comment, createdAt}`), is_published |
 | `about` | description (single row, no id) |
@@ -181,21 +181,23 @@ if (res.ok) { /* optimistic update */ }
 - Timestamps include timezone
 - Blog comments stored as JSONB array with `{ name, comment, createdAt }`
 
-## Environment Variables (from .env.example)
+## Environment Variables (verified against `.env.example` + actual `process.env.*` usage)
 - `DATABASE_URL` — Neon Postgres connection string
-- `AUTH_SECRET` — NextAuth secret
-- `AUTH_GITHUB_ID` / `AUTH_GITHUB_SECRET` — GitHub OAuth
-- `ADMIN_USERNAME` / `ADMIN_PASSWORD` — Credentials auth
-- `NEXT_PUBLIC_VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` / `VAPID_SUBJECT` — Web Push
-- `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` — Cloudinary
+- `NEXTAUTH_SECRET` / `NEXTAUTH_URL` — NextAuth secret + canonical app URL (also used as the site's `metadataBase` fallback in `app/layout.tsx`)
+- `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` — GitHub OAuth (NOT `AUTH_GITHUB_ID`/`AUTH_GITHUB_SECRET`)
+- `ADMIN_USERNAME` / `ADMIN_PASSWORD` — Credentials auth, compared as plaintext strings in `lib/auth.ts` (not hashed, despite `bcryptjs` being a dependency)
+- `NEXT_PUBLIC_VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` — Web Push (no separate `VAPID_SUBJECT` var in this codebase)
+- `CLOUDINARY_URL` — single connection-string var (NOT split `CLOUDINARY_CLOUD_NAME`/`CLOUDINARY_API_KEY`/`CLOUDINARY_API_SECRET`)
 - `GROQ_API_KEY` — AI chat model
 - `GOOGLE_GENERATIVE_AI_API_KEY` — Gemini embeddings
 - `GITHUB_TOKEN` — GitHub stats
-- `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` — Nodemailer
+- `SMTP_HOST` / `SMTP_PORT` / `SMTP_EMAIL` / `SMTP_PASSWORD` — Nodemailer (NOT `SMTP_USER`/`SMTP_PASS`)
+- `NEXT_PUBLIC_SITE_NAME` — site name string
 - `AI_SECURITY` — Enable VPN/proxy blocking (optional)
 - `AI_LIMIT` — Rate limit per visitor/day (default 5)
-- `IPINFO_TOKEN` — IPinfo API (optional)
+- `IPINFO_API` — IPinfo API token (NOT `IPINFO_TOKEN`)
 - `NEXT_PUBLIC_GA_ID` — Google Analytics (optional)
+- `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — present in `.env.example` but **not currently referenced anywhere in code**; `lib/chat/security.ts` actually rate-limits with a plain in-memory `Map`, which does not persist across serverless cold starts or multiple instances. Treat Redis-backed limiting as a TODO, not a shipped feature.
 
 ## Critical Rules
 1. **Never commit secrets** — all keys go in `.env`, never in code
@@ -208,3 +210,7 @@ if (res.ok) { /* optimistic update */ }
 8. **Comments use JSONB** — append-only array pattern
 9. **Push subscriptions upsert** on endpoint conflict
 10. **RAG reindex happens automatically** on content create/update/delete
+11. **Chat rate limiting is in-memory only** — resets on redeploy/cold start and isn't shared across instances; don't rely on it for real abuse protection until it's moved to Upstash Redis
+12. **`admin_users` table is unused** — don't build features assuming it's the source of truth for admin login; the Credentials provider reads `ADMIN_USERNAME`/`ADMIN_PASSWORD` env vars directly
+13. **`POST /api/blogs` and `POST /api/push/send` accept two auth modes** via `lib/api-auth.ts`: an admin session (browser) OR `Authorization: Bearer <BLOG_AUTOMATION_TOKEN>` (server-to-server). Don't reuse `isAuthorized()` on routes that should be session-only.
+14. **Automated blog pipeline**: `.github/workflows/auto-blog.yml` runs `scripts/generate-blog.mjs` every 3 days (+ manual `workflow_dispatch`). It generates a post with Groq grounded in `public/llms.txt`, converts Markdown to sanitized HTML (`rehype-sanitize`), POSTs to `/api/blogs`, then `/api/push/send` if published. A word-count quality gate (`MIN_WORD_COUNT`, default 350) forces a draft if the generation looks too thin — check `/admin/blogs` periodically since this runs unattended.

@@ -5,10 +5,10 @@ Location: Gujarat, India
 Website: https://samir-portfolio-dev.vercel.app
 GitHub: https://github.com/ShaikhSamir786
 LinkedIn: https://www.linkedin.com/in/samir-shaikh-760b932a8/
-Email: shaikh.samir.dev@gmail.com
+Email: 22amtics312@gmail.com
 
 ## Summary
-AI Backend Engineer specializing in backend systems, distributed architectures, and Retrieval-Augmented Generation (RAG) applications. Experience building production-grade APIs and AI-powered systems using Node.js, TypeScript, and modern LLM tooling.
+AI Backend Engineer specializing in backend systems, distributed architectures, and Retrieval-Augmented Generation (RAG) applications. I am also exploring Forward Deployed Engineer roles that combine backend depth, customer context, and end-to-end ownership.
 
 ## Skills
 
@@ -87,10 +87,13 @@ Eventifyy Platform
 ## Career Goals
 Seeking opportunities as:
 - AI Backend Engineer
+- Forward Deployed Engineer
 - Backend Engineer
 - Full-Stack Engineer
+
+I am especially interested in roles that require customer-facing problem solving, comfort with ambiguity, and ownership from discovery to deployment.
 
 Open to remote and India-based roles.
 
 ## Keywords
-Node.js, TypeScript, Backend, AI, RAG, LLM, Gemini, pgvector, Vector Database, Embeddings, Express, NestJS, Kafka, Microservices, Event-driven Architecture, PostgreSQL, MongoDB, Redis, Docker, GraphQL, REST APIs, System Design, OpenTelemetry, CI/CD
+Node.js, TypeScript, Backend, AI, RAG, LLM, Gemini, pgvector, Vector Database, Embeddings, Express, NestJS, Kafka, Microservices, Event-driven Architecture, PostgreSQL, MongoDB, Redis, Docker, GraphQL, REST APIs, System Design, OpenTelemetry, CI/CD, Forward Deployed Engineer, Applied AI Engineer, Customer-Facing Engineer

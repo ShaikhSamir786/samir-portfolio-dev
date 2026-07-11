@@ -1,26 +1,39 @@
-import Script from "next/script";
-
 export default function FAQ() {
   const faqs = [
     {
       question: "What is your primary tech stack?",
       answer:
-        "My primary backend tech stack includes Node.js, Express.js, NestJS, and PostgreSQL. On the AI side, I work with the Vercel AI SDK, Google Gemini embeddings, and pgvector for building RAG (Retrieval-Augmented Generation) systems. I also have strong experience with Redis for caching, BullMQ for background jobs, and Apache Kafka for event-driven architectures.",
+        "My primary stack is Node.js, Express.js, NestJS, and PostgreSQL for backend development, plus the Vercel AI SDK, Google Gemini embeddings, and pgvector for RAG systems. I also use Redis for caching, BullMQ for background jobs, and Apache Kafka for event-driven architectures.",
     },
     {
       question: "Do you have experience building AI-powered applications?",
       answer:
-        "Yes - this portfolio's chatbot is a production RAG system I built from scratch: it embeds site content with Google Gemini via the Vercel AI SDK, retrieves relevant context using pgvector cosine similarity search, and grounds every answer in exact URLs and titles to prevent hallucination.",
+        "Yes, I have hands-on experience building AI-powered applications, including this portfolio chatbot. It is a production RAG system I built from scratch that embeds site content with Google Gemini via the Vercel AI SDK, retrieves context using pgvector cosine similarity search, and grounds every answer in exact URLs and titles to reduce hallucinations.",
     },
     {
       question: "Are you open to remote work or freelance projects?",
       answer:
-        "Yes, I am actively open to remote AI Backend Engineer and Node.js Backend Developer roles, as well as freelance backend engineering projects globally.",
+        "Yes, I am open to remote AI Backend Engineer and Node.js Backend Developer roles, as well as freelance backend engineering projects globally.",
+    },
+    {
+      question: "Are you interested in Forward Deployed Engineer roles?",
+      answer:
+        "Yes, I am actively exploring Forward Deployed Engineer roles that combine deep backend and AI engineering with direct customer ownership. I am most motivated by roles where I can translate ambiguous customer problems into production systems with clear impact.",
+    },
+    {
+      question: "Why are customer-facing engineering roles a good fit for you?",
+      answer:
+        "Customer-facing engineering is a strong fit for me because I enjoy taking ownership from problem discovery through deployment. My work on production backend systems, RAG pipelines, and AI-powered workflows has required balancing technical depth with practical user and business outcomes.",
+    },
+    {
+      question: "How does your current work map to Forward Deployed Engineering?",
+      answer:
+        "My current work maps well to Forward Deployed Engineering because it already blends ambiguity handling, full-stack delivery, and measurable outcomes. I routinely design APIs, data flows, and AI features end-to-end, then refine them based on real usage and constraints.",
     },
     {
       question: "What kind of projects have you worked on?",
       answer:
-        "I have built a production RAG chatbot with vector search, architected scalable microservices, built secure REST and GraphQL APIs, and developed platforms like a WhatsApp promotional campaign system and an AI-driven customer ticket triage system.",
+        "I have built a production RAG chatbot with vector search, architected scalable microservices, built secure REST and GraphQL APIs, and developed platforms such as a WhatsApp campaign system and an AI-driven customer ticket triage system.",
     },
     {
       question: "What is your experience with DevOps and deployment?",
@@ -49,11 +62,9 @@ export default function FAQ() {
 
   return (
     <div className="mt-16">
-      <Script
-        id="faq-json-ld"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        strategy="beforeInteractive"
       />
       <h2 className="text-2xl font-bold tracking-tight text-foreground mb-6">
         Frequently Asked Questions

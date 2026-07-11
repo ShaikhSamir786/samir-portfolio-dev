@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const APP_URL = (process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '');
+import { APP_URL } from "@/lib/site-config";
 
 export default function robots(): MetadataRoute.Robots {
   return {

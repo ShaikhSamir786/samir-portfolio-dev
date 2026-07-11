@@ -51,7 +51,7 @@ export async function POST(
     });
 
     await transporter.sendMail({
-      from: `"${process.env.NEXT_PUBLIC_SITE_NAME || "Shaikh Samir"}" <${process.env.SMTP_EMAIL}>`,
+      from: `"${process.env.NEXT_PUBLIC_SITE_NAME || "Samir Shaikh"}" <${process.env.SMTP_EMAIL}>`,
       to: email,
       subject: `Re: ${subject || "Your Message"}`,
       text: replyText,

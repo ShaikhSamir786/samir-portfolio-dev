@@ -9,7 +9,7 @@ import ContentWithToc from "@/components/ContentWithToc";
 
 export const revalidate = 3600;
 
-const APP_URL = (process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '');
+import { APP_URL } from "@/lib/site-config";
 
 interface Project {
   id: string;
@@ -101,7 +101,7 @@ export async function generateMetadata(
   if (!project) return { title: "Project Not Found" };
 
   return {
-    title: `${project.title} | Shaikh Samir`,
+    title: `${project.title} | Samir Shaikh`,
     description: project.excerpt || `Read about my project ${project.title}`,
     alternates: {
       canonical: `${APP_URL}/projects/${project.slug}`,
@@ -248,7 +248,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 datePublished: project.published_at,
                 author: {
                   "@type": "Person",
-                  name: "Shaikh Samir",
+                  name: "Samir Shaikh",
                   url: APP_URL,
                 }
               },

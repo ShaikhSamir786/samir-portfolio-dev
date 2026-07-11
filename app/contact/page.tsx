@@ -3,18 +3,18 @@ import ContactForm from "./ContactForm";
 import PageHeader from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Contact | Shaikh Samir",
+  title: "Contact | Samir Shaikh",
   description: "Get in touch with Samir Shaikh — a Node.js Backend Developer open to remote opportunities, freelance projects, and collaborations. Reach out via email or the contact form.",
   alternates: {
     canonical: `${(process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '')}/contact`,
   },
   openGraph: {
-    title: "Contact | Shaikh Samir",
+    title: "Contact | Samir Shaikh",
     description: "Get in touch with Samir Shaikh — open to remote roles, freelance work, and collaborations in AI backend and Node.js engineering.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact | Shaikh Samir",
+    title: "Contact | Samir Shaikh",
     description: "Get in touch with Samir Shaikh — open to remote roles, freelance work, and collaborations.",
   },
 };

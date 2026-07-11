@@ -9,18 +9,18 @@ import FAQ from "@/components/about/FAQ";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "About | Shaikh Samir",
+  title: "About | Samir Shaikh",
   description: "Learn more about Samir Shaikh — an AI Backend Engineer from Gujarat, India, with experience building RAG pipelines, LLM-powered chatbots, scalable microservices, and event-driven systems. Interned at Logicwind. B.Tech in IT from Uka Tarsadia University.",
   alternates: {
     canonical: `${(process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '')}/about`,
   },
   openGraph: {
-    title: "About | Shaikh Samir",
+    title: "About | Samir Shaikh",
     description: "Learn more about Samir Shaikh — an AI Backend Engineer from Gujarat, India, with experience building RAG pipelines, LLM-powered chatbots, scalable microservices, and event-driven systems.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "About | Shaikh Samir",
+    title: "About | Samir Shaikh",
     description: "AI Backend Engineer from Gujarat, India. Experienced in RAG pipelines, LLM chatbots, Node.js, NestJS, PostgreSQL, and microservices.",
   },
 };
