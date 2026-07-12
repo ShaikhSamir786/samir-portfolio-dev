@@ -14,9 +14,9 @@ export function getRootJsonLd() {
       url: APP_URL,
       email: AUTHOR_EMAIL,
       telephone: AUTHOR_PHONE,
-      jobTitle: "AI Backend Engineer",
+      jobTitle: "AI Backend Engineer | AI SDE | Agentic AI Engineer",
       description:
-        "AI Backend Engineer with production experience architecting scalable, event-driven backend solutions and Retrieval-Augmented Generation (RAG) systems, with a strong interest in customer-embedded, forward-deployed engineering work.",
+        "AI Backend Engineer and AI SDE with production experience architecting scalable, event-driven backend solutions, Retrieval-Augmented Generation (RAG) systems, and agentic AI workflows. Strong interest in customer-embedded, forward-deployed engineering work.",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Vapi / Surat",
@@ -34,6 +34,13 @@ export function getRootJsonLd() {
       },
       knowsAbout: [
         "AI Backend Engineering",
+        "AI Software Development Engineering",
+        "Agentic AI",
+        "AI Agents",
+        "Multi-Agent Systems",
+        "AI Orchestration",
+        "Autonomous AI Workflows",
+        "Tool-Using AI",
         "Retrieval Augmented Generation (RAG)",
         "LLM Integration",
         "Forward Deployed Engineering",
@@ -85,7 +92,7 @@ export function getRootJsonLd() {
       name: "Samir Shaikh Portfolio",
       url: APP_URL,
       description:
-        "Portfolio of Samir Shaikh, AI Backend Engineer specializing in RAG pipelines, LLM-powered chatbots, and event-driven microservices.",
+        "Portfolio of Samir Shaikh, AI Backend Engineer and AI SDE specializing in RAG pipelines, LLM-powered chatbots, agentic AI systems, and event-driven microservices.",
       author: {
         "@type": "Person",
         name: AUTHOR_NAME,

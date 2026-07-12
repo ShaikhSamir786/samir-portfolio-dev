@@ -8,18 +8,18 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Resume | Samir Shaikh",
-  description: "View and download Samir Shaikh's resume. AI Backend Engineer with experience in RAG systems, LLM integration, Express.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, Apache Kafka, and CI/CD pipelines. Open to remote roles.",
+  description: "View and download Samir Shaikh's resume. AI Backend Engineer, AI SDE, and Agentic AI Engineer with experience in RAG systems, LLM integration, agentic AI workflows, Express.js, NestJS, GraphQL, PostgreSQL, Redis, BullMQ, Docker, Apache Kafka, and CI/CD pipelines. Open to remote roles.",
   alternates: {
     canonical: `${(process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '')}/resume`,
   },
   openGraph: {
     title: "Resume | Samir Shaikh",
-    description: "View and download Samir Shaikh's resume. AI Backend Engineer experienced in RAG, LLM integration, Node.js, NestJS, PostgreSQL, and microservices.",
+    description: "View and download Samir Shaikh's resume. AI Backend Engineer and Agentic AI Engineer experienced in RAG, LLM integration, Node.js, NestJS, PostgreSQL, and microservices.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Resume | Samir Shaikh",
-    description: "Download Samir Shaikh's resume. AI Backend Engineer with RAG, LLM, Node.js, NestJS, and microservices experience.",
+    description: "Download Samir Shaikh's resume. AI Backend Engineer, AI SDE, and Agentic AI Engineer with RAG, LLM, Node.js, NestJS, and microservices experience.",
   },
 };
 

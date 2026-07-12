@@ -33,7 +33,7 @@ export default async function Hero() {
             Hey, I&apos;m Samir.
           </h1>
           <p className="text-base md:text-lg text-text-muted max-w-2xl">
-            I build RAG pipelines, LLM-powered chatbots, and scalable Node.js systems, and I am exploring Forward Deployed Engineer roles that combine backend depth with direct customer ownership.
+            I build RAG pipelines, LLM-powered chatbots, agentic AI systems, and scalable Node.js systems. Exploring Forward Deployed Engineer and AI SDE roles that combine backend depth with direct customer ownership.
           </p>
         </div>
 

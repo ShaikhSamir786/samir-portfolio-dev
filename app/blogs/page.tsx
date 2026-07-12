@@ -9,19 +9,19 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Blog | Samir Shaikh",
-  description: "Technical articles by Samir Shaikh on Node.js backend engineering, microservices, GraphQL, PostgreSQL, Redis, system design, DevOps, and software development best practices.",
+  description: "Technical articles by Samir Shaikh on AI SDE topics, agentic AI, Node.js backend engineering, microservices, GraphQL, PostgreSQL, Redis, system design, DevOps, and software development best practices.",
   alternates: {
     canonical: `${(process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '')}/blogs`,
   },
   openGraph: {
     title: "Blog | Samir Shaikh",
-    description: "Technical articles on Node.js backend engineering, microservices, GraphQL, PostgreSQL, Redis, system design, and DevOps by Samir Shaikh.",
+    description: "Technical articles on agentic AI, AI SDE topics, Node.js backend engineering, microservices, GraphQL, PostgreSQL, Redis, system design, and DevOps by Samir Shaikh.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Blog | Samir Shaikh",
-    description: "Technical articles on Node.js, microservices, GraphQL, PostgreSQL, Redis, and system design by Samir Shaikh.",
+    description: "Technical articles on agentic AI, AI SDE, Node.js, microservices, GraphQL, PostgreSQL, Redis, and system design by Samir Shaikh.",
   },
 };
 

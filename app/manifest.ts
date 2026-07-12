@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Samir Shaikh's Portfolio",
     short_name: "Samir Shaikh",
-    description: "The personal portfolio and blog of Samir, showcasing my projects, skills, and developer journey.",
+    description: "The personal portfolio and blog of Samir Shaikh — AI Backend Engineer, AI SDE, and Agentic AI Engineer — showcasing AI projects, backend engineering work, and developer journey.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

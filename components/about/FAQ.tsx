@@ -8,17 +8,17 @@ export default function FAQ() {
     {
       question: "Do you have experience building AI-powered applications?",
       answer:
-        "Yes, I have hands-on experience building AI-powered applications, including this portfolio chatbot. It is a production RAG system I built from scratch that embeds site content with Google Gemini via the Vercel AI SDK, retrieves context using pgvector cosine similarity search, and grounds every answer in exact URLs and titles to reduce hallucinations.",
+        "Yes, I have hands-on experience building AI-powered applications, including this portfolio chatbot. It is a production RAG system I built from scratch that embeds site content with Google Gemini via the Vercel AI SDK, retrieves context using pgvector cosine similarity search, and grounds every answer in exact URLs and titles to reduce hallucinations. I also explore agentic AI workflows — building AI agents that can reason, use tools, and orchestrate multi-step tasks autonomously.",
     },
     {
       question: "Are you open to remote work or freelance projects?",
       answer:
-        "Yes, I am open to remote AI Backend Engineer and Node.js Backend Developer roles, as well as freelance backend engineering projects globally.",
+        "Yes, I am open to remote AI Backend Engineer, AI SDE, and Agentic AI Engineer roles, as well as freelance backend engineering projects globally.",
     },
     {
       question: "Are you interested in Forward Deployed Engineer roles?",
       answer:
-        "Yes, I am actively exploring Forward Deployed Engineer roles that combine deep backend and AI engineering with direct customer ownership. I am most motivated by roles where I can translate ambiguous customer problems into production systems with clear impact.",
+        "Yes, I am actively exploring Forward Deployed Engineer roles that combine deep backend and AI engineering with direct customer ownership. I am most motivated by roles where I can translate ambiguous customer problems into production systems with clear impact — especially in agentic AI and LLM-powered product areas.",
     },
     {
       question: "Why are customer-facing engineering roles a good fit for you?",
@@ -33,7 +33,7 @@ export default function FAQ() {
     {
       question: "What kind of projects have you worked on?",
       answer:
-        "I have built a production RAG chatbot with vector search, architected scalable microservices, built secure REST and GraphQL APIs, and developed platforms such as a WhatsApp campaign system and an AI-driven customer ticket triage system.",
+        "I have built a production RAG chatbot with vector search, architected scalable microservices, built secure REST and GraphQL APIs, and developed platforms such as a WhatsApp campaign system and an AI-driven customer ticket triage system. I also explore agentic AI — building autonomous agents that use tools, chain reasoning, and orchestrate across multiple LLM calls.",
     },
     {
       question: "What is your experience with DevOps and deployment?",
