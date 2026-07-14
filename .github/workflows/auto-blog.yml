@@ -1,0 +1,42 @@
+name: Automated Blog Post
+
+on:
+  schedule:
+    # Every 3 days at 09:00 UTC. GitHub's cron scheduler can drift by
+    # several minutes under load — that's fine for this use case.
+    - cron: "0 9 */3 * *"
+  workflow_dispatch:
+    inputs:
+      auto_publish:
+        description: "Publish immediately (true) or save as draft for review (false)"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies needed by the script
+        run: npm install --no-save @ai-sdk/groq ai unified remark-parse remark-gfm remark-rehype rehype-sanitize rehype-stringify
+
+      - name: Generate and publish blog post
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          BLOG_AUTOMATION_TOKEN: ${{ secrets.BLOG_AUTOMATION_TOKEN }}
+          ENABLE_BLOG_AUTOMATION: "true"
+          AUTO_PUBLISH: ${{ inputs.auto_publish || 'true' }}
+        run: node scripts/generate-blog.mjs

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { projects as projectsSchema } from "@/lib/schema";
 import { eq } from "drizzle-orm";
@@ -53,6 +54,9 @@ export async function PATCH(
         .set({ isPublished: is_published, publishedAt: published_at, updatedAt: new Date() })
         .where(eq(projectsSchema.id, id));
 
+      revalidatePath("/");
+      revalidatePath("/projects");
+
       return NextResponse.json({ success: true });
     }
 
@@ -74,6 +78,10 @@ export async function PATCH(
       content,
       technologies: technologies || [],
     }).catch(console.error);
+
+    revalidatePath("/");
+    revalidatePath("/projects");
+    revalidatePath(`/projects/${slug}`);
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -98,7 +106,10 @@ export async function DELETE(
     
     // Delete RAG chunks
     deleteDocumentFromRag(id).catch(console.error);
-    
+
+    revalidatePath("/");
+    revalidatePath("/projects");
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE /api/projects/[id] error:", error);

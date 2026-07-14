@@ -90,22 +90,30 @@ export async function reindexAboutForRag() {
     const aboutData = await db.select().from(about);
     await db.delete(contentChunks).where(eq(contentChunks.sourceId, ABOUT_UUID));
 
-    if (aboutData.length > 0 && aboutData[0].description) {
-      const fullText = `About Samir:\n${aboutData[0].description}`;
-      const chunks = chunkText(fullText);
-      if (chunks.length > 0) {
-        const { embeddings } = await embedMany({
-          model: google.embedding('gemini-embedding-2'),
-          values: chunks,
-        });
+    if (aboutData.length > 0) {
+      const row = aboutData[0];
+      const sections: string[] = [];
+      if (row.description) sections.push(`Past:\n${row.description}`);
+      if (row.present) sections.push(`Present:\n${row.present}`);
+      if (row.future) sections.push(`Future:\n${row.future}`);
 
-        for (let i = 0; i < chunks.length; i++) {
-          await db.insert(contentChunks).values({
-            sourceId: ABOUT_UUID,
-            sourceType: 'about',
-            chunkText: chunks[i],
-            embedding: embeddings[i],
+      if (sections.length > 0) {
+        const fullText = `About Samir:\n${sections.join('\n\n')}`;
+        const chunks = chunkText(fullText);
+        if (chunks.length > 0) {
+          const { embeddings } = await embedMany({
+            model: google.embedding('gemini-embedding-2'),
+            values: chunks,
           });
+
+          for (let i = 0; i < chunks.length; i++) {
+            await db.insert(contentChunks).values({
+              sourceId: ABOUT_UUID,
+              sourceType: 'about',
+              chunkText: chunks[i],
+              embedding: embeddings[i],
+            });
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useImperativeHandle, forwardRef } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
@@ -15,6 +15,10 @@ interface TipTapEditorProps {
   stickyToolbar?: boolean;
 }
 
+export interface TipTapEditorHandle {
+  setHtmlContent: (html: string) => void;
+}
+
 async function uploadImage(file: File): Promise<string> {
   const data = new FormData();
   data.append("file", file);
@@ -26,7 +30,10 @@ async function uploadImage(file: File): Promise<string> {
 
 
 
-export default function TipTapEditor({ content, onChange, stickyToolbar = false }: TipTapEditorProps) {
+const TipTapEditor = forwardRef<TipTapEditorHandle, TipTapEditorProps>(function TipTapEditor(
+  { content, onChange, stickyToolbar = false },
+  ref
+) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -55,6 +62,16 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
       }, 500);
     },
   });
+
+  // Expose imperative handle so parent can set raw HTML
+  useImperativeHandle(ref, () => ({
+    setHtmlContent(html: string) {
+      if (editor) {
+        editor.commands.setContent(html);
+        onChange(editor.getHTML());
+      }
+    },
+  }), [editor, onChange]);
 
   useEffect(() => {
     if (!editor) return;
@@ -287,4 +304,6 @@ export default function TipTapEditor({ content, onChange, stickyToolbar = false 
       />
     </div>
   );
-}
+});
+
+export default TipTapEditor;

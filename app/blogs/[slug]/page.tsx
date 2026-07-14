@@ -8,6 +8,7 @@ import { eq, and, ne, desc } from "drizzle-orm";
 import ContentWithToc from "@/components/ContentWithToc";
 import BlogInteractions from "@/components/blogs/BlogInteractions";
 import BlogStarInteraction from "@/components/blogs/BlogStarInteraction";
+import BlogShareButtons from "@/components/blogs/BlogShareButtons";
 
 export const revalidate = 3600;
 
@@ -164,7 +165,10 @@ export default async function BlogPostPage({ params }: Props) {
             <time>
               {formatDate(blog.published_at)}
             </time>
-            <BlogStarInteraction slug={blog.slug} initialStars={blog.stars ?? 0} />
+            <div className="flex items-center gap-2">
+              <BlogShareButtons title={blog.title} slug={blog.slug} compact />
+              <BlogStarInteraction slug={blog.slug} initialStars={blog.stars ?? 0} />
+            </div>
           </div>
           <h1
             className="mt-2 text-3xl sm:text-4xl md:text-5xl font-medium text-foreground leading-tight tracking-tight"
@@ -198,6 +202,9 @@ export default async function BlogPostPage({ params }: Props) {
           html={blog.content}
           className="prose prose-gray dark:prose-invert max-w-none text-text-muted prose-headings:text-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-text-secondary"
         />
+
+        {/* Share buttons */}
+        <BlogShareButtons title={blog.title} slug={blog.slug} />
 
         {/* Blog Interactions (Comments) */}
         <BlogInteractions

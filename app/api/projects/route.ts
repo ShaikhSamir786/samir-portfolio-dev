@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { projects as projectsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
@@ -63,6 +64,9 @@ export async function POST(req: NextRequest) {
       content,
       technologies: technologies || [],
     }).catch(console.error);
+
+    revalidatePath("/");
+    revalidatePath("/projects");
 
     return NextResponse.json(result[0], { status: 201 });
   } catch (error: any) {

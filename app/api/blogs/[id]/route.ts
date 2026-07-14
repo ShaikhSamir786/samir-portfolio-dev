@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { blogs as blogsSchema } from "@/lib/schema";
@@ -73,6 +74,10 @@ export async function PUT(req: NextRequest, { params }: Params) {
       content,
     }).catch(console.error);
 
+    revalidatePath("/");
+    revalidatePath("/blogs");
+    revalidatePath(`/blogs/${slug}`);
+
     return NextResponse.json(result[0]);
   } catch (error) {
     console.error("PUT /api/blogs/[id] error:", error);
@@ -104,6 +109,9 @@ export async function PATCH(_req: NextRequest, { params }: Params) {
       .where(eq(blogsSchema.id, id))
       .returning({ id: blogsSchema.id, isPublished: blogsSchema.isPublished, publishedAt: blogsSchema.publishedAt });
 
+    revalidatePath("/");
+    revalidatePath("/blogs");
+
     return NextResponse.json(result[0]);
   } catch (error) {
     console.error("PATCH /api/blogs/[id] error:", error);
@@ -127,6 +135,9 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
 
     // Delete RAG chunks
     deleteDocumentFromRag(id).catch(console.error);
+
+    revalidatePath("/");
+    revalidatePath("/blogs");
 
     return NextResponse.json({ success: true });
   } catch (error) {

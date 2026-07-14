@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { blogs as blogsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import { indexDocumentForRag } from "@/lib/rag";
+import { isAuthorized } from "@/lib/api-auth";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const session = await auth();
-    const isAdmin = !!session;
+    const isAdmin = await isAuthorized(req);
 
     const result = isAdmin
       ? await db.select().from(blogsSchema).orderBy(desc(blogsSchema.createdAt))
@@ -21,8 +22,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
-  if (!session) {
+  if (!(await isAuthorized(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -55,6 +55,9 @@ export async function POST(req: NextRequest) {
       excerpt: excerpt || '',
       content,
     }).catch(console.error);
+
+    revalidatePath("/");
+    revalidatePath("/blogs");
 
     return NextResponse.json(result[0], { status: 201 });
   } catch (error) {

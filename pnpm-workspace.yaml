@@ -1,8 +1,5 @@
 allowBuilds:
-  canvas: set this to true or false
-  esbuild: set this to true or false
-  sharp: false
-  unrs-resolver: false
-ignoredBuiltDependencies:
-  - sharp
-  - unrs-resolver
+  canvas: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true

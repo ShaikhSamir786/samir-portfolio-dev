@@ -10,6 +10,17 @@ Email: 22amtics312@gmail.com
 ## Summary
 AI Backend Engineer and AI SDE specializing in backend systems, distributed architectures, Retrieval-Augmented Generation (RAG) applications, and agentic AI workflows. I am also exploring Forward Deployed Engineer roles that combine backend depth, customer context, and end-to-end ownership.
 
+##About
+Past
+Started with a straight line into backend. B.Tech in IT from Uka Tarsadia University (2022–2026) and a ~9-month internship at Logicwind where I shipped real backend services across monolithic and microservice architectures — REST APIs, third-party integrations, performance optimisation, reliability work. Node.js and TypeScript became muscle memory, not just classroom concepts.
+
+Present
+Building the AI backend layer. A full RAG pipeline with Gemini embeddings and pgvector (live on this portfolio), a WhatsApp automation system in production for a local business, and an AI ticket-triage pipeline running on Kafka and BullMQ with full OpenTelemetry observability. The common thread: not experimenting with AI — building the backend infrastructure that makes AI features ship, scale, and stay honest.
+
+Future
+Headed toward Forward Deployed Engineering — roles that put backend depth directly in front of customers, where the problem isn't fully defined when you walk in and ownership is end-to-end. Targeting Applied AI Engineer, Forward Deployed AI Engineer, and Solutions Engineer roles at companies where AI is the product, not a feature.
+
+
 ## Skills
 
 Expert:

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { resume } from "@/lib/schema";
@@ -30,6 +31,9 @@ export async function PUT(req: NextRequest) {
     } else {
       await db.insert(resume).values({ resume: resumeData ?? "" });
     }
+
+    revalidatePath("/");
+    revalidatePath("/resume");
 
     return NextResponse.json({ success: true });
   } catch (error) {

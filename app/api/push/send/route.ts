@@ -3,16 +3,15 @@ import webpush from "web-push";
 import { db } from "@/lib/db";
 import { pushSubscriptions as pushSubscriptionsSchema, sentNotifications as sentNotificationsSchema } from "@/lib/schema";
 import { eq, or } from "drizzle-orm";
-import { auth } from "@/lib/auth";
+import { isAuthorized } from "@/lib/api-auth";
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
-  if (!session) {
+  if (!(await isAuthorized(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   webpush.setVapidDetails(
-    "mailto:your-email@example.com", // Replace with your actual email
+    `mailto:${process.env.SMTP_EMAIL || "admin@example.com"}`,
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     process.env.VAPID_PRIVATE_KEY!
   );

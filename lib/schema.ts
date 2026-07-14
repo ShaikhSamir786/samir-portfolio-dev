@@ -40,6 +40,8 @@ export const blogs = pgTable('blogs', {
 
 export const about = pgTable('about', {
     description: text('description'),
+    present: text('present'),
+    future: text('future'),
 });
 
 export const resume = pgTable('resume', {
