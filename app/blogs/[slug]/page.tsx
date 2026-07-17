@@ -9,6 +9,7 @@ import ContentWithToc from "@/components/ContentWithToc";
 import BlogInteractions from "@/components/blogs/BlogInteractions";
 import BlogStarInteraction from "@/components/blogs/BlogStarInteraction";
 import BlogShareButtons from "@/components/blogs/BlogShareButtons";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 export const revalidate = 3600;
 
@@ -104,6 +105,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${blog.title} | Samir Shaikh`,
     description: blog.excerpt ?? undefined,
+    keywords: [
+      blog.title,
+      "Samir Shaikh",
+      "Samir Shaikh blog",
+      "backend engineering",
+      "Node.js",
+      "agentic AI",
+      "AI development",
+      "technical article",
+      "software engineering",
+    ],
     alternates: {
       canonical: `${APP_URL}/blogs/${blog.slug}`,
     },
@@ -140,6 +152,13 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <main className="flex flex-col flex-1 px-6 pb-20 pt-4 md:px-10">
       <div className="max-w-3xl mx-auto w-full">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Blog", href: "/blogs" },
+            { name: blog.title, href: `/blogs/${blog.slug}` },
+          ]}
+        />
         {/* Back link */}
         <Link
           href="/blogs"
@@ -253,33 +272,26 @@ export default async function BlogPostPage({ params }: Props) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "BlogPosting",
-                headline: blog.title,
-                description: blog.excerpt || undefined,
-                image: blog.cover_image_url ? [blog.cover_image_url] : undefined,
-                url: `${APP_URL}/blogs/${blog.slug}`,
-                datePublished: blog.published_at,
-                author: [
-                  {
-                    "@type": "Person",
-                    name: "Samir Shaikh",
-                    url: APP_URL,
-                  }
-                ]
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: blog.title,
+              description: blog.excerpt || undefined,
+              image: blog.cover_image_url ? [blog.cover_image_url] : undefined,
+              url: `${APP_URL}/blogs/${blog.slug}`,
+              datePublished: blog.published_at,
+              speakable: {
+                "@type": "SpeakableSpecification",
+                cssSelector: ["h1", ".prose p"],
               },
-              {
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                itemListElement: [
-                  { "@type": "ListItem", position: 1, name: "Home", item: APP_URL },
-                  { "@type": "ListItem", position: 2, name: "Blog", item: `${APP_URL}/blogs` },
-                  { "@type": "ListItem", position: 3, name: blog.title, item: `${APP_URL}/blogs/${blog.slug}` },
-                ],
-              },
-            ])
+              author: [
+                {
+                  "@type": "Person",
+                  name: "Samir Shaikh",
+                  url: APP_URL,
+                }
+              ]
+            })
           }}
         />
       </div>

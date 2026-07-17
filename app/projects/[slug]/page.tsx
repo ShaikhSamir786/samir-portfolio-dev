@@ -6,6 +6,7 @@ import { projects as projectsSchema } from "@/lib/schema";
 import { eq, and, ne, desc } from "drizzle-orm";
 import type { Metadata } from "next";
 import ContentWithToc from "@/components/ContentWithToc";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 export const revalidate = 3600;
 
@@ -103,6 +104,14 @@ export async function generateMetadata(
   return {
     title: `${project.title} | Samir Shaikh`,
     description: project.excerpt || `Read about my project ${project.title}`,
+    keywords: [
+      project.title,
+      "Samir Shaikh",
+      "Samir Shaikh project",
+      "backend engineering project",
+      "portfolio project",
+      ...(project.technologies ?? []),
+    ],
     alternates: {
       canonical: `${APP_URL}/projects/${project.slug}`,
     },
@@ -138,6 +147,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   return (
     <main className="flex-1">
       <article className="max-w-4xl mx-auto px-6 md:px-10 py-10 md:py-16">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Projects", href: "/projects" },
+            { name: project.title, href: `/projects/${project.slug}` },
+          ]}
+        />
         <Link
           href="/projects"
           className="inline-flex items-center gap-2 text-sm font-medium text-text-muted hover:text-foreground transition-colors mb-8 md:mb-12"
@@ -237,31 +253,32 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "SoftwareApplication",
-                name: project.title,
-                description: project.excerpt || undefined,
-                image: project.cover_image_url ? [project.cover_image_url] : undefined,
-                url: `${APP_URL}/projects/${project.slug}`,
-                datePublished: project.published_at,
-                author: {
-                  "@type": "Person",
-                  name: "Samir Shaikh",
-                  url: APP_URL,
-                }
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": project.github_link ? "SoftwareSourceCode" : "CreativeWork",
+              name: project.title,
+              headline: project.title,
+              description: project.excerpt || undefined,
+              image: project.cover_image_url ? [project.cover_image_url] : undefined,
+              url: `${APP_URL}/projects/${project.slug}`,
+              datePublished: project.published_at,
+              speakable: {
+                "@type": "SpeakableSpecification",
+                cssSelector: ["h1", ".prose p"],
               },
-              {
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                itemListElement: [
-                  { "@type": "ListItem", position: 1, name: "Home", item: APP_URL },
-                  { "@type": "ListItem", position: 2, name: "Projects", item: `${APP_URL}/projects` },
-                  { "@type": "ListItem", position: 3, name: project.title, item: `${APP_URL}/projects/${project.slug}` },
-                ],
+              ...(project.github_link ? { codeRepository: project.github_link } : {}),
+              ...(project.technologies && project.technologies.length > 0
+                ? {
+                    keywords: project.technologies.join(", "),
+                    programmingLanguage: project.technologies,
+                  }
+                : {}),
+              author: {
+                "@type": "Person",
+                name: "Samir Shaikh",
+                url: APP_URL,
               },
-            ])
+            })
           }}
         />
 

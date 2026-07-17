@@ -2,21 +2,43 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { about } from "@/lib/schema";
 import PageHeader from "@/components/layout/PageHeader";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ExperienceTimeline from "@/components/about/ExperienceTimeline";
 import HtmlParser from "@/components/HtmlParser";
 import FAQ from "@/components/about/FAQ";
+import { APP_URL } from "@/lib/site-config";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "About | Samir Shaikh",
   description: "Learn more about Samir Shaikh — an AI Backend Engineer, AI SDE, and Agentic AI Engineer from Gujarat, India, with experience building RAG pipelines, LLM-powered chatbots, agentic AI systems, scalable microservices, and event-driven systems. Interned at Logicwind. B.Tech in IT from Uka Tarsadia University.",
+  keywords: [
+    "About Samir Shaikh",
+    "Samir Shaikh biography",
+    "AI Backend Engineer",
+    "Agentic AI Engineer",
+    "AI SDE",
+    "Node.js Backend Developer",
+    "AI Node.js Backend Developer",
+    "RAG pipeline developer",
+    "LLM integration engineer",
+    "microservices developer",
+    "AI microservices developer",
+    "event-driven systems",
+    "B.Tech Information Technology",
+    "Uka Tarsadia University",
+    "Logicwind intern",
+    "backend developer Gujarat India",
+  ],
   alternates: {
-    canonical: `${(process.env.NEXTAUTH_URL || 'https://samir-portfolio-dev.vercel.app').replace(/\/$/, '')}/about`,
+    canonical: `${APP_URL}/about`,
   },
   openGraph: {
     title: "About | Samir Shaikh",
     description: "Learn more about Samir Shaikh — an AI Backend Engineer, AI SDE, and Agentic AI Engineer from Gujarat, India, with experience building RAG pipelines, agentic AI systems, LLM-powered chatbots, and event-driven systems.",
+    url: `${APP_URL}/about`,
+    type: "profile",
   },
   twitter: {
     card: "summary_large_image",
@@ -121,6 +143,14 @@ export default async function AboutPage() {
 
   return (
     <main className="flex flex-col flex-1 px-6 pb-20 md:px-10">
+      <div className="max-w-3xl mx-auto w-full pt-6 md:pt-10">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "About", href: "/about" },
+          ]}
+        />
+      </div>
       <PageHeader title="About" subtitle="A little bit about me." />
       <div className="max-w-3xl mx-auto w-full">
         {hasAnySection ? (

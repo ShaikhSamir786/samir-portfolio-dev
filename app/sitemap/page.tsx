@@ -3,10 +3,20 @@ import { db } from "@/lib/db";
 import { projects as projectsSchema, blogs as blogsSchema } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import { Metadata } from 'next';
+import { APP_URL } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: 'Sitemap | Portfolio',
-  description: 'A directory of all pages on the website.',
+  title: 'Sitemap | Samir Shaikh',
+  description: 'A complete directory of all pages on Samir Shaikh\'s portfolio — projects, blog posts, and main sections.',
+  alternates: {
+    canonical: `${APP_URL}/sitemap`,
+  },
+  openGraph: {
+    title: 'Sitemap | Samir Shaikh',
+    description: 'A complete directory of all pages on Samir Shaikh\'s portfolio — projects, blog posts, and main sections.',
+    url: `${APP_URL}/sitemap`,
+    type: 'website',
+  },
 };
 
 export const dynamic = 'force-dynamic';
