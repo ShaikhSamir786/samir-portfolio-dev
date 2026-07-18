@@ -30,6 +30,7 @@ export const blogs = pgTable('blogs', {
     excerpt: text('excerpt'),
     content: text('content').notNull(),
     coverImageUrl: text('cover_image_url'),
+    tags: text('tags').array(),
     isPublished: boolean('is_published').default(false),
     stars: integer('stars').default(0),
     comments: jsonb('comments').default([]),

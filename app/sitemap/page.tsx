@@ -8,6 +8,12 @@ import { APP_URL } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: 'Sitemap | Samir Shaikh',
   description: 'A complete directory of all pages on Samir Shaikh\'s portfolio — projects, blog posts, and main sections.',
+  keywords: [
+    "Samir Shaikh sitemap",
+    "portfolio site map",
+    "backend developer portfolio pages",
+    "Node.js developer blog posts",
+  ],
   alternates: {
     canonical: `${APP_URL}/sitemap`,
   },

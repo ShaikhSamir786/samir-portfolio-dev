@@ -60,6 +60,9 @@ export default function ContactPage() {
         />
       </div>
       <PageHeader title="Get in Touch" subtitle="Have a question or want to work together? Leave a message below." />
+      <p className="sr-only">
+        Looking to hire a backend engineer for an AI project? Need someone to ship an AI feature into your SaaS product? Samir Shaikh is a Node.js and TypeScript backend developer available for remote roles, freelance projects, and contract work.
+      </p>
       <div className="max-w-2xl mx-auto w-full">
         <ContactForm />
       </div>

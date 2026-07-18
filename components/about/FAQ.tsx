@@ -3,12 +3,12 @@ export default function FAQ() {
     {
       question: "What is your primary tech stack?",
       answer:
-        "My primary stack is Node.js, Express.js, NestJS, and PostgreSQL for backend development, plus the Vercel AI SDK, Google Gemini embeddings, and pgvector for RAG systems. I also use Redis for caching, BullMQ for background jobs, and Apache Kafka for event-driven architectures.",
+        "My primary stack is Node.js, Express.js, NestJS, and PostgreSQL for backend development, plus the Vercel AI SDK, Google Gemini embeddings, and pgvector for RAG systems. I also use Redis for caching, BullMQ for background jobs, and Apache Kafka for event-driven architectures. I can turn a monolith into microservices or build event-driven systems with Kafka and Redis.",
     },
     {
       question: "Do you have experience building AI-powered applications?",
       answer:
-        "Yes, I have hands-on experience building AI-powered applications, including this portfolio chatbot. It is a production RAG system I built from scratch that embeds site content with Google Gemini via the Vercel AI SDK, retrieves context using pgvector cosine similarity search, and grounds every answer in exact URLs and titles to reduce hallucinations. I also explore agentic AI workflows — building AI agents that can reason, use tools, and orchestrate multi-step tasks autonomously.",
+        "Yes, I have hands-on experience building AI-powered applications, including this portfolio chatbot. It is a production RAG system I built from scratch that embeds site content with Google Gemini via the Vercel AI SDK, retrieves context using pgvector cosine similarity search, and grounds every answer in exact URLs and titles to reduce hallucinations. This is the same approach used to build a RAG system that stops your chatbot from hallucinating. I also explore agentic AI workflows — building AI agents that can reason, use tools, and orchestrate multi-step tasks autonomously.",
     },
     {
       question: "Are you open to remote work or freelance projects?",
@@ -16,19 +16,14 @@ export default function FAQ() {
         "Yes, I am open to remote AI Backend Engineer, AI SDE, and Agentic AI Engineer roles, as well as freelance backend engineering projects globally.",
     },
     {
-      question: "Are you interested in Forward Deployed Engineer roles?",
+      question: "Who is Samir Shaikh?",
       answer:
-        "Yes, I am actively exploring Forward Deployed Engineer roles that combine deep backend and AI engineering with direct customer ownership. I am most motivated by roles where I can translate ambiguous customer problems into production systems with clear impact — especially in agentic AI and LLM-powered product areas.",
+        "Samir Shaikh is an AI Backend Engineer and AI SDE based in Gujarat, India. He specializes in building RAG pipelines, LLM-powered chatbots, agentic AI systems, and scalable Node.js backends. He holds a B.Tech in Information Technology from Uka Tarsadia University and has production experience from a 9-month internship at Logicwind, where he shipped backend services across monolithic and microservice architectures.",
     },
     {
-      question: "Why are customer-facing engineering roles a good fit for you?",
+      question: "How can I contact Samir?",
       answer:
-        "Customer-facing engineering is a strong fit for me because I enjoy taking ownership from problem discovery through deployment. My work on production backend systems, RAG pipelines, and AI-powered workflows has required balancing technical depth with practical user and business outcomes.",
-    },
-    {
-      question: "How does your current work map to Forward Deployed Engineering?",
-      answer:
-        "My current work maps well to Forward Deployed Engineering because it already blends ambiguity handling, full-stack delivery, and measurable outcomes. I routinely design APIs, data flows, and AI features end-to-end, then refine them based on real usage and constraints.",
+        "You can reach Samir via email at 22amtics312@gmail.com, through the contact form on this website, or on LinkedIn at linkedin.com/in/samir-shaikh-760b932a8. He typically responds within 24-48 hours.",
     },
     {
       question: "What kind of projects have you worked on?",

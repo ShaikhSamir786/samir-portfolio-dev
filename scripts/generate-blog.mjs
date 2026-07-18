@@ -272,7 +272,7 @@ async function markdownToSafeHtml(markdown) {
  * @param {boolean} params.publish - Whether to publish immediately or save as draft
  * @returns {Promise<Object>} Created blog post object with id and slug
  */
-async function publishBlog({ title, slug, excerpt, html, publish }) {
+async function publishBlog({ title, slug, excerpt, html, tags, publish }) {
   const res = await fetch(`${SITE_URL}/api/blogs`, {
     method: "POST",
     headers: {
@@ -284,6 +284,7 @@ async function publishBlog({ title, slug, excerpt, html, publish }) {
       slug,
       excerpt,
       content: html,
+      tags: tags ? tags.split(",").map(t => t.trim()).filter(Boolean) : null,
       is_published: publish,
     }),
   });
@@ -397,6 +398,7 @@ async function main() {
         slug: post.slug,
         excerpt: post.excerpt,
         html,
+        tags: post.tags,
         publish: shouldPublish,
       });
       console.log(`Created blog: ${SITE_URL}/blogs/${created.slug} (id: ${created.id})`);

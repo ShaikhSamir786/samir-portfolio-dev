@@ -16,7 +16,11 @@ export async function GET(_req: NextRequest, { params }: Params) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    return NextResponse.json(result[0]);
+    return NextResponse.json(result[0], {
+      headers: {
+        "Cache-Control": "public, max-age=3600, stale-while-revalidate",
+      },
+    });
   } catch (error) {
     console.error("GET /api/blogs/slug/[slug] error:", error);
     return NextResponse.json({ error: "Failed to fetch blog" }, { status: 500 });

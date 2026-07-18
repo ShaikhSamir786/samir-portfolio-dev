@@ -30,10 +30,10 @@ export default async function Hero() {
             className="text-4xl sm:text-5xl font-medium text-foreground tracking-tight mb-3"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            Hey, I&apos;m Samir.
+            Hey, I&apos;m Samir Shaikh.
           </h1>
           <p className="text-base md:text-lg text-text-muted max-w-2xl">
-            I build RAG pipelines, LLM-powered chatbots, agentic AI systems, and scalable Node.js systems. Exploring Forward Deployed Engineer and AI SDE roles that combine backend depth with direct customer ownership.
+            I&apos;m a backend developer who builds RAG pipelines, LLM-powered chatbots, and agentic AI systems. If you need a Node.js developer to integrate an LLM into your product, build a scalable backend for your startup, or ship AI features — let&apos;s talk.
           </p>
         </div>
 

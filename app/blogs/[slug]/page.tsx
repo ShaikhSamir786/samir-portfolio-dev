@@ -28,7 +28,9 @@ interface Blog {
   excerpt: string | null;
   content: string;
   cover_image_url: string | null;
+  tags: string[] | null;
   published_at: string;
+  updated_at: string | null;
   stars: number;
   comments: Comment[];
 }
@@ -55,7 +57,9 @@ async function getBlog(slug: string): Promise<Blog | null> {
       excerpt: blogsSchema.excerpt,
       content: blogsSchema.content,
       cover_image_url: blogsSchema.coverImageUrl,
+      tags: blogsSchema.tags,
       published_at: blogsSchema.publishedAt,
+      updated_at: blogsSchema.updatedAt,
       stars: blogsSchema.stars,
       comments: blogsSchema.comments,
     }).from(blogsSchema).where(and(eq(blogsSchema.slug, slug), eq(blogsSchema.isPublished, true)));
@@ -115,6 +119,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "AI development",
       "technical article",
       "software engineering",
+      ...(blog.tags ?? []),
     ],
     alternates: {
       canonical: `${APP_URL}/blogs/${blog.slug}`,
@@ -123,14 +128,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: blog.title,
       description: blog.excerpt || undefined,
       url: `${APP_URL}/blogs/${blog.slug}`,
-      images: blog.cover_image_url ? [{ url: blog.cover_image_url, width: 1200, height: 630, alt: blog.title }] : [],
+      images: blog.cover_image_url ? [{ url: blog.cover_image_url, width: 1200, height: 630, alt: blog.title }] : [{ url: `${APP_URL}/Filled_Logo.png`, width: 1200, height: 630, alt: blog.title }],
       type: "article",
+      publishedTime: blog.published_at,
     },
     twitter: {
       card: "summary_large_image",
       title: blog.title,
       description: blog.excerpt || undefined,
-      images: blog.cover_image_url ? [blog.cover_image_url] : [],
+      images: blog.cover_image_url ? [blog.cover_image_url] : [`${APP_URL}/Filled_Logo.png`],
     },
   };
 }
@@ -200,6 +206,9 @@ export default async function BlogPostPage({ params }: Props) {
               {blog.excerpt}
             </p>
           )}
+          <p className="sr-only">
+            This technical article by Samir Shaikh covers {blog.title?.toLowerCase()}. Read to learn about semantic search, RAG systems, and backend engineering best practices.
+          </p>
         </header>
 
         {/* Cover image */}
@@ -277,9 +286,19 @@ export default async function BlogPostPage({ params }: Props) {
               "@type": "BlogPosting",
               headline: blog.title,
               description: blog.excerpt || undefined,
-              image: blog.cover_image_url ? [blog.cover_image_url] : undefined,
+              image: blog.cover_image_url ? [blog.cover_image_url] : [`${APP_URL}/Filled_Logo.png`],
               url: `${APP_URL}/blogs/${blog.slug}`,
+              mainEntityOfPage: `${APP_URL}/blogs/${blog.slug}`,
               datePublished: blog.published_at,
+              dateModified: blog.updated_at || blog.published_at,
+              publisher: {
+                "@type": "Organization",
+                name: "Samir Shaikh Portfolio",
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${APP_URL}/Filled_Logo.png`,
+                },
+              },
               speakable: {
                 "@type": "SpeakableSpecification",
                 cssSelector: ["h1", ".prose p"],
@@ -289,6 +308,10 @@ export default async function BlogPostPage({ params }: Props) {
                   "@type": "Person",
                   name: "Samir Shaikh",
                   url: APP_URL,
+                  sameAs: [
+                    "https://linkedin.com/in/samir-shaikh-760b932a8",
+                    "https://github.com/ShaikhSamir786",
+                  ],
                 }
               ]
             })

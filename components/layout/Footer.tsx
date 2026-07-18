@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { db } from "@/lib/db";
-import { projects as projectsSchema, blogs as blogsSchema, socials as socialsSchema } from "@/lib/schema";
-import { eq, desc } from "drizzle-orm";
+import { getCachedProjects, getCachedBlogs, getCachedSocials } from "@/lib/cache";
 import { SocialIcon } from "@/components/SocialIcons";
 
 const pageLinks = [
@@ -16,56 +14,11 @@ const pageLinks = [
 
 const MAX_ITEMS = 5;
 
-interface SlimItem {
-  title: string;
-  slug: string;
-}
-
-async function getPublishedProjects(): Promise<SlimItem[]> {
-  try {
-    const rows = await db.select({ title: projectsSchema.title, slug: projectsSchema.slug })
-      .from(projectsSchema)
-      .where(eq(projectsSchema.isPublished, true))
-      .orderBy(desc(projectsSchema.publishedAt))
-      .limit(6);
-    return rows as SlimItem[];
-  } catch (err) {
-    console.error("Footer: Failed to fetch projects", err);
-    return [];
-  }
-}
-
-async function getPublishedBlogs(): Promise<SlimItem[]> {
-  try {
-    const rows = await db.select({ title: blogsSchema.title, slug: blogsSchema.slug })
-      .from(blogsSchema)
-      .where(eq(blogsSchema.isPublished, true))
-      .orderBy(desc(blogsSchema.publishedAt))
-      .limit(6);
-    return rows as SlimItem[];
-  } catch (err) {
-    console.error("Footer: Failed to fetch blogs", err);
-    return [];
-  }
-}
-
-async function getSocials() {
-  try {
-    const rows = await db.select({ name: socialsSchema.name, url: socialsSchema.url })
-      .from(socialsSchema)
-      .orderBy(socialsSchema.displayOrder);
-    return rows as { name: string; url: string }[];
-  } catch (err) {
-    console.error("Footer: Failed to fetch socials", err);
-    return [];
-  }
-}
-
 export default async function Footer() {
   const [projects, blogs, socials] = await Promise.all([
-    getPublishedProjects(),
-    getPublishedBlogs(),
-    getSocials(),
+    getCachedProjects(),
+    getCachedBlogs(),
+    getCachedSocials(),
   ]);
 
   const visibleProjects = projects.slice(0, MAX_ITEMS);

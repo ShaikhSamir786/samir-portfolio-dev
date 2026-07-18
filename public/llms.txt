@@ -1,34 +1,38 @@
 Name: Samir Shaikh
 Title: AI Backend Engineer | AI SDE | Agentic AI Engineer
 Location: Gujarat, India
+Last Updated: July 2026
 
 Website: https://samir-portfolio-dev.vercel.app
 GitHub: https://github.com/ShaikhSamir786
 LinkedIn: https://www.linkedin.com/in/samir-shaikh-760b932a8/
 Email: 22amtics312@gmail.com
+Resume: https://samir-portfolio-dev.vercel.app/resume
+Contact: https://samir-portfolio-dev.vercel.app/contact
+Blog: https://samir-portfolio-dev.vercel.app/blogs
 
 ## Summary
 AI Backend Engineer and AI SDE specializing in backend systems, distributed architectures, Retrieval-Augmented Generation (RAG) applications, and agentic AI workflows. I am also exploring Forward Deployed Engineer roles that combine backend depth, customer context, and end-to-end ownership.
 
-##About
-Past
+## About
+
+### Past
 Started with a straight line into backend. B.Tech in IT from Uka Tarsadia University (2022–2026) and a ~9-month internship at Logicwind where I shipped real backend services across monolithic and microservice architectures — REST APIs, third-party integrations, performance optimisation, reliability work. Node.js and TypeScript became muscle memory, not just classroom concepts.
 
-Present
+### Present
 Building the AI backend layer. A full RAG pipeline with Gemini embeddings and pgvector (live on this portfolio), a WhatsApp automation system in production for a local business, and an AI ticket-triage pipeline running on Kafka and BullMQ with full OpenTelemetry observability. The common thread: not experimenting with AI — building the backend infrastructure that makes AI features ship, scale, and stay honest.
 
-Future
+### Future
 Headed toward Forward Deployed Engineering — roles that put backend depth directly in front of customers, where the problem isn't fully defined when you walk in and ownership is end-to-end. Targeting Applied AI Engineer, Forward Deployed AI Engineer, and Solutions Engineer roles at companies where AI is the product, not a feature.
-
 
 ## Skills
 
-Expert:
+### Expert
 - Node.js
 - TypeScript
 - Backend System Design
 
-Advanced:
+### Advanced
 - Express.js
 - PostgreSQL
 - MongoDB
@@ -36,7 +40,7 @@ Advanced:
 - REST APIs
 - System Design
 
-Intermediate:
+### Intermediate
 - NestJS
 - Kafka
 - BullMQ
@@ -80,21 +84,22 @@ Intermediate:
 
 ## Projects
 
-AI Portfolio RAG Chatbot
+### AI Portfolio RAG Chatbot
 - Production RAG system powering portfolio assistant
 - Uses Gemini embeddings + pgvector semantic search
 - Designed to reduce hallucinations via grounded retrieval
+- Live at: https://samir-portfolio-dev.vercel.app
 
-AI Ticket Triage System
+### AI Ticket Triage System
 - Microservices-based architecture
 - Kafka + BullMQ event processing
 - Observability with OpenTelemetry + Prometheus + Grafana
 
-WhatsApp Campaign Platform
+### WhatsApp Campaign Platform
 - Node.js + automation system for business messaging workflows
 - Built for real-world SME use case
 
-Eventifyy Platform
+### Eventifyy Platform
 - Full-stack event management system
 - GraphQL API with PostgreSQL + React frontend
 
@@ -111,5 +116,11 @@ I am especially interested in roles that require customer-facing problem solving
 
 Open to remote and India-based roles.
 
+## Contact
+- Email: 22amtics312@gmail.com
+- LinkedIn: https://www.linkedin.com/in/samir-shaikh-760b932a8/
+- GitHub: https://github.com/ShaikhSamir786
+- Contact Form: https://samir-portfolio-dev.vercel.app/contact
+
 ## Keywords
-Node.js, TypeScript, Backend, AI, AI SDE, SDE, Agentic AI, AI Agents, Multi-Agent Systems, AI Orchestration, Autonomous AI, RAG, LLM, Gemini, pgvector, Vector Database, Embeddings, Express, NestJS, Kafka, Microservices, Event-driven Architecture, PostgreSQL, MongoDB, Redis, Docker, GraphQL, REST APIs, System Design, OpenTelemetry, CI/CD, Forward Deployed Engineer, Applied AI Engineer, Customer-Facing Engineer
+Node.js, TypeScript, Backend, AI, AI SDE, SDE, Agentic AI, AI Agents, Multi-Agent Systems, AI Orchestration, Autonomous AI, RAG, LLM, Gemini, pgvector, Vector Database, Embeddings, Express, NestJS, Kafka, Microservices, Event-driven Architecture, PostgreSQL, MongoDB, Redis, Docker, GraphQL, REST APIs, System Design, OpenTelemetry, CI/CD, Forward Deployed Engineer, Applied AI Engineer, Customer-Facing Engineer, Hire Node.js Developer, Freelance Backend Developer, Remote Backend Developer, AI Backend Developer India

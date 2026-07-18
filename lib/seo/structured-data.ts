@@ -140,6 +140,7 @@ export function getRootJsonLd() {
       "@type": "Person",
       name: AUTHOR_NAME,
       url: APP_URL,
+      image: `${APP_URL}/Filled_Logo.png`,
       email: AUTHOR_EMAIL,
       telephone: AUTHOR_PHONE,
       jobTitle: "AI Backend Engineer | AI SDE | Agentic AI Engineer",
@@ -156,7 +157,20 @@ export function getRootJsonLd() {
         "@type": "CollegeOrUniversity",
         name: "Uka Tarsadia University",
         sameAs: "https://utu.ac.in",
+        educationalCredentialAwarded: "Bachelor of Technology in Information Technology",
       },
+      hasOccupation: [
+        {
+          "@type": "Occupation",
+          name: "AI Backend Engineer",
+          occupationLocation: {
+            "@type": "Country",
+            name: "IN",
+          },
+          skills: "Node.js, TypeScript, PostgreSQL, RAG Systems, LLM Integration, Microservices, Docker, Kafka",
+          validFrom: "2024",
+        },
+      ],
       knowsAbout: [
         "AI Backend Engineering",
         "AI Software Development Engineering",

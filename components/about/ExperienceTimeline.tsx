@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { experiences as experiencesSchema } from "@/lib/schema";
 import HtmlParser from "@/components/HtmlParser";
@@ -29,10 +30,11 @@ export default async function ExperienceTimeline() {
               {/* Timeline dot or logo */}
               <div className="absolute -left-[17px] top-1 flex items-center justify-center w-8 h-8 rounded-full border border-border-primary bg-background shadow-sm ring-4 ring-background transition-transform group-hover:scale-110">
                 {exp.logoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={exp.logoUrl}
-                    alt={exp.companyName}
+                    alt={`${exp.companyName} logo`}
+                    width={20}
+                    height={20}
                     className="w-5 h-5 rounded-sm object-cover"
                   />
                 ) : (

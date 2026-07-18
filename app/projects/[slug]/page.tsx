@@ -119,14 +119,14 @@ export async function generateMetadata(
       title: project.title,
       description: project.excerpt || undefined,
       url: `${APP_URL}/projects/${project.slug}`,
-      images: project.cover_image_url ? [{ url: project.cover_image_url, width: 1200, height: 630, alt: project.title }] : [],
+      images: project.cover_image_url ? [{ url: project.cover_image_url, width: 1200, height: 630, alt: project.title }] : [{ url: `${APP_URL}/Filled_Logo.png`, width: 1200, height: 630, alt: project.title }],
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
       title: project.title,
       description: project.excerpt || undefined,
-      images: project.cover_image_url ? [project.cover_image_url] : [],
+      images: project.cover_image_url ? [project.cover_image_url] : [`${APP_URL}/Filled_Logo.png`],
     },
   };
 }
@@ -259,7 +259,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               name: project.title,
               headline: project.title,
               description: project.excerpt || undefined,
-              image: project.cover_image_url ? [project.cover_image_url] : undefined,
+              image: project.cover_image_url ? [project.cover_image_url] : [`${APP_URL}/Filled_Logo.png`],
               url: `${APP_URL}/projects/${project.slug}`,
               datePublished: project.published_at,
               speakable: {
@@ -270,13 +270,17 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               ...(project.technologies && project.technologies.length > 0
                 ? {
                     keywords: project.technologies.join(", "),
-                    programmingLanguage: project.technologies,
+                    programmingLanguage: project.technologies.join(", "),
                   }
                 : {}),
               author: {
                 "@type": "Person",
                 name: "Samir Shaikh",
                 url: APP_URL,
+                sameAs: [
+                  "https://linkedin.com/in/samir-shaikh-760b932a8",
+                  "https://github.com/ShaikhSamir786",
+                ],
               },
             })
           }}

@@ -21,7 +21,13 @@ export async function GET(
     if (result.length === 0) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
-    return NextResponse.json(result[0]);
+    return NextResponse.json(result[0], {
+      headers: session
+        ? {}
+        : {
+            "Cache-Control": "public, max-age=3600, stale-while-revalidate",
+          },
+    });
   } catch (error) {
     console.error("GET /api/projects/slug/[slug] error:", error);
     return NextResponse.json({ error: "Failed to fetch project" }, { status: 500 });
