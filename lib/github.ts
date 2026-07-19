@@ -46,7 +46,7 @@ export async function getGithubStats(token: string, username: string) {
       query,
       variables: { username },
     }),
-    next: { revalidate: 3600 }, // Cache for 1 hour
+    next: { revalidate: 3600 },
   });
 
   if (!response.ok) {
@@ -60,7 +60,6 @@ export async function getGithubStats(token: string, username: string) {
 
   const user = data.data.user;
 
-  // Calculate lines of code (matching old Python script)
   let totalStars = 0;
   let totalBytes = 0;
 
@@ -73,7 +72,7 @@ export async function getGithubStats(token: string, username: string) {
     }
   });
 
-  const linesOfCode = Math.floor(totalBytes / 35); // Approximate 35 bytes per line of code
+  const linesOfCode = Math.floor(totalBytes / 35);
 
   return {
     followers: user.followers.totalCount,
@@ -87,8 +86,12 @@ export async function getGithubStats(token: string, username: string) {
   };
 }
 
-export async function getRecentGithubEvents(token: string, username: string) {
-  if (!token) return "GitHub token missing.";
+export type GithubEventsResult =
+  | { ok: true; data: string }
+  | { ok: false };
+
+export async function getRecentGithubEvents(token: string, username: string): Promise<GithubEventsResult> {
+  if (!token) return { ok: false };
   try {
     const response = await fetch(`https://api.github.com/users/${username}/events/public`, {
       headers: {
@@ -98,10 +101,10 @@ export async function getRecentGithubEvents(token: string, username: string) {
       next: { revalidate: 3600 },
     });
 
-    if (!response.ok) return "No recent GitHub activity available.";
+    if (!response.ok) return { ok: false };
 
     const events = await response.json();
-    if (!Array.isArray(events) || events.length === 0) return "No recent GitHub activity available.";
+    if (!Array.isArray(events) || events.length === 0) return { ok: false };
 
     const recentActivities = events
       .filter((e: any) => ["PushEvent", "PullRequestEvent", "IssuesEvent", "CreateEvent"].includes(e.type))
@@ -127,10 +130,12 @@ export async function getRecentGithubEvents(token: string, username: string) {
       .filter((s: string) => s !== '')
       .join('\n');
 
-    return `Recent Public GitHub Activity:\n${recentActivities || "No notable public events in the last 90 days."}`;
+    return {
+      ok: true,
+      data: `Recent Public GitHub Activity:\n${recentActivities || "No notable public events in the last 90 days."}`,
+    };
   } catch (error) {
     console.error("Failed to fetch Github Events", error);
-    return "Failed to fetch GitHub activity.";
+    return { ok: false };
   }
 }
-

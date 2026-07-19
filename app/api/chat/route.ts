@@ -11,10 +11,9 @@ export async function POST(req: Request) {
     const { errorResponse } = await runSecurityChecks(req);
     if (errorResponse) return errorResponse;
     const { messages } = await req.clone().json();
-    const lastMessage = messages[messages.length - 1];
-    const latestMessageText = lastMessage.content || (lastMessage.parts ? lastMessage.parts.map((p: any) => p.text || '').join('') : '');
+    const recentMessages = messages.slice(-5).map((m: any) => m.content || (m.parts ? m.parts.map((p: any) => p.text || '').join('') : ''));
 
-    const contextText = await getRelevantContext(latestMessageText);
+    const contextText = await getRelevantContext(recentMessages);
     const systemPrompt = getSystemPrompt(contextText);
 
     const result = streamText({
