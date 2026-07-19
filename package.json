@@ -8,7 +8,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "generate-blog": "node --env-file=.env scripts/generate-blog.mjs"
+    "generate-blog": "node --env-file=.env scripts/blog/generate-blog.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "3.0.80",

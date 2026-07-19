@@ -39,4 +39,4 @@ jobs:
           BLOG_AUTOMATION_TOKEN: ${{ secrets.BLOG_AUTOMATION_TOKEN }}
           ENABLE_BLOG_AUTOMATION: "true"
           AUTO_PUBLISH: ${{ inputs.auto_publish || 'true' }}
-        run: node scripts/generate-blog.mjs
+        run: node scripts/blog/generate-blog.mjs
